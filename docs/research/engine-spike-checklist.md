@@ -48,7 +48,7 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 - [x] Support `create_track` via `create_audio_track`.
 - [ ] Support `place_audio`.
 - [x] Support `save_session`.
-- [ ] Support `render`.
+- [x] Support `render`.
 - [x] Emit command result JSON.
 - [x] Support `open_session`.
 - [x] Support `observe_session`.
@@ -56,11 +56,11 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 ## Phase 4: Fixture And Replay
 
 - [x] Add or reference small fixture audio outside git if licensing is unclear.
-- [ ] Create fixture command file.
-- [ ] Generate fixture session.
-- [ ] Generate rendered artifact.
+- [x] Create fixture command file.
+- [x] Generate fixture session.
+- [x] Generate rendered artifact.
 - [ ] Rerun command log and compare project graph.
-- [ ] Compare render hash or perform null test where feasible.
+- [x] Compare render hash or perform null test where feasible.
 
 ## Phase 5: Decision
 

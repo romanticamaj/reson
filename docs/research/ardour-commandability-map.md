@@ -13,8 +13,8 @@ This document tracks the first Reson engine spike: prove whether an Ardour-deriv
 - Local engine checkout: `/Users/garyhsieh/reson-engine`
 - Engine `origin`: `https://github.com/romanticamaj/ardour.git`
 - Engine `upstream`: `https://github.com/Ardour/ardour.git`
-- Checked Ardour revision: `a4f30920f46f75bd434ac745f0324ca11f5824f9`
-- `git describe`: `9.7-115-ga4f30920f4`
+- Checked Ardour revision: `63b63919ff2d3e01111e9de1fc7d703e1db2e833`
+- `git describe`: `9.7-116-g63b63919ff`
 
 Keep Ardour source out of this repository. Use this repo for product docs, ADRs, command schemas, research notes, and Reson-specific contributor guidance.
 
@@ -151,6 +151,7 @@ Engine fork commit:
 ```text
 a4aeb7e882 session-utils: add reson command runner
 a4f30920f4 session-utils: import audio in reson command
+63b63919ff session-utils: render audio in reson command
 ```
 
 New utility:
@@ -178,6 +179,7 @@ Supported operations:
 - `open_session`
 - `create_audio_track`
 - `import_audio`
+- `render`
 - `save_session`
 - `observe_session`
 
@@ -251,6 +253,15 @@ Audio import verification:
 - Result JSON returned `sourceCount: 1`, `trackName: "Imported Click"`, `regionName: "Click Loop"`, and `start: 48000`.
 - Session XML persisted `click-120bpm.wav`, the `Imported Click` audio route, and the `Click Loop` playlist region.
 - Negative validation: `start: "abc"` exits non-zero with `Error: invalid time position: abc`.
+
+Render verification:
+
+- Command: `render` with `outputPath: "/tmp/reson-command-render-spike/out/render.wav"`, `bitDepth: "16"`, and `sampleRate: 48000`.
+- Result JSON returned `ok: true` and the normalized `.wav` output path.
+- Output file: 16-bit stereo 48000 Hz WAV, approximately 375 KB.
+- SHA-256: `0b4f64cbfd80f16247972f4bf3f5960635dc653d88054550ba3b47f0847ed4ae`.
+- Replaying the same command log into a second session produced the same SHA-256 and `cmp_rc=0`.
+- Headless sessions created by this runner can lack a master bus, so `render` exports master outputs when available and otherwise falls back to audio track output ports.
 
 ## Candidate Command Surfaces
 
