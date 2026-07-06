@@ -464,9 +464,9 @@ Required outputs:
 - Plugin recommendation agents.
 - Replacing Ardour's DSP or render path.
 
-## Open Questions
+## Resolved Follow-Up
 
-These questions are intentionally deferred to the Ardour commandability research spike:
+These questions were deferred to, and are now answered by, the Ardour commandability research spike in `docs/research/ardour-commandability-map.md`:
 
 - Which Ardour internal API is safest for session mutations.
 - Whether existing Lua or OSC paths are sufficient for early command execution.
@@ -474,14 +474,12 @@ These questions are intentionally deferred to the Ardour commandability research
 - How Reson-specific metadata should be stored without breaking Ardour session compatibility.
 - How to separate AI-generated code policy from upstream Ardour contribution policy if upstream contributions are later desired.
 
-## Recommended Immediate Next Step
+## Completed Immediate Next Step
 
-Do a short Ardour commandability research spike before any UI work.
+The Ardour commandability research spike is complete. Keep UI and live AI work behind the proven command bridge.
 
-The output should be a second document:
+The output document is:
 
 ```text
 docs/research/ardour-commandability-map.md
 ```
-
-That document should map the internal Ardour classes, APIs, scripts, OSC routes, and build steps needed for the first command bridge.
