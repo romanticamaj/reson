@@ -13,8 +13,8 @@ This document tracks the first Reson engine spike: prove whether an Ardour-deriv
 - Local engine checkout: `/Users/garyhsieh/reson-engine`
 - Engine `origin`: `https://github.com/romanticamaj/ardour.git`
 - Engine `upstream`: `https://github.com/Ardour/ardour.git`
-- Checked Ardour revision: `15847721435c7c0fec293107734b06c66c4b55b6`
-- `git describe`: `9.7-118-g1584772143`
+- Checked Ardour revision: `99e9de08c9ce0ee4b4b75c6ddce3d3c7803a45bc`
+- `git describe`: `9.7-119-g99e9de08c9`
 
 Keep Ardour source out of this repository. Use this repo for product docs, ADRs, command schemas, research notes, and Reson-specific contributor guidance.
 
@@ -154,6 +154,7 @@ a4f30920f4 session-utils: import audio in reson command
 63b63919ff session-utils: render audio in reson command
 2ccd95592e session-utils: place audio regions in reson command
 1584772143 session-utils: observe audio project graph
+99e9de08c9 session-utils: emit reson command journal
 ```
 
 New utility:
@@ -281,6 +282,14 @@ Observation graph verification:
 - Two independent command-log replays to `/tmp/reson-command-graph-a` and `/tmp/reson-command-graph-b` produced identical observation JSON with `graph_cmp_rc=0`.
 - Both graph replay renders also matched SHA-256 `0b4f64cbfd80f16247972f4bf3f5960635dc653d88054550ba3b47f0847ed4ae`.
 
+Command journal verification:
+
+- Root `journalPath` in a command file now asks `ardour9-reson_command` to write a `reson.command_journal.v0` file after a successful batch.
+- Verified basic create-track journal output with three entries: `create_session`, `create_audio_track`, and `save_session`.
+- Verified import/place journal output with five entries: `create_session`, `create_audio_track`, `import_audio`, `place_audio`, and `save_session`.
+- Journal entries include pre/post observation hashes when a session exists, touched stable engine IDs for track/playlist/region/source operations, and `restore_batch_snapshot` rollback metadata.
+- The current spike emits snapshot path metadata and creates the snapshot directory. It does not yet create or restore the session archive.
+
 ## Candidate Command Surfaces
 
 ### Session Utilities
@@ -398,3 +407,5 @@ Rejected rollback approaches:
 See `docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md` for the accepted decision.
 
 The first schema contract is `docs/schemas/command-journal-v0.md`.
+
+The current engine spike implements journal emission and snapshot metadata only. Next implement actual snapshot archive creation and `restore_batch_snapshot` replay.

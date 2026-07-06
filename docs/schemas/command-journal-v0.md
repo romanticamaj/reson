@@ -25,7 +25,7 @@ The journal is not an agent plan. It is emitted by the bridge after validation a
   "bridge": {
     "name": "ardour-session-utils",
     "version": "spike",
-    "engineRevision": "1584772143"
+    "engineVersion": "9.7.113"
   },
   "batches": []
 }
@@ -39,6 +39,22 @@ Required top-level fields:
 - `createdAt`: UTC timestamp.
 - `bridge`: command bridge implementation identity.
 - `batches`: ordered command batches.
+
+## Session Utility Output Path
+
+During the C++ session utility spike, command files may include a root `journalPath` field:
+
+```json
+{
+  "schemaVersion": "reson.command.v0",
+  "journalPath": "/tmp/reson-command/journal.json",
+  "commands": []
+}
+```
+
+When `journalPath` is present, `ardour9-reson_command` writes a journal after the command batch succeeds. If it is absent, the runner preserves the original result-only behavior.
+
+The current spike writes snapshot metadata and prepares the snapshot directory. It does not yet write or restore the session archive file.
 
 ## Batch Record
 
