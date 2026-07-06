@@ -54,7 +54,22 @@ During the C++ session utility spike, command files may include a root `journalP
 
 When `journalPath` is present, `ardour9-reson_command` writes a journal after the command batch succeeds. If it is absent, the runner preserves the original result-only behavior.
 
-The current spike writes snapshot metadata and prepares the snapshot directory. It does not yet write or restore the session archive file.
+The current spike writes a gzip-compressed tar archive before the first mutation after `create_session` or `open_session`.
+
+## Snapshot Restore Command
+
+The C++ session utility spike supports restoring the batch snapshot with:
+
+```json
+{
+  "op": "restore_batch_snapshot",
+  "sessionDir": "/tmp/reson-command/Session",
+  "sessionName": "Session",
+  "snapshotPath": "/tmp/reson-command/snapshots/batch_0001_before.tar.gz"
+}
+```
+
+The restore command unloads any active session, replaces `sessionDir` from the snapshot archive, and returns without opening the restored session. Follow it with `open_session` and `observe_session` when verification is needed.
 
 ## Batch Record
 
@@ -72,7 +87,7 @@ A batch is the smallest user-visible rollback unit.
     "observationHash": "sha256:...",
     "snapshot": {
       "kind": "session_archive",
-      "path": ".reson/snapshots/batch_0001_before.tar.zst",
+      "path": ".reson/snapshots/batch_0001_before.tar.gz",
       "sha256": "..."
     }
   },
