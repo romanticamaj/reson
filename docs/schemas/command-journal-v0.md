@@ -149,6 +149,34 @@ Each entry records one validated command.
 
 The bridge must populate `touched` from observed engine IDs, not from agent-supplied names. Empty arrays are allowed; missing ID categories are omitted.
 
+`error` is present only when the entry status is `failed`. Failed batches still include applied entries before the failure and the failed entry that stopped execution.
+
+```json
+{
+  "entryId": "entry_0003",
+  "op": "not_a_real_operation",
+  "commandSchemaVersion": "reson.command.v0",
+  "command": {
+    "op": "not_a_real_operation"
+  },
+  "status": "failed",
+  "touched": {},
+  "preState": {
+    "observationHash": "sha256:..."
+  },
+  "postState": {
+    "observationHash": "sha256:..."
+  },
+  "rollback": {
+    "kind": "restore_batch_snapshot",
+    "batchId": "batch_0001"
+  },
+  "error": {
+    "message": "unsupported operation: not_a_real_operation"
+  }
+}
+```
+
 ## Rollback Actions
 
 Initial supported rollback action:

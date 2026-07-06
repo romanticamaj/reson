@@ -13,8 +13,8 @@ This document tracks the first Reson engine spike: prove whether an Ardour-deriv
 - Local engine checkout: `/Users/garyhsieh/reson-engine`
 - Engine `origin`: `https://github.com/romanticamaj/ardour.git`
 - Engine `upstream`: `https://github.com/Ardour/ardour.git`
-- Checked Ardour revision: `27f310db8793c8180b9475f6f0f469023938bf97`
-- `git describe`: `9.7-120-g27f310db87`
+- Checked Ardour revision: `1ec8feeec75247daa70b1fb39ef29a19c5a4ce9d`
+- `git describe`: `9.7-121-g1ec8feeec7`
 
 Keep Ardour source out of this repository. Use this repo for product docs, ADRs, command schemas, research notes, and Reson-specific contributor guidance.
 
@@ -156,6 +156,7 @@ a4f30920f4 session-utils: import audio in reson command
 1584772143 session-utils: observe audio project graph
 99e9de08c9 session-utils: emit reson command journal
 27f310db87 session-utils: restore reson command snapshots
+1ec8feeec7 session-utils: journal failed reson batches
 ```
 
 New utility:
@@ -293,6 +294,7 @@ Command journal verification:
 - Snapshot files are gzip-compressed tar archives with SHA-256 recorded in the journal.
 - Restore verification: created a session, captured a pre-mutation snapshot, added `Rollback Target`, saved, restored with `restore_batch_snapshot`, reopened, observed the session, and confirmed `Rollback Target` was removed.
 - Import/place journal regression still passed after snapshot archive creation was added.
+- Failed-batch verification: created a session, added `Before Failure`, then ran an unsupported operation. The runner exited non-zero and still wrote a journal with batch status `failed`, the applied `create_audio_track` entry, the failed operation entry, and the error message.
 
 ## Candidate Command Surfaces
 
@@ -412,4 +414,4 @@ See `docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md` for the 
 
 The first schema contract is `docs/schemas/command-journal-v0.md`.
 
-The current engine spike implements journal emission, session snapshot archive creation, and `restore_batch_snapshot` replay. Next harden rollback around failed batches, snapshot pruning, and risk-specific policies.
+The current engine spike implements journal emission, failed-batch journaling, session snapshot archive creation, and `restore_batch_snapshot` replay. Next harden rollback around snapshot pruning, risk-specific policies, and canonical observation hashing.
