@@ -390,20 +390,20 @@ Initial JSON command file target:
 
 This is a spike format only. Durable Reson commands should target stable IDs, not names.
 
-## Open Questions
+## Resolved Spike Questions
 
-- Which Ardour API creates audio tracks non-interactively with the least side effect?
-- Which API imports source media without relying on editor UI state?
-- How should mm:ss strings map to Ardour sample positions across sample rates?
-- Can existing session utilities open, mutate, save, and export in one process?
-- Can rollback use Ardour transaction/undo directly, or does the spike need pre-command session snapshots?
-- Which operation should become the first committed utility: `reson-command-runner`, `reson-observe-session`, or separate Ardour-style utilities?
+- Audio tracks can be created non-interactively through the C++ session utility bridge.
+- Source media import no longer relies on editor UI state for the proven import/place path.
+- Time strings are mapped to sample positions inside `ardour9-reson_command`.
+- One session utility can open, mutate, save, observe, render, and export in one process.
+- Rollback starts with pre-batch session snapshots and command journals, not direct agent access to Ardour undo.
+- The first committed utility is the unified `ardour9-reson_command` runner.
 
 ## Current Recommendation
 
 Do not redesign UI yet. Do not integrate live AI yet.
 
-The build, empty-session, command-runner, import, placement, render, and observation graph baselines are now proven. Next define rollback semantics for reversible commands, then decide how much Ardour undo/session snapshot behavior Reson should expose.
+The build, empty-session, command-runner, import, placement, render, observation graph, and rollback baselines are now proven. Rollback semantics for the spike are defined by `reson.command_journal.v0`, pre-batch session snapshots, `restore_batch_snapshot`, snapshot retention, batch risk gating, and canonical observation hashes.
 
 ## Phase 5 Bridge Decision
 
