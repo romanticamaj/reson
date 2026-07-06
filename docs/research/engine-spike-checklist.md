@@ -59,7 +59,7 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 - [x] Create fixture command file.
 - [x] Generate fixture session.
 - [x] Generate rendered artifact.
-- [ ] Rerun command log and compare project graph.
+- [x] Rerun command log and compare project graph.
 - [x] Compare render hash or perform null test where feasible.
 
 ## Phase 5: Decision

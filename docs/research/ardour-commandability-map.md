@@ -13,8 +13,8 @@ This document tracks the first Reson engine spike: prove whether an Ardour-deriv
 - Local engine checkout: `/Users/garyhsieh/reson-engine`
 - Engine `origin`: `https://github.com/romanticamaj/ardour.git`
 - Engine `upstream`: `https://github.com/Ardour/ardour.git`
-- Checked Ardour revision: `2ccd95592ec59ac7c0c8a79e6717a5320226da0b`
-- `git describe`: `9.7-117-g2ccd95592e`
+- Checked Ardour revision: `15847721435c7c0fec293107734b06c66c4b55b6`
+- `git describe`: `9.7-118-g1584772143`
 
 Keep Ardour source out of this repository. Use this repo for product docs, ADRs, command schemas, research notes, and Reson-specific contributor guidance.
 
@@ -153,6 +153,7 @@ a4aeb7e882 session-utils: add reson command runner
 a4f30920f4 session-utils: import audio in reson command
 63b63919ff session-utils: render audio in reson command
 2ccd95592e session-utils: place audio regions in reson command
+1584772143 session-utils: observe audio project graph
 ```
 
 New utility:
@@ -273,6 +274,13 @@ Placement verification:
 - Cross-track test: imported `Moved Click` into `Source Track`, placed it onto `Target Track` at `00:03.000`, saved, reopened, and rendered successfully.
 - Cross-track result JSON returned `trackName: "Target Track"` and `start: 144000`; session XML showed the region under `Target Track.1` and an empty `Source Track.1` playlist.
 
+Observation graph verification:
+
+- `observe_session` now emits audio track playlists, regions, region timing, layer, lock, mute, source counts, and source metadata.
+- Source metadata uses deterministic `fileName` instead of absolute source paths so independent replay folders can be compared directly.
+- Two independent command-log replays to `/tmp/reson-command-graph-a` and `/tmp/reson-command-graph-b` produced identical observation JSON with `graph_cmp_rc=0`.
+- Both graph replay renders also matched SHA-256 `0b4f64cbfd80f16247972f4bf3f5960635dc653d88054550ba3b47f0847ed4ae`.
+
 ## Candidate Command Surfaces
 
 ### Session Utilities
@@ -372,4 +380,4 @@ This is a spike format only. Durable Reson commands should target stable IDs, no
 
 Do not redesign UI yet. Do not integrate live AI yet.
 
-The build, empty-session, and initial command-runner baseline is now proven. Next map and implement import/place operations in `reson_command`, then add render via the existing `session_utils/export.cc` pattern.
+The build, empty-session, command-runner, import, placement, render, and observation graph baselines are now proven. Next define rollback semantics for reversible commands, then decide how much Ardour undo/session snapshot behavior Reson should expose.
