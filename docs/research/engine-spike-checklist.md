@@ -46,7 +46,7 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 - [x] Support `create_session`.
 - [x] Support `import_audio`.
 - [x] Support `create_track` via `create_audio_track`.
-- [ ] Support `place_audio`.
+- [x] Support `place_audio`.
 - [x] Support `save_session`.
 - [x] Support `render`.
 - [x] Emit command result JSON.

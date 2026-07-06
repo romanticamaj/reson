@@ -13,8 +13,8 @@ This document tracks the first Reson engine spike: prove whether an Ardour-deriv
 - Local engine checkout: `/Users/garyhsieh/reson-engine`
 - Engine `origin`: `https://github.com/romanticamaj/ardour.git`
 - Engine `upstream`: `https://github.com/Ardour/ardour.git`
-- Checked Ardour revision: `63b63919ff2d3e01111e9de1fc7d703e1db2e833`
-- `git describe`: `9.7-116-g63b63919ff`
+- Checked Ardour revision: `2ccd95592ec59ac7c0c8a79e6717a5320226da0b`
+- `git describe`: `9.7-117-g2ccd95592e`
 
 Keep Ardour source out of this repository. Use this repo for product docs, ADRs, command schemas, research notes, and Reson-specific contributor guidance.
 
@@ -152,6 +152,7 @@ Engine fork commit:
 a4aeb7e882 session-utils: add reson command runner
 a4f30920f4 session-utils: import audio in reson command
 63b63919ff session-utils: render audio in reson command
+2ccd95592e session-utils: place audio regions in reson command
 ```
 
 New utility:
@@ -179,6 +180,7 @@ Supported operations:
 - `open_session`
 - `create_audio_track`
 - `import_audio`
+- `place_audio`
 - `render`
 - `save_session`
 - `observe_session`
@@ -262,6 +264,14 @@ Render verification:
 - SHA-256: `0b4f64cbfd80f16247972f4bf3f5960635dc653d88054550ba3b47f0847ed4ae`.
 - Replaying the same command log into a second session produced the same SHA-256 and `cmp_rc=0`.
 - Headless sessions created by this runner can lack a master bus, so `render` exports master outputs when available and otherwise falls back to audio track output ports.
+
+Placement verification:
+
+- Command: `place_audio` accepts `regionId` or `regionName`, a required `start`, and optional `trackId` or `trackName`.
+- Same-track test: imported `Click Loop` at `00:01.000`, placed it at `00:02.500`, saved, reopened, and rendered successfully.
+- Same-track result JSON returned `start: 120000`; session XML persisted the playlist region at `a705600000`.
+- Cross-track test: imported `Moved Click` into `Source Track`, placed it onto `Target Track` at `00:03.000`, saved, reopened, and rendered successfully.
+- Cross-track result JSON returned `trackName: "Target Track"` and `start: 144000`; session XML showed the region under `Target Track.1` and an empty `Source Track.1` playlist.
 
 ## Candidate Command Surfaces
 
