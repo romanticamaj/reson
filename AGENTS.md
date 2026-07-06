@@ -8,6 +8,7 @@ This repository currently contains planning and architecture documentation for R
 - `docs/README.md` summarizes the current product and architecture direction.
 - `docs/adr/` contains architecture decision records. Keep `0000-adr-index.md` updated when adding or superseding ADRs.
 - `docs/discussions/` stores dated product and architecture discussion notes.
+- `docs/research/` stores engine spike findings, commandability maps, and implementation research.
 - `docs/superpowers/specs/` stores larger design specifications.
 
 When source code is introduced, keep implementation modules separate by the documented architecture: audio engine, command bridge, agent runtime, and UI.
@@ -17,6 +18,8 @@ Key internal documents:
 - [Architecture design](docs/superpowers/specs/2026-07-06-reson-architecture-design.md)
 - [ADR index](docs/adr/0000-adr-index.md)
 - [Initial product and architecture discussion](docs/discussions/2026-07-06-product-architecture-discussion.md)
+- [Ardour commandability map](docs/research/ardour-commandability-map.md)
+- [Engine spike checklist](docs/research/engine-spike-checklist.md)
 
 ## Architecture & Implementation Boundaries
 
