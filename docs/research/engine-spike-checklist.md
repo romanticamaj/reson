@@ -64,7 +64,7 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 
 ## Phase 5: Decision
 
-- [ ] Document chosen bridge approach.
-- [ ] Document rejected approaches.
-- [ ] Document rollback strategy.
-- [ ] Decide whether to continue with Ardour-derived engine path, deepen C++ integration, or revise approach.
+- [x] Document chosen bridge approach.
+- [x] Document rejected approaches.
+- [x] Document rollback strategy.
+- [x] Decide whether to continue with Ardour-derived engine path, deepen C++ integration, or revise approach.

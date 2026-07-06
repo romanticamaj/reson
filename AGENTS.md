@@ -79,6 +79,7 @@ Accepted decisions are tracked as ADRs:
 - [ADR-0008: Start With Import Pack Mapping Prompt Arrange](docs/adr/0008-start-with-import-pack-mapping-prompt-arrange.md)
 - [ADR-0009: Keep AI Provider Integrations Runtime-Pluggable](docs/adr/0009-keep-ai-provider-integrations-runtime-pluggable.md)
 - [ADR-0010: Treat Privacy And Provider Data Flow As A First-Class Boundary](docs/adr/0010-privacy-provider-data-flow-boundary.md)
+- [ADR-0011: Use Journaled Command Rollback For The Engine Bridge](docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md)
 
 ## Build, Test, and Development Commands
 

@@ -381,3 +381,18 @@ This is a spike format only. Durable Reson commands should target stable IDs, no
 Do not redesign UI yet. Do not integrate live AI yet.
 
 The build, empty-session, command-runner, import, placement, render, and observation graph baselines are now proven. Next define rollback semantics for reversible commands, then decide how much Ardour undo/session snapshot behavior Reson should expose.
+
+## Phase 5 Bridge Decision
+
+Continue with the Ardour-derived engine path and deepen the C++ session utility bridge. The first durable bridge should be a journaled command runner, not a UI integration, OSC control path, or live AI loop.
+
+Rollback starts with session-level snapshots around command batches, plus command journals that record pre-command observation, touched stable IDs, post-command observation, and verification artifacts where available. Fine-grained inverse commands can follow after the bridge can prove them from observed engine state.
+
+Rejected rollback approaches:
+
+- Direct agent access to Ardour undo stacks.
+- OSC for structural session edits.
+- Name-only rollback plans.
+- Agent-authored inverse commands that are not derived from bridge observations.
+
+See `docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md` for the accepted decision.

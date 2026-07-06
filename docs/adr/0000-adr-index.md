@@ -20,4 +20,4 @@ Status values:
 - [ADR-0008: Start With Import Pack Mapping Prompt Arrange](0008-start-with-import-pack-mapping-prompt-arrange.md)
 - [ADR-0009: Keep AI Provider Integrations Runtime-Pluggable](0009-keep-ai-provider-integrations-runtime-pluggable.md)
 - [ADR-0010: Treat Privacy And Provider Data Flow As A First-Class Boundary](0010-privacy-provider-data-flow-boundary.md)
-
+- [ADR-0011: Use Journaled Command Rollback For The Engine Bridge](0011-use-journaled-command-rollback-for-engine-bridge.md)
