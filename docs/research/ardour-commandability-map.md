@@ -13,8 +13,8 @@ This document tracks the first Reson engine spike: prove whether an Ardour-deriv
 - Local engine checkout: `/Users/garyhsieh/reson-engine`
 - Engine `origin`: `https://github.com/romanticamaj/ardour.git`
 - Engine `upstream`: `https://github.com/Ardour/ardour.git`
-- Checked Ardour revision: `8655718b29d6e9c50e9feac80987a326a53e219f`
-- `git describe`: `9.7-113-g8655718b29`
+- Checked Ardour revision: `a4f30920f46f75bd434ac745f0324ca11f5824f9`
+- `git describe`: `9.7-115-ga4f30920f4`
 
 Keep Ardour source out of this repository. Use this repo for product docs, ADRs, command schemas, research notes, and Reson-specific contributor guidance.
 
@@ -150,6 +150,7 @@ Engine fork commit:
 
 ```text
 a4aeb7e882 session-utils: add reson command runner
+a4f30920f4 session-utils: import audio in reson command
 ```
 
 New utility:
@@ -176,6 +177,7 @@ Supported operations:
 - `create_session`
 - `open_session`
 - `create_audio_track`
+- `import_audio`
 - `save_session`
 - `observe_session`
 
@@ -241,6 +243,14 @@ Verification:
 - Reopened the session with `open_session`.
 - `observe_session` returned `FX Risers 1` and `FX Risers 2`.
 - `rg "FX Risers" /tmp/reson-command-spike/CommandSession/CommandSession.ardour` confirmed the tracks were persisted.
+
+Audio import verification:
+
+- Fixture: `/Users/garyhsieh/reson-engine/share/media/click-120bpm.flac`.
+- Command: `import_audio` with `trackName: "Imported Click"`, `createTrack: true`, `start: "00:01.000"`, and `regionName: "Click Loop"`.
+- Result JSON returned `sourceCount: 1`, `trackName: "Imported Click"`, `regionName: "Click Loop"`, and `start: 48000`.
+- Session XML persisted `click-120bpm.wav`, the `Imported Click` audio route, and the `Click Loop` playlist region.
+- Negative validation: `start: "abc"` exits non-zero with `Error: invalid time position: abc`.
 
 ## Candidate Command Surfaces
 

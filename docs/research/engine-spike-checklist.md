@@ -32,19 +32,19 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 - [x] Identify `session_utils` as primary non-interactive C++ entry point.
 - [x] Identify Lua import/session examples.
 - [x] Map session create APIs through `session_utils/new_empty_session.cc` and `session_utils/new_session.cc`.
-- [ ] Map audio import APIs.
-- [ ] Map track creation APIs.
-- [ ] Map region placement APIs.
+- [x] Map audio import APIs.
+- [x] Map track creation APIs.
+- [x] Map region placement APIs.
 - [x] Map export/render starting point through `session_utils/export.cc`.
-- [ ] Decide whether Lua is sufficient for the first spike.
-- [ ] Decide whether a new C++ session utility is required.
+- [x] Decide whether Lua is sufficient for the first spike.
+- [x] Decide whether a new C++ session utility is required.
 
 ## Phase 3: Minimal Command Runner
 
 - [x] Define `reson.command.v0` spike schema.
 - [x] Add a small command runner in the Ardour fork as `session_utils/reson_command.cc`.
 - [x] Support `create_session`.
-- [ ] Support `import_audio`.
+- [x] Support `import_audio`.
 - [x] Support `create_track` via `create_audio_track`.
 - [ ] Support `place_audio`.
 - [x] Support `save_session`.
@@ -55,7 +55,7 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 
 ## Phase 4: Fixture And Replay
 
-- [ ] Add or reference small fixture audio outside git if licensing is unclear.
+- [x] Add or reference small fixture audio outside git if licensing is unclear.
 - [ ] Create fixture command file.
 - [ ] Generate fixture session.
 - [ ] Generate rendered artifact.
