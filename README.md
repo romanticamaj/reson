@@ -75,12 +75,16 @@ The goal is not to replace producer judgment. The goal is to make detailed sessi
 
 ## Developer Access
 
-This repository contains the public project materials and contributor guidance for Reson. Developers can explore the product direction, contribution rules, and design notes from the repository docs.
+This repository contains the public project materials, contributor guidance, and the first developer bridge for exploring Reson command workflows.
 
 ```sh
 git clone <repo-url>
 cd reson
+npm test
+node bin/reson-bridge.js run examples/bridge/create-session.command.json --json
 ```
+
+The bridge CLI expects a local Reson engine checkout next to this repository at `../reson-engine`. Set `RESON_ENGINE_DIR=/path/to/reson-engine` if your checkout lives elsewhere.
 
 For contributor-specific architecture notes, implementation boundaries, and internal documentation links, see [AGENTS.md](AGENTS.md).
 

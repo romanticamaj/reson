@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository currently contains planning and architecture documentation for Reson, a local AI-native music production environment. Source code has not been added yet.
+This repository contains planning documents and the first developer-facing command bridge integration layer for Reson, a local AI-native music production environment.
 
 - `README.md` is public/product-facing. Do not expose internal implementation details, ADR lists, or roadmap-style planning there.
 - `docs/README.md` summarizes the current product and architecture direction.
@@ -11,8 +11,12 @@ This repository currently contains planning and architecture documentation for R
 - `docs/research/` stores engine spike findings, commandability maps, and implementation research.
 - `docs/schemas/` stores command, observation, journal, and bridge contract drafts.
 - `docs/superpowers/specs/` stores larger design specifications.
+- `src/bridge/` contains the Node-based developer bridge wrapper around the engine command runner.
+- `bin/reson-bridge.js` is the CLI entrypoint for bridge workflows.
+- `examples/bridge/` contains command fixtures that developers can run against a local engine checkout.
+- `test/` contains Node test-runner coverage for the bridge wrapper, CLI, and fixtures.
 
-When source code is introduced, keep implementation modules separate by the documented architecture: audio engine, command bridge, agent runtime, and UI.
+Keep implementation modules separate by the documented architecture: audio engine, command bridge, agent runtime, and UI.
 
 Key internal documents:
 
@@ -85,13 +89,16 @@ Accepted decisions are tracked as ADRs:
 
 ## Build, Test, and Development Commands
 
-There is no build system or test runner in the repository yet. Useful repository checks are:
+Useful repository checks are:
 
 - `git status --short` shows local changes.
 - `rg "term" docs/` searches the documentation.
 - `find docs -type f | sort` lists tracked documentation areas.
+- `npm test` runs the bridge wrapper, CLI, and fixture tests with Node's built-in test runner.
+- `node bin/reson-bridge.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
+- `node bin/reson-bridge.js validate-journal /tmp/reson-bridge-demo/create-session/journal.json --json` validates and summarizes a generated command journal.
 
-Add concrete build and test commands here when the first implementation scaffold is committed.
+The bridge CLI defaults to `../reson-engine`. Use `RESON_ENGINE_DIR=/path/to/reson-engine` or `--engine-dir /path/to/reson-engine` when needed.
 
 ## Coding Style & Naming Conventions
 
@@ -99,11 +106,11 @@ For Markdown, use sentence-case prose, concise sections, and fenced code blocks 
 
 ADR files use a four-digit sequence and kebab-case title, for example `0007-prove-commandability-before-ui-redesign.md`. Dated discussion and spec files use `YYYY-MM-DD-kebab-case-title.md`.
 
-If code is added, follow the local formatter and lint tooling introduced with that language stack, and document those commands in this file.
+JavaScript uses CommonJS modules and Node built-ins only for now. Keep bridge code dependency-light until the integration surface stabilizes.
 
 ## Testing Guidelines
 
-No automated tests exist yet. For documentation-only changes, verify links and references manually, especially ADR index entries. For future code, add tests close to the module they cover and include deterministic command-bridge tests for session creation, import, placement, save, render, and replay behavior where feasible.
+For documentation-only changes, verify links and references manually, especially ADR index entries. For code, add tests close to the module they cover and include deterministic command-bridge tests for session creation, import, placement, save, render, and replay behavior where feasible.
 
 Planned verification categories:
 

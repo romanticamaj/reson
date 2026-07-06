@@ -1,0 +1,15 @@
+{
+  "name": "reson",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Developer integration layer for Reson command bridge workflows.",
+  "bin": {
+    "reson-bridge": "bin/reson-bridge.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
