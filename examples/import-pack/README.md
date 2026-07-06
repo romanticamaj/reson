@@ -1,12 +1,15 @@
 # Import Pack Workflow
 
-This example turns a small asset manifest into a Reson command batch, runs it
-through the bridge, renders a preview, and leaves rollback metadata in the
-generated journal.
+This example turns a small asset manifest into a reviewable Reson plan, applies
+the reviewed plan through the bridge, renders a preview, and leaves rollback
+metadata in the generated journal.
 
 ```sh
 node scripts/create-demo-audio.js /tmp/reson-import-pack-demo/audio
 node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json \
+  --plan /tmp/reson-import-pack-demo/plan.json \
+  --json
+node bin/reson-bridge.js workflow apply-plan /tmp/reson-import-pack-demo/plan.json \
   --out /tmp/reson-import-pack-demo/import-pack.command.json \
   --run \
   --json
@@ -18,8 +21,9 @@ node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json \
   --json
 ```
 
-The workflow creates a session under `/tmp/reson-import-pack-demo/Session`,
-places a riser and impact on separate tracks, renders
-`/tmp/reson-import-pack-demo/preview.wav`, and records the snapshot path needed
-for rollback. The rollback command restores the pre-batch snapshot and observes
-the restored session.
+The generated plan contains the session summary, track and asset placement
+steps, preview render target, review state, and command batch to apply. Applying
+the plan creates a session under `/tmp/reson-import-pack-demo/Session`, places a
+riser and impact on separate tracks, renders `/tmp/reson-import-pack-demo/preview.wav`,
+and records the snapshot path needed for rollback. The rollback command restores
+the pre-batch snapshot and observes the restored session.

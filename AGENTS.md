@@ -98,7 +98,8 @@ Useful repository checks are:
 - `find docs -type f | sort` lists tracked documentation areas.
 - `npm test` runs the bridge wrapper, CLI, and fixture tests with Node's built-in test runner.
 - `node bin/reson-bridge.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
-- `node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json` generates and runs the first import-pack workflow.
+- `node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/reson-import-pack-demo/plan.json --json` generates a reviewable import-pack plan without mutating the engine session.
+- `node bin/reson-bridge.js workflow apply-plan /tmp/reson-import-pack-demo/plan.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json` applies a reviewed plan by writing and running the engine command batch.
 - `node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json --source-command /tmp/reson-import-pack-demo/import-pack.command.json --out /tmp/reson-import-pack-demo/rollback.command.json --run --json` restores the import-pack snapshot and observes the rolled-back session.
 - `node bin/reson-bridge.js validate-journal /tmp/reson-bridge-demo/create-session/journal.json --json` validates and summarizes a generated command journal.
 
