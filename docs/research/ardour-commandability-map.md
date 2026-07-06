@@ -104,6 +104,7 @@ Successful minimal build:
 Built targets of interest:
 
 - `build/session_utils/ardour9-new_empty_session`
+- `build/session_utils/ardour9-reson_command`
 - `build/libs/backends/dummy/libdummy_audiobackend.dylib`
 - `build/gtk2_ardour/ardev_common_waf.sh`
 - Panner dylibs under `build/libs/panners/`
@@ -143,6 +144,104 @@ Known runtime warnings:
 - A local `SpectraLayers.vst3` plugin produced a warning during plugin scan.
 - These warnings did not block empty session creation.
 
+## Reson Command Runner
+
+Engine fork commit:
+
+```text
+a4aeb7e882 session-utils: add reson command runner
+```
+
+New utility:
+
+```text
+session_utils/reson_command.cc
+```
+
+Build command:
+
+```sh
+./waf build --targets=ardour9-reson_command
+```
+
+Run command:
+
+```sh
+cd /Users/garyhsieh/reson-engine/session_utils
+./run ardour9-reson_command /tmp/reson-command-spike/create-session.json
+```
+
+Supported operations:
+
+- `create_session`
+- `open_session`
+- `create_audio_track`
+- `save_session`
+- `observe_session`
+
+Verified command file:
+
+```json
+{
+  "schemaVersion": "reson.command.v0",
+  "commands": [
+    {
+      "op": "create_session",
+      "sessionDir": "/tmp/reson-command-spike/CommandSession",
+      "sessionName": "CommandSession",
+      "sampleRate": 48000
+    },
+    {
+      "op": "create_audio_track",
+      "name": "FX Risers",
+      "inputChannels": 1,
+      "outputChannels": 2,
+      "count": 2
+    },
+    {
+      "op": "save_session"
+    },
+    {
+      "op": "observe_session"
+    }
+  ]
+}
+```
+
+Observed result:
+
+```json
+{
+  "schemaVersion": "reson.result.v0",
+  "results": [
+    {
+      "op": "create_session",
+      "ok": true
+    },
+    {
+      "op": "create_audio_track",
+      "ok": true,
+      "count": 2
+    },
+    {
+      "op": "save_session",
+      "ok": true
+    },
+    {
+      "op": "observe_session",
+      "ok": true
+    }
+  ]
+}
+```
+
+Verification:
+
+- Created `/tmp/reson-command-spike/CommandSession/CommandSession.ardour`.
+- Reopened the session with `open_session`.
+- `observe_session` returned `FX Risers 1` and `FX Risers 2`.
+- `rg "FX Risers" /tmp/reson-command-spike/CommandSession/CommandSession.ardour` confirmed the tracks were persisted.
+
 ## Candidate Command Surfaces
 
 ### Session Utilities
@@ -164,6 +263,7 @@ Confirmed baseline:
 
 - `ardour9-new_empty_session` can be built and run from source.
 - It can create an empty Ardour session non-interactively with the dummy backend once backend and panner targets are built.
+- `ardour9-reson_command` can run a JSON command sequence that creates a session, creates audio tracks, saves, reopens, and observes the session.
 
 ### Lua Scripts
 
@@ -241,4 +341,4 @@ This is a spike format only. Durable Reson commands should target stable IDs, no
 
 Do not redesign UI yet. Do not integrate live AI yet.
 
-The build and empty-session baseline is now proven. Next prototype a small `session_utils`-style C++ runner or extend the utility pattern to import audio and place a region. Keep using static commands and the dummy backend until import/place/save/render are proven.
+The build, empty-session, and initial command-runner baseline is now proven. Next map and implement import/place operations in `reson_command`, then add render via the existing `session_utils/export.cc` pattern.

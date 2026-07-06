@@ -41,15 +41,17 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 
 ## Phase 3: Minimal Command Runner
 
-- [ ] Define `reson.command.v0` spike schema.
-- [ ] Add a small command runner in the Ardour fork or as a session utility.
-- [ ] Support `create_session`.
+- [x] Define `reson.command.v0` spike schema.
+- [x] Add a small command runner in the Ardour fork as `session_utils/reson_command.cc`.
+- [x] Support `create_session`.
 - [ ] Support `import_audio`.
-- [ ] Support `create_track`.
+- [x] Support `create_track` via `create_audio_track`.
 - [ ] Support `place_audio`.
-- [ ] Support `save_session`.
+- [x] Support `save_session`.
 - [ ] Support `render`.
-- [ ] Emit command log JSON.
+- [x] Emit command result JSON.
+- [x] Support `open_session`.
+- [x] Support `observe_session`.
 
 ## Phase 4: Fixture And Replay
 
