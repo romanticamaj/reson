@@ -9,6 +9,9 @@ const {
 const {
   writeImportPackCommand,
 } = require('../src/workflows/import-pack');
+const {
+  writeRollbackCommand,
+} = require('../src/workflows/rollback');
 
 function usage(status = 0) {
   const out = status === 0 ? process.stdout : process.stderr;
@@ -17,6 +20,7 @@ function usage(status = 0) {
     '  reson-bridge run <command-file.json> [--engine-dir <path>] [--runner <path>] [--json]',
     '  reson-bridge validate-journal <journal-file.json> [--json]',
     '  reson-bridge workflow import-pack <manifest.json> --out <command-file.json> [--run] [--json]',
+    '  reson-bridge rollback <journal.json> [--source-command <command-file.json>] [--out <command-file.json>] [--run] [--json]',
     '',
     'Environment:',
     '  RESON_ENGINE_DIR  Defaults to ../reson-engine when --engine-dir is omitted.',
@@ -37,6 +41,8 @@ function parseOptions(args) {
       options.runner = args[++i];
     } else if (arg === '--out') {
       options.out = args[++i];
+    } else if (arg === '--source-command') {
+      options.sourceCommand = args[++i];
     } else if (arg === '--run') {
       options.run = true;
     } else if (arg === '-h' || arg === '--help') {
@@ -93,6 +99,26 @@ async function main() {
     const summary = summarizeJournal(journal, path.resolve(journalFile));
     printSummary({ ok: true, journal: summary }, options.json);
     return;
+  }
+
+  if (command === 'rollback') {
+    const journalFile = options.positional[0];
+    if (!journalFile) {
+      usage(1);
+    }
+    const summary = writeRollbackCommand(journalFile, {
+      sourceCommandFile: options.sourceCommand,
+      outFile: options.out,
+    });
+    if (options.run) {
+      summary.run = await runCommandFile(summary.commandFile, {
+        engineDir: options.engineDir,
+        runner: options.runner,
+      });
+      summary.ok = summary.run.ok;
+    }
+    printSummary(summary, options.json);
+    process.exit(summary.ok ? 0 : 1);
   }
 
   if (command === 'workflow') {

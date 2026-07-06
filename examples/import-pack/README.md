@@ -11,9 +11,15 @@ node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json
   --run \
   --json
 node bin/reson-bridge.js validate-journal /tmp/reson-import-pack-demo/journal.json --json
+node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json \
+  --source-command /tmp/reson-import-pack-demo/import-pack.command.json \
+  --out /tmp/reson-import-pack-demo/rollback.command.json \
+  --run \
+  --json
 ```
 
 The workflow creates a session under `/tmp/reson-import-pack-demo/Session`,
 places a riser and impact on separate tracks, renders
 `/tmp/reson-import-pack-demo/preview.wav`, and records the snapshot path needed
-for rollback.
+for rollback. The rollback command restores the pre-batch snapshot and observes
+the restored session.

@@ -84,6 +84,7 @@ npm test
 node bin/reson-bridge.js run examples/bridge/create-session.command.json --json
 node scripts/create-demo-audio.js /tmp/reson-import-pack-demo/audio
 node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json
+node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json --source-command /tmp/reson-import-pack-demo/import-pack.command.json --out /tmp/reson-import-pack-demo/rollback.command.json --run --json
 ```
 
 The bridge CLI expects a local Reson engine checkout next to this repository at `../reson-engine`. Set `RESON_ENGINE_DIR=/path/to/reson-engine` if your checkout lives elsewhere.
