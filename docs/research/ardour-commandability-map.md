@@ -157,6 +157,7 @@ a4f30920f4 session-utils: import audio in reson command
 99e9de08c9 session-utils: emit reson command journal
 27f310db87 session-utils: restore reson command snapshots
 1ec8feeec7 session-utils: journal failed reson batches
+93a2c72347 session-utils: prune reson snapshots
 ```
 
 New utility:
@@ -174,8 +175,10 @@ Build command:
 Run command:
 
 ```sh
-cd /Users/garyhsieh/reson-engine/session_utils
-./run ardour9-reson_command /tmp/reson-command-spike/create-session.json
+cd /Users/garyhsieh/reson-engine
+TOP=/Users/garyhsieh/reson-engine
+. build/gtk2_ardour/ardev_common_waf.sh
+build/session_utils/ardour9-reson_command /tmp/reson-command-spike/create-session.json
 ```
 
 Supported operations:
@@ -295,6 +298,7 @@ Command journal verification:
 - Restore verification: created a session, captured a pre-mutation snapshot, added `Rollback Target`, saved, restored with `restore_batch_snapshot`, reopened, observed the session, and confirmed `Rollback Target` was removed.
 - Import/place journal regression still passed after snapshot archive creation was added.
 - Failed-batch verification: created a session, added `Before Failure`, then ran an unsupported operation. The runner exited non-zero and still wrote a journal with batch status `failed`, the applied `create_audio_track` entry, the failed operation entry, and the error message.
+- Snapshot retention verification: three command files with `snapshotRetention.maxCount: 2` produced journal-specific snapshot paths and pruned the oldest archive, leaving the latest two snapshots.
 
 ## Candidate Command Surfaces
 
@@ -414,4 +418,4 @@ See `docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md` for the 
 
 The first schema contract is `docs/schemas/command-journal-v0.md`.
 
-The current engine spike implements journal emission, failed-batch journaling, session snapshot archive creation, and `restore_batch_snapshot` replay. Next harden rollback around snapshot pruning, risk-specific policies, and canonical observation hashing.
+The current engine spike implements journal emission, failed-batch journaling, session snapshot archive creation, `restore_batch_snapshot` replay, and snapshot retention pruning. Next harden rollback around risk-specific policies and canonical observation hashing.

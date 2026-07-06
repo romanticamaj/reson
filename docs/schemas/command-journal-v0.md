@@ -48,13 +48,18 @@ During the C++ session utility spike, command files may include a root `journalP
 {
   "schemaVersion": "reson.command.v0",
   "journalPath": "/tmp/reson-command/journal.json",
+  "snapshotRetention": {
+    "maxCount": 20
+  },
   "commands": []
 }
 ```
 
 When `journalPath` is present, `ardour9-reson_command` writes a journal after the command batch succeeds. If it is absent, the runner preserves the original result-only behavior.
 
-The current spike writes a gzip-compressed tar archive before the first mutation after `create_session` or `open_session`.
+The current spike writes a gzip-compressed tar archive before the first mutation after `create_session` or `open_session`. Snapshot files are stored next to the journal under `snapshots/` and are named from the journal basename, for example `journal-42_batch_0001_before.tar.gz`.
+
+`snapshotRetention.maxCount` is optional. When present and greater than zero, the runner keeps only the newest matching snapshot archives in the snapshot directory. Omit it, or set `0`, to disable pruning.
 
 ## Snapshot Restore Command
 
@@ -65,7 +70,7 @@ The C++ session utility spike supports restoring the batch snapshot with:
   "op": "restore_batch_snapshot",
   "sessionDir": "/tmp/reson-command/Session",
   "sessionName": "Session",
-  "snapshotPath": "/tmp/reson-command/snapshots/batch_0001_before.tar.gz"
+  "snapshotPath": "/tmp/reson-command/snapshots/journal-42_batch_0001_before.tar.gz"
 }
 ```
 
@@ -87,7 +92,7 @@ A batch is the smallest user-visible rollback unit.
     "observationHash": "sha256:...",
     "snapshot": {
       "kind": "session_archive",
-      "path": ".reson/snapshots/batch_0001_before.tar.gz",
+      "path": ".reson/snapshots/journal-42_batch_0001_before.tar.gz",
       "sha256": "..."
     }
   },
