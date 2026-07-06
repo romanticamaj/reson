@@ -17,3 +17,14 @@ test('bridge command fixtures are valid developer examples', () => {
     assert.ok(fixture.commands.every((command) => typeof command.op === 'string'), `${file} commands should declare op`);
   }
 });
+
+test('import-pack manifest fixture is a valid developer example', () => {
+  const manifestFile = path.join(__dirname, '..', 'examples', 'import-pack', 'manifest.json');
+  const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+
+  assert.equal(manifest.schemaVersion, 'reson.import_pack.v0');
+  assert.ok(Array.isArray(manifest.tracks));
+  assert.ok(Array.isArray(manifest.assets));
+  assert.ok(manifest.assets.length > 0);
+  assert.equal(typeof manifest.preview.outputPath, 'string');
+});

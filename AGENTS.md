@@ -14,6 +14,8 @@ This repository contains planning documents and the first developer-facing comma
 - `src/bridge/` contains the Node-based developer bridge wrapper around the engine command runner.
 - `bin/reson-bridge.js` is the CLI entrypoint for bridge workflows.
 - `examples/bridge/` contains command fixtures that developers can run against a local engine checkout.
+- `examples/import-pack/` contains the first product workflow fixture: manifest-driven asset placement and preview rendering.
+- `scripts/create-demo-audio.js` writes small WAV fixtures for workflow smoke tests and examples.
 - `test/` contains Node test-runner coverage for the bridge wrapper, CLI, and fixtures.
 
 Keep implementation modules separate by the documented architecture: audio engine, command bridge, agent runtime, and UI.
@@ -96,6 +98,7 @@ Useful repository checks are:
 - `find docs -type f | sort` lists tracked documentation areas.
 - `npm test` runs the bridge wrapper, CLI, and fixture tests with Node's built-in test runner.
 - `node bin/reson-bridge.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
+- `node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json` generates and runs the first import-pack workflow.
 - `node bin/reson-bridge.js validate-journal /tmp/reson-bridge-demo/create-session/journal.json --json` validates and summarizes a generated command journal.
 
 The bridge CLI defaults to `../reson-engine`. Use `RESON_ENGINE_DIR=/path/to/reson-engine` or `--engine-dir /path/to/reson-engine` when needed.

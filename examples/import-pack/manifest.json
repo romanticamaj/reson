@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "reson.import_pack.v0",
+  "session": {
+    "dir": "/tmp/reson-import-pack-demo/Session",
+    "name": "ImportPackDemo",
+    "sampleRate": 48000
+  },
+  "journalPath": "/tmp/reson-import-pack-demo/journal.json",
+  "batchRisk": "normal",
+  "snapshotRetention": {
+    "maxCount": 3
+  },
+  "tracks": [
+    {
+      "name": "FX Risers",
+      "inputChannels": 1,
+      "outputChannels": 2
+    },
+    {
+      "name": "Impacts",
+      "inputChannels": 1,
+      "outputChannels": 2
+    }
+  ],
+  "assets": [
+    {
+      "id": "riser_01",
+      "path": "/tmp/reson-import-pack-demo/audio/riser.wav",
+      "trackName": "FX Risers",
+      "regionName": "Riser 01",
+      "start": "8"
+    },
+    {
+      "id": "impact_01",
+      "path": "/tmp/reson-import-pack-demo/audio/impact.wav",
+      "trackName": "Impacts",
+      "regionName": "Impact 01",
+      "start": "12"
+    }
+  ],
+  "preview": {
+    "outputPath": "/tmp/reson-import-pack-demo/preview.wav",
+    "sampleRate": 48000,
+    "bitDepth": "16"
+  }
+}
