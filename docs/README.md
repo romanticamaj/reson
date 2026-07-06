@@ -7,6 +7,7 @@ Key documents:
 - [Architecture spec](superpowers/specs/2026-07-06-reson-architecture-design.md)
 - [ADR index](adr/0000-adr-index.md)
 - [Initial product and architecture discussion](discussions/2026-07-06-product-architecture-discussion.md)
+- [Internal schemas](schemas/README.md)
 
 ## Current Direction
 
@@ -20,4 +21,3 @@ Ardour-derived audio engine
 ```
 
 The first milestone is not a UI rewrite. It is an Ardour commandability spike that proves static JSON commands can create/open a session, import audio, place clips at exact times, save, render, and replay deterministically where feasible.
-

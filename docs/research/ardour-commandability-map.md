@@ -396,3 +396,5 @@ Rejected rollback approaches:
 - Agent-authored inverse commands that are not derived from bridge observations.
 
 See `docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md` for the accepted decision.
+
+The first schema contract is `docs/schemas/command-journal-v0.md`.
