@@ -48,6 +48,10 @@ During the C++ session utility spike, command files may include a root `journalP
 {
   "schemaVersion": "reson.command.v0",
   "journalPath": "/tmp/reson-command/journal.json",
+  "batchRisk": "normal",
+  "riskApproval": {
+    "confirmed": false
+  },
   "snapshotRetention": {
     "maxCount": 20
   },
@@ -60,6 +64,8 @@ When `journalPath` is present, `ardour9-reson_command` writes a journal after th
 The current spike writes a gzip-compressed tar archive before the first mutation after `create_session` or `open_session`. Snapshot files are stored next to the journal under `snapshots/` and are named from the journal basename, for example `journal-42_batch_0001_before.tar.gz`.
 
 `snapshotRetention.maxCount` is optional. When present and greater than zero, the runner keeps only the newest matching snapshot archives in the snapshot directory. Omit it, or set `0`, to disable pruning.
+
+`batchRisk` is optional and defaults to `normal`. Supported values are `low`, `normal`, and `high`. High-risk batches must include `riskApproval.confirmed: true`; otherwise the bridge rejects the batch before executing commands.
 
 ## Snapshot Restore Command
 
@@ -114,6 +120,8 @@ A batch is the smallest user-visible rollback unit.
 - `low`: observation-only or reversible metadata changes.
 - `normal`: ordinary import, placement, track creation, or render operations.
 - `high`: destructive edits, plugin changes, routing changes, or anything with uncertain inverse semantics.
+
+The emitted batch `risk` value is copied from the validated command-file `batchRisk`.
 
 ## Entry Record
 

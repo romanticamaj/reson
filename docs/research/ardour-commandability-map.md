@@ -158,6 +158,7 @@ a4f30920f4 session-utils: import audio in reson command
 27f310db87 session-utils: restore reson command snapshots
 1ec8feeec7 session-utils: journal failed reson batches
 93a2c72347 session-utils: prune reson snapshots
+23f2fc8830 session-utils: enforce reson batch risk
 ```
 
 New utility:
@@ -299,6 +300,7 @@ Command journal verification:
 - Import/place journal regression still passed after snapshot archive creation was added.
 - Failed-batch verification: created a session, added `Before Failure`, then ran an unsupported operation. The runner exited non-zero and still wrote a journal with batch status `failed`, the applied `create_audio_track` entry, the failed operation entry, and the error message.
 - Snapshot retention verification: three command files with `snapshotRetention.maxCount: 2` produced journal-specific snapshot paths and pruned the oldest archive, leaving the latest two snapshots.
+- Risk policy verification: `batchRisk: low` is preserved in the journal, unapproved `batchRisk: high` exits non-zero before creating a session, and `batchRisk: high` with `riskApproval.confirmed: true` executes and records high risk.
 
 ## Candidate Command Surfaces
 
@@ -418,4 +420,4 @@ See `docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md` for the 
 
 The first schema contract is `docs/schemas/command-journal-v0.md`.
 
-The current engine spike implements journal emission, failed-batch journaling, session snapshot archive creation, `restore_batch_snapshot` replay, and snapshot retention pruning. Next harden rollback around risk-specific policies and canonical observation hashing.
+The current engine spike implements journal emission, failed-batch journaling, session snapshot archive creation, `restore_batch_snapshot` replay, snapshot retention pruning, and risk-specific approval gating. Next harden rollback around canonical observation hashing.
