@@ -11,6 +11,9 @@ const {
 } = require('../src/workflows/import-pack');
 const {
   applyImportPackPlan,
+  approveImportPackPlan,
+  rejectImportPackPlan,
+  validateImportPackPlan,
   writeImportPackPlan,
 } = require('../src/workflows/import-pack-plan');
 const {
@@ -25,6 +28,9 @@ function usage(status = 0) {
     '  reson-bridge validate-journal <journal-file.json> [--json]',
     '  reson-bridge workflow import-pack <manifest.json> --plan <plan-file.json> [--json]',
     '  reson-bridge workflow import-pack <manifest.json> --out <command-file.json> [--run] [--json]',
+    '  reson-bridge workflow validate-plan <plan-file.json> [--json]',
+    '  reson-bridge workflow approve-plan <plan-file.json> --out <approved-plan-file.json> [--approved-by <name>] [--json]',
+    '  reson-bridge workflow reject-plan <plan-file.json> --out <rejected-plan-file.json> [--rejected-by <name>] [--reason <text>] [--json]',
     '  reson-bridge workflow apply-plan <plan-file.json> --out <command-file.json> [--run] [--json]',
     '  reson-bridge rollback <journal.json> [--source-command <command-file.json>] [--out <command-file.json>] [--run] [--json]',
     '',
@@ -51,6 +57,12 @@ function parseOptions(args) {
       options.plan = args[++i];
     } else if (arg === '--source-command') {
       options.sourceCommand = args[++i];
+    } else if (arg === '--approved-by') {
+      options.approvedBy = args[++i];
+    } else if (arg === '--rejected-by') {
+      options.rejectedBy = args[++i];
+    } else if (arg === '--reason') {
+      options.reason = args[++i];
     } else if (arg === '--run') {
       options.run = true;
     } else if (arg === '-h' || arg === '--help') {
@@ -131,8 +143,43 @@ async function main() {
 
   if (command === 'workflow') {
     const workflow = options.positional[0];
-    if (workflow !== 'import-pack' && workflow !== 'apply-plan') {
+    if (!['import-pack', 'validate-plan', 'approve-plan', 'reject-plan', 'apply-plan'].includes(workflow)) {
       usage(1);
+    }
+
+    if (workflow === 'validate-plan') {
+      const planFile = options.positional[1];
+      if (!planFile) {
+        usage(1);
+      }
+      const summary = validateImportPackPlan(planFile);
+      printSummary(summary, options.json);
+      process.exit(summary.ok ? 0 : 1);
+    }
+
+    if (workflow === 'approve-plan') {
+      const planFile = options.positional[1];
+      if (!planFile || !options.out) {
+        usage(1);
+      }
+      const summary = approveImportPackPlan(planFile, options.out, {
+        approvedBy: options.approvedBy,
+      });
+      printSummary(summary, options.json);
+      process.exit(summary.ok ? 0 : 1);
+    }
+
+    if (workflow === 'reject-plan') {
+      const planFile = options.positional[1];
+      if (!planFile || !options.out) {
+        usage(1);
+      }
+      const summary = rejectImportPackPlan(planFile, options.out, {
+        rejectedBy: options.rejectedBy,
+        reason: options.reason,
+      });
+      printSummary(summary, options.json);
+      process.exit(summary.ok ? 0 : 1);
     }
 
     if (workflow === 'apply-plan') {

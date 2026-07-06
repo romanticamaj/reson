@@ -7,7 +7,9 @@ const test = require('node:test');
 
 const {
   applyImportPackPlan,
+  approveImportPackPlan,
   buildImportPackPlan,
+  validateImportPackPlan,
   writeImportPackPlan,
 } = require('../src/workflows/import-pack-plan');
 
@@ -98,6 +100,7 @@ test('writeImportPackPlan writes a review file and applyImportPackPlan materiali
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-plan-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const planFile = path.join(tmp, 'plan.json');
+  const approvedPlanFile = path.join(tmp, 'approved-plan.json');
   const commandFile = path.join(tmp, 'import-pack.command.json');
   writeJson(manifestFile, manifest(tmp));
 
@@ -110,20 +113,81 @@ test('writeImportPackPlan writes a review file and applyImportPackPlan materiali
   assert.equal(planSummary.commandCount, 8);
   assert.equal(JSON.parse(fs.readFileSync(planFile, 'utf8')).steps[3].kind, 'place_asset');
 
-  const applySummary = applyImportPackPlan(planFile, commandFile);
+  assert.throws(
+    () => applyImportPackPlan(planFile, commandFile),
+    /plan must be approved before apply/,
+  );
+
+  const approvalSummary = approveImportPackPlan(planFile, approvedPlanFile, {
+    approvedBy: 'test-user',
+  });
+
+  assert.equal(approvalSummary.ok, true);
+  assert.equal(approvalSummary.reviewState, 'approved');
+  const approvedPlan = JSON.parse(fs.readFileSync(approvedPlanFile, 'utf8'));
+  assert.equal(approvedPlan.review.approvedBy, 'test-user');
+  assert.match(approvedPlan.review.approvedAt, /^\d{4}-\d{2}-\d{2}T/);
+  assert.equal(approvedPlan.review.commandHash, approvedPlan.integrity.commandHash);
+
+  const applySummary = applyImportPackPlan(approvedPlanFile, commandFile);
 
   assert.equal(applySummary.ok, true);
   assert.equal(applySummary.workflow, 'apply-plan');
-  assert.equal(applySummary.planFile, planFile);
+  assert.equal(applySummary.planFile, approvedPlanFile);
   assert.equal(applySummary.commandFile, commandFile);
   assert.equal(applySummary.commandCount, 8);
   assert.equal(JSON.parse(fs.readFileSync(commandFile, 'utf8')).commands[6].op, 'render');
 });
 
-test('reson-bridge writes and applies an import-pack plan through the CLI', () => {
+test('validateImportPackPlan reports approval and integrity state', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-plan-validate-'));
+  const manifestFile = path.join(tmp, 'manifest.json');
+  const planFile = path.join(tmp, 'plan.json');
+  const approvedPlanFile = path.join(tmp, 'approved-plan.json');
+  writeJson(manifestFile, manifest(tmp));
+  writeImportPackPlan(manifestFile, planFile);
+
+  const pending = validateImportPackPlan(planFile);
+
+  assert.equal(pending.ok, true);
+  assert.equal(pending.reviewState, 'pending');
+  assert.equal(pending.approvable, true);
+  assert.deepEqual(pending.issues, []);
+
+  approveImportPackPlan(planFile, approvedPlanFile, { approvedBy: 'test-user' });
+  const approved = validateImportPackPlan(approvedPlanFile);
+
+  assert.equal(approved.ok, true);
+  assert.equal(approved.reviewState, 'approved');
+  assert.equal(approved.applicable, true);
+  assert.deepEqual(approved.issues, []);
+});
+
+test('applyImportPackPlan rejects tampered approved plans', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-plan-tamper-'));
+  const manifestFile = path.join(tmp, 'manifest.json');
+  const planFile = path.join(tmp, 'plan.json');
+  const approvedPlanFile = path.join(tmp, 'approved-plan.json');
+  const commandFile = path.join(tmp, 'import-pack.command.json');
+  writeJson(manifestFile, manifest(tmp));
+  writeImportPackPlan(manifestFile, planFile);
+  approveImportPackPlan(planFile, approvedPlanFile, { approvedBy: 'test-user' });
+
+  const approvedPlan = JSON.parse(fs.readFileSync(approvedPlanFile, 'utf8'));
+  approvedPlan.command.commands[3].regionName = 'Tampered Region';
+  writeJson(approvedPlanFile, approvedPlan);
+
+  assert.throws(
+    () => applyImportPackPlan(approvedPlanFile, commandFile),
+    /plan command hash does not match approved hash/,
+  );
+});
+
+test('reson-bridge writes, validates, approves, and applies an import-pack plan through the CLI', () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-plan-cli-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const planFile = path.join(tmp, 'plan.json');
+  const approvedPlanFile = path.join(tmp, 'approved-plan.json');
   const commandFile = path.join(tmp, 'import-pack.command.json');
   writeJson(manifestFile, manifest(tmp));
 
@@ -147,11 +211,61 @@ test('reson-bridge writes and applies an import-pack plan through the CLI', () =
   assert.equal(planSummary.reviewState, 'pending');
   assert.equal(JSON.parse(fs.readFileSync(planFile, 'utf8')).schemaVersion, 'reson.import_pack_plan.v0');
 
-  const applyResult = spawnSync(process.execPath, [
+  const validateResult = spawnSync(process.execPath, [
+    cli,
+    'workflow',
+    'validate-plan',
+    planFile,
+    '--json',
+  ], {
+    cwd: path.join(__dirname, '..'),
+    encoding: 'utf8',
+  });
+
+  assert.equal(validateResult.status, 0, validateResult.stderr);
+  assert.equal(JSON.parse(validateResult.stdout).approvable, true);
+
+  const rejectedApplyResult = spawnSync(process.execPath, [
     cli,
     'workflow',
     'apply-plan',
     planFile,
+    '--out',
+    commandFile,
+    '--json',
+  ], {
+    cwd: path.join(__dirname, '..'),
+    encoding: 'utf8',
+  });
+
+  assert.notEqual(rejectedApplyResult.status, 0);
+  assert.match(rejectedApplyResult.stderr, /plan must be approved before apply/);
+
+  const approveResult = spawnSync(process.execPath, [
+    cli,
+    'workflow',
+    'approve-plan',
+    planFile,
+    '--out',
+    approvedPlanFile,
+    '--approved-by',
+    'test-user',
+    '--json',
+  ], {
+    cwd: path.join(__dirname, '..'),
+    encoding: 'utf8',
+  });
+
+  assert.equal(approveResult.status, 0, approveResult.stderr);
+  const approvalSummary = JSON.parse(approveResult.stdout);
+  assert.equal(approvalSummary.planFile, approvedPlanFile);
+  assert.equal(approvalSummary.reviewState, 'approved');
+
+  const applyResult = spawnSync(process.execPath, [
+    cli,
+    'workflow',
+    'apply-plan',
+    approvedPlanFile,
     '--out',
     commandFile,
     '--json',

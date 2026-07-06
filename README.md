@@ -84,7 +84,9 @@ npm test
 node bin/reson-bridge.js run examples/bridge/create-session.command.json --json
 node scripts/create-demo-audio.js /tmp/reson-import-pack-demo/audio
 node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/reson-import-pack-demo/plan.json --json
-node bin/reson-bridge.js workflow apply-plan /tmp/reson-import-pack-demo/plan.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json
+node bin/reson-bridge.js workflow validate-plan /tmp/reson-import-pack-demo/plan.json --json
+node bin/reson-bridge.js workflow approve-plan /tmp/reson-import-pack-demo/plan.json --out /tmp/reson-import-pack-demo/approved-plan.json --approved-by "$USER" --json
+node bin/reson-bridge.js workflow apply-plan /tmp/reson-import-pack-demo/approved-plan.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json
 node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json --source-command /tmp/reson-import-pack-demo/import-pack.command.json --out /tmp/reson-import-pack-demo/rollback.command.json --run --json
 ```
 
