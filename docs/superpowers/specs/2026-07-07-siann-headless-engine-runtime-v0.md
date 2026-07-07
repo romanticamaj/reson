@@ -207,6 +207,7 @@ Implemented in the engine runtime:
 - `commands.apply`
 - `session.save`
 - `render.preview`
+- `session.rollback`
 - `session.close`
 - `runtime.stop`
 
@@ -219,7 +220,19 @@ Implemented live command operations:
 
 The runtime is verified by a gated Node integration test that creates a
 SIANN-owned session, imports a generated WAV file, places the imported region,
-renders a preview WAV, closes the session, and stops the runtime in one process.
+renders a preview WAV, rolls back the import batch from snapshot metadata,
+closes the session, and stops the runtime in one process.
+
+`commands.apply` now returns rollback metadata for the applied batch:
+
+- `rollbackId`
+- `snapshotPath`
+- `snapshotSha256`
+- `preObservationHash`
+- `postObservationHash`
+
+`session.rollback` restores the requested snapshot inside the same runtime
+process, reloads the SIANN-owned session, and trims later rollback points.
 
 ## First Implementation Slice
 
@@ -232,4 +245,5 @@ The smallest useful slice is:
 4. Add a Node client wrapper in this repo.
 5. Prove two command batches can mutate the same live session in one process.
 
-Rollback can follow after live import, placement, render, and close are stable.
+Next work can focus on richer journal persistence, multi-step rollback UI
+contracts, and finer-grained recovery policies.
