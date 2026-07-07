@@ -34,3 +34,18 @@ plan creates a session under `/tmp/reson-import-pack-demo/Session`, places a
 riser and impact on separate tracks, renders `/tmp/reson-import-pack-demo/preview.wav`,
 and records the snapshot path needed for rollback. The rollback command restores
 the pre-batch snapshot and observes the restored session.
+
+For extracted DAW test packs with `_DAW/` BGM files and `_SpliceSFX/` sound
+effects, generate a multi-track manifest before the same plan/apply flow:
+
+```sh
+node scripts/create-daw-manifest.js /tmp/reson-user-daw-source \
+  --out /tmp/reson-user-daw-multitrack-demo/manifest.json \
+  --session-dir /tmp/reson-user-daw-multitrack-demo/Session \
+  --preview /tmp/reson-user-daw-multitrack-demo/preview.wav \
+  --journal /tmp/reson-user-daw-multitrack-demo/journal.json \
+  --json
+```
+
+The generated layout creates one track per BGM bed and one track per SFX cue so
+the timeline is easier to inspect visually in Ardour or a future Reson UI.

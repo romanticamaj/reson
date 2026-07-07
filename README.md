@@ -90,6 +90,18 @@ node bin/reson-bridge.js workflow apply-plan /tmp/reson-import-pack-demo/approve
 node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json --source-command /tmp/reson-import-pack-demo/import-pack.command.json --out /tmp/reson-import-pack-demo/rollback.command.json --run --json
 ```
 
+For extracted DAW test packs that follow the `_DAW/` and `_SpliceSFX/` layout,
+generate a multi-track manifest first:
+
+```sh
+node scripts/create-daw-manifest.js /tmp/reson-user-daw-source \
+  --out /tmp/reson-user-daw-multitrack-demo/manifest.json \
+  --session-dir /tmp/reson-user-daw-multitrack-demo/Session \
+  --preview /tmp/reson-user-daw-multitrack-demo/preview.wav \
+  --journal /tmp/reson-user-daw-multitrack-demo/journal.json \
+  --json
+```
+
 The bridge CLI expects a local Reson engine checkout next to this repository at `../reson-engine`. Set `RESON_ENGINE_DIR=/path/to/reson-engine` if your checkout lives elsewhere.
 
 For contributor-specific architecture notes, implementation boundaries, and internal documentation links, see [AGENTS.md](AGENTS.md).

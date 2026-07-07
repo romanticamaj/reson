@@ -104,6 +104,7 @@ Useful repository checks are:
 - `node bin/reson-bridge.js workflow apply-plan /tmp/reson-import-pack-demo/approved-plan.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json` applies an approved plan by writing and running the engine command batch.
 - `node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json --source-command /tmp/reson-import-pack-demo/import-pack.command.json --out /tmp/reson-import-pack-demo/rollback.command.json --run --json` restores the import-pack snapshot and observes the rolled-back session.
 - `node bin/reson-bridge.js validate-journal /tmp/reson-bridge-demo/create-session/journal.json --json` validates and summarizes a generated command journal.
+- `node scripts/create-daw-manifest.js /tmp/reson-user-daw-source --out /tmp/reson-user-daw-multitrack-demo/manifest.json --session-dir /tmp/reson-user-daw-multitrack-demo/Session --preview /tmp/reson-user-daw-multitrack-demo/preview.wav --journal /tmp/reson-user-daw-multitrack-demo/journal.json --json` converts an extracted `_DAW/` plus `_SpliceSFX/` test pack into a multi-track import-pack manifest.
 
 The bridge CLI defaults to `../reson-engine`. Use `RESON_ENGINE_DIR=/path/to/reson-engine` or `--engine-dir /path/to/reson-engine` when needed.
 
