@@ -53,7 +53,8 @@ than a bridge attached to an Ardour product session.
 The first implementation should not attempt a full UI revamp or AI agent. It
 should prove that a persistent SIANN-owned runtime can create a session, observe
 it, mutate it, save it, render it, and close it without restarting the engine
-process for each command.
+process for each command. The v0 contract is specified in
+[`docs/superpowers/specs/2026-07-07-siann-headless-engine-runtime-v0.md`](../superpowers/specs/2026-07-07-siann-headless-engine-runtime-v0.md).
 
 The batch runner remains useful for tests, import automation, replay, and
 offline recovery while the headless runtime matures.

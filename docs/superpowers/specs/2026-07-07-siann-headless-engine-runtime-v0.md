@@ -47,7 +47,9 @@ The runtime starts once and owns one active SIANN session in v0.
 
 Required lifecycle operations:
 
-- `runtime.start`: process starts and reports capabilities.
+- `runtime.start`: first request after process spawn; reports protocol version and
+  capabilities. The process itself is started by the client (spawn), not by a
+  request.
 - `session.create`: create a new SIANN session at a runtime-owned path.
 - `session.observe`: return canonical session state.
 - `commands.apply`: apply a command batch to the active session.
@@ -55,6 +57,12 @@ Required lifecycle operations:
 - `render.preview`: render a preview artifact.
 - `session.close`: close the active session and release resources.
 - `runtime.stop`: shut down the process cleanly.
+
+Session-scoped requests (`session.observe`, `commands.apply`, `session.save`,
+`render.preview`, `session.close`) must include the `sessionId` returned by
+`session.create`. The runtime rejects a request whose `sessionId` does not match
+the active session, so a desynced client fails loudly instead of mutating the
+wrong session.
 
 `session.open_existing_ardour` is intentionally out of scope.
 
@@ -73,6 +81,13 @@ The existing `siann.command.v0` operations remain the starting surface:
 In v0, the runtime may internally reuse the same Ardour-derived session APIs as
 `session_utils/siann_command.cc`, but the public contract should be runtime
 requests rather than command files that launch a new process.
+
+Some batch operations overlap with runtime requests (`save_session` vs
+`session.save`, `render` vs `render.preview`, `observe_session` vs
+`session.observe`). The runtime requests are the canonical client surface. The
+batch-op forms remain valid inside `commands.apply` so existing journals and
+batch-runner fixtures stay replayable, but new clients should not rely on them
+for save/render/observe.
 
 ## Request Envelope
 
@@ -102,6 +117,24 @@ Responses should always include the request ID:
   }
 }
 ```
+
+Failed requests must still include the request ID and use `ok: false` with a
+stable machine-readable code:
+
+```json
+{
+  "requestId": "req_0002",
+  "ok": false,
+  "type": "error",
+  "body": {
+    "code": "session_mismatch",
+    "message": "sessionId sess_9999 is not the active session"
+  }
+}
+```
+
+Every request receives exactly one response, even on failure, so clients can
+correlate by `requestId` without timeouts guessing at outcomes.
 
 Events may be emitted asynchronously:
 
@@ -139,6 +172,18 @@ Each applied command batch should produce a journal entry with:
 
 If a command fails, the runtime should either restore the pre-command state or
 mark the session as requiring recovery before accepting further mutations.
+
+To carry ADR-0012's stale-plan rejection forward, `commands.apply` may include
+an `expectedObservationHash`. When present, the runtime rejects the batch if the
+current observation hash differs, forcing the client to re-observe and replan
+instead of mutating a session that changed underneath it. In v0 with a single
+serialized client this is cheap insurance; it becomes essential once agent and
+UI clients coexist.
+
+Requests are processed strictly in the order received. In v0 the runtime may
+respond synchronously to every request; the async job protocol for long-running
+work (import analysis, render) is deferred until after the first persistent
+mutation loop is proven.
 
 ## Testing Strategy
 
