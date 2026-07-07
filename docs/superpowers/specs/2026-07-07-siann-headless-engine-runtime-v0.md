@@ -197,6 +197,30 @@ Add tests in layers:
 - Compatibility checks comparing saved/rendered output against the current
   batch runner where practical.
 
+## Current Implementation Status
+
+Implemented in the engine runtime:
+
+- `runtime.start`
+- `session.create`
+- `session.observe`
+- `commands.apply`
+- `session.save`
+- `render.preview`
+- `session.close`
+- `runtime.stop`
+
+Implemented live command operations:
+
+- `create_audio_track`
+- `import_audio`
+- `place_audio`
+- `save_session`
+
+The runtime is verified by a gated Node integration test that creates a
+SIANN-owned session, imports a generated WAV file, places the imported region,
+renders a preview WAV, closes the session, and stops the runtime in one process.
+
 ## First Implementation Slice
 
 The smallest useful slice is:
@@ -208,5 +232,4 @@ The smallest useful slice is:
 4. Add a Node client wrapper in this repo.
 5. Prove two command batches can mutate the same live session in one process.
 
-Rendering and rollback can follow immediately after the first persistent
-mutation loop is proven.
+Rollback can follow after live import, placement, render, and close are stable.
