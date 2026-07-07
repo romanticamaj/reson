@@ -21,3 +21,35 @@ Ardour-derived audio engine
 ```
 
 The first milestone is not a UI rewrite. It is an Ardour commandability spike that proves static JSON commands can create/open a session, import audio, place clips at exact times, save, render, and replay deterministically where feasible.
+
+## Current Implementation Status
+
+Reson now has two active codebases:
+
+- `/Users/garyhsieh/reson-engine` is the Ardour-derived engine fork. It contains the C++ `session_utils/reson_command.cc` runner that directly opens and mutates Ardour sessions.
+- `/Users/garyhsieh/reson` is the product, docs, and developer bridge repo. It now contains a Node CLI wrapper, workflow generators, approval-gated plan files, example fixtures, and tests. It is not docs-only anymore, but it does not yet contain the future Studio UI or AI runtime.
+
+Current shipped workflow:
+
+```text
+extracted DAW test pack
+-> multi-track manifest
+-> reviewable import plan
+-> explicit approval gate
+-> engine command batch
+-> Ardour session mutation
+-> preview render
+-> journaled rollback
+```
+
+The real-user DAW pack workflow supports:
+
+- `_DAW/` BGM assets.
+- `_DAW/placement.md` in-point and duration parsing.
+- `_SpliceSFX/` sound effects.
+- One track per BGM bed or SFX cue.
+- `sourceStart` and `duration` trim metadata.
+- Rendered preview WAV output.
+- Ardour session output for visual inspection.
+
+The next product layer should be a local web-based Studio UI over this bridge, not a rewrite of Ardour's GTK UI.

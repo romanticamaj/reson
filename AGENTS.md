@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository contains planning documents and the first developer-facing command bridge integration layer for Reson, a local AI-native music production environment.
+This repository contains planning documents and the first developer-facing command bridge integration layer for Reson, a local AI-native music production environment. It is not docs-only anymore: the engine fork lives in `/Users/garyhsieh/reson-engine`, while this repo owns the Node bridge wrapper, workflow generators, fixtures, tests, and product documentation.
 
 - `README.md` is public/product-facing. Do not expose internal implementation details, ADR lists, or roadmap-style planning there.
 - `docs/README.md` summarizes the current product and architecture direction.
@@ -16,6 +16,7 @@ This repository contains planning documents and the first developer-facing comma
 - `examples/bridge/` contains command fixtures that developers can run against a local engine checkout.
 - `examples/import-pack/` contains the first product workflow fixture: manifest-driven asset placement and preview rendering.
 - `scripts/create-demo-audio.js` writes small WAV fixtures for workflow smoke tests and examples.
+- `scripts/create-daw-manifest.js` converts extracted `_DAW/` plus `_SpliceSFX/` packs into multi-track manifests with placement trim metadata.
 - `test/` contains Node test-runner coverage for the bridge wrapper, CLI, and fixtures.
 
 Keep implementation modules separate by the documented architecture: audio engine, command bridge, agent runtime, and UI.
@@ -51,10 +52,10 @@ The engine is the trust boundary. AI and UI layers must not directly mutate low-
 
 Implementation tracks:
 
-- **Engine:** Ardour-derived session operations for import, placement, save, render, routing, plugins, and automation.
-- **Command bridge:** JSON command schemas, observation schemas, validation, transactions, undo, rollback, and replay logs.
-- **Agent runtime:** provider adapters, model configuration, tool calling, planning loops, risk policy, and local-only mode.
-- **Studio UI:** import-pack workflows, mapping review, AI task panel, plan diffs, preview rendering, and apply/rollback controls.
+- **Engine:** implemented in `/Users/garyhsieh/reson-engine`; owns Ardour-derived session operations for import, trim, placement, save, render, observation, journal snapshots, and rollback.
+- **Command bridge:** partially implemented in this repo; owns JSON command files, workflow manifests, plan approval, validation, rollback command generation, and Node test coverage.
+- **Agent runtime:** not implemented yet; planned provider adapters, model configuration, tool calling, planning loops, risk policy, and local-only mode.
+- **Studio UI:** not implemented yet; next likely direction is a local web frontend for import-pack workflows, mapping review, plan diffs, preview playback, and apply/rollback controls.
 - **Verification:** fixture sessions, command logs, render artifacts, replay checks, time conversion tests, and rollback coverage.
 
 Example command shape:
@@ -140,4 +141,4 @@ Pull requests should include a brief summary, the reason for the change, affecte
 
 Do not commit provider keys, local audio assets, rendered stems, or private project files. Keep AI provider integrations runtime-pluggable and document any data-flow or privacy boundary changes in an ADR.
 
-No license file has been added yet. The architecture assumes an Ardour-derived path, so GPL and open-source licensing constraints must be handled before implementation code is introduced.
+No license file has been added yet. The architecture assumes an Ardour-derived path, so GPL and open-source licensing constraints must be handled before broader distribution or packaging.

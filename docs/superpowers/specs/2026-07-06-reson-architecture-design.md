@@ -92,6 +92,43 @@ Reson should begin as an Ardour-derived fork with a new command bridge and agent
 
 Do not start by rewriting the DAW UI. First prove that Reson can operate an Ardour session through structured, reversible commands while preserving the native audio engine path.
 
+## Current Shipped State
+
+As of 2026-07-07, the first commandability and import-pack workflow is implemented across two repositories:
+
+- `reson-engine` (`/Users/garyhsieh/reson-engine`) is the Ardour-derived engine fork. It contains the C++ session utility runner `session_utils/reson_command.cc`, built as `ardour9-reson_command`.
+- `reson` (`/Users/garyhsieh/reson`) contains the developer bridge and product workflow layer: `bin/reson-bridge.js`, `src/bridge/runner.js`, `src/workflows/`, `scripts/`, fixtures, tests, docs, and public README.
+
+The current `reson` repo is no longer docs-only. It has production-shaped developer tooling for the first local workflow, but it does not yet include the future Studio UI or agent runtime.
+
+Implemented bridge capabilities:
+
+- Create/open Ardour sessions.
+- Create audio tracks.
+- Import audio into named tracks.
+- Place regions at exact mm:ss-derived positions.
+- Trim imported regions with `sourceStart` and `duration`.
+- Save sessions.
+- Render preview WAV files.
+- Observe canonical session state.
+- Emit command journals.
+- Restore pre-batch snapshots for rollback.
+- Enforce approval gates for reviewed plans.
+
+Implemented user-data workflow:
+
+```text
+_DAW.zip
+-> extracted _DAW/ and _SpliceSFX/ folders
+-> multi-track import manifest
+-> reviewable plan
+-> approved plan
+-> Ardour engine command batch
+-> .ardour session + preview.wav + journal.json
+```
+
+The test pack flow creates one track per BGM bed and one track per SFX cue. `_DAW/placement.md` supplies in-point and duration values that become `sourceStart` and `duration`, so BGM regions are trimmed rather than always placing full source WAVs.
+
 ## System Boundary
 
 ```text
@@ -130,6 +167,13 @@ Reson Engine
 The audio engine is the trust boundary. UI and AI must not directly mutate engine internals.
 
 During the first Ardour-derived spike, this boundary is aspirational for the final Reson architecture and enforceable only for Reson/agent commands. Ardour's legacy UI may remain visible for diagnostics, but any manual mutation through that UI is outside the command log and invalidates replay determinism for that session run.
+
+Current code ownership follows this boundary:
+
+- Engine mutations live in `reson-engine/session_utils/reson_command.cc`.
+- Bridge orchestration lives in `reson/bin/reson-bridge.js` and `reson/src/bridge/runner.js`.
+- Workflow-specific planning lives in `reson/src/workflows/`.
+- Studio UI and agent runtime are not implemented yet.
 
 ## Core Rule
 
@@ -274,6 +318,8 @@ The first UI can be simple. It should prioritize:
 
 Long-term, Reson Studio can become a full modern DAW UI, but early work should avoid rewriting Ardour's entire interface before command bridge viability is proven.
 
+Ardour's existing GUI is C++/GTK/gtkmm with custom canvas components. It is useful for diagnostics and visual comparison, but it is not the intended long-term Reson UI direction. The preferred next UI milestone is a local web frontend over the command bridge: import pack inspection, timeline blocks, plan review, approve/apply, preview playback, and rollback.
+
 ## First Product Workflow
 
 MVP workflow: Import Pack + Mapping + Prompt Arrange.
@@ -300,6 +346,16 @@ Flow:
 7. Apply plan as a transaction.
 8. Render preview if requested.
 9. Allow rollback.
+
+Current implemented subset:
+
+- Generate an import-pack manifest from an extracted `_DAW/` and `_SpliceSFX/` test pack.
+- Generate a reviewable plan from that manifest.
+- Validate and approve the plan before apply.
+- Apply the approved plan through the Ardour-derived engine.
+- Render a preview.
+- Validate the journal.
+- Roll back by restoring the pre-batch snapshot.
 
 ## Mapping Format
 

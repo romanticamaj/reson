@@ -68,3 +68,24 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 - [x] Document rejected approaches.
 - [x] Document rollback strategy.
 - [x] Decide whether to continue with Ardour-derived engine path, deepen C++ integration, or revise approach.
+
+## Phase 6: Real DAW Pack Workflow
+
+- [x] Add developer bridge CLI in the Reson repo.
+- [x] Add import-pack workflow generation.
+- [x] Add reviewable plan files.
+- [x] Enforce explicit plan approval before apply.
+- [x] Add rollback command generation from command journals.
+- [x] Generate multi-track manifests from extracted `_DAW/` and `_SpliceSFX/` folders.
+- [x] Parse `_DAW/placement.md` into `sourceStart` and `duration`.
+- [x] Propagate trim metadata through the plan and command bridge.
+- [x] Apply trimmed imports in the Ardour-derived engine.
+- [x] Verify with `/Users/garyhsieh/Downloads/_DAW.zip`.
+- [x] Render preview audio and visually inspect the generated Ardour session.
+
+## Current Open Product Work
+
+- [ ] Build the first local Studio UI over the bridge.
+- [ ] Add the agent runtime and provider adapters.
+- [ ] Add first-class project graph APIs beyond the current engine observation.
+- [ ] Decide packaging for local bridge server plus web frontend.

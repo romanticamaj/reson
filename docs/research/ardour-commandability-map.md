@@ -160,6 +160,7 @@ a4f30920f4 session-utils: import audio in reson command
 93a2c72347 session-utils: prune reson snapshots
 23f2fc8830 session-utils: enforce reson batch risk
 a982bd43e9 session-utils: canonicalize reson observations
+f4d3404724 session-utils: trim imported audio regions
 ```
 
 New utility:
@@ -194,6 +195,16 @@ Supported operations:
 - `save_session`
 - `observe_session`
 - `restore_batch_snapshot`
+
+Current `import_audio` fields:
+
+- `path`: source WAV or audio file path.
+- `trackId` or `trackName`: target audio track.
+- `regionName`: optional requested region name.
+- `start`: timeline placement position.
+- `sourceStart`: optional source in-point for trimmed imports.
+- `duration`: optional imported region duration.
+- `createTrack`: optional track creation fallback.
 
 Verified command file:
 
@@ -265,6 +276,15 @@ Audio import verification:
 - Result JSON returned `sourceCount: 1`, `trackName: "Imported Click"`, `regionName: "Click Loop"`, and `start: 48000`.
 - Session XML persisted `click-120bpm.wav`, the `Imported Click` audio route, and the `Click Loop` playlist region.
 - Negative validation: `start: "abc"` exits non-zero with `Error: invalid time position: abc`.
+
+Trim import verification:
+
+- `import_audio` now supports `sourceStart` and `duration`.
+- The command runner maps `sourceStart` to the region's source offset and `duration` to region length.
+- Verified with `/Users/garyhsieh/Downloads/_DAW.zip` extracted under `/tmp/reson-user-daw-source`.
+- Generated `/tmp/reson-user-daw-trim-demo/Session/UserDawPlacementDemo.ardour`.
+- Rendered `/tmp/reson-user-daw-trim-demo/preview.wav`.
+- Observed BGM region lengths matched `_DAW/placement.md`: `52`, `109`, `35`, `69`, `50`, and `55` seconds.
 
 Render verification:
 
@@ -401,9 +421,11 @@ This is a spike format only. Durable Reson commands should target stable IDs, no
 
 ## Current Recommendation
 
-Do not redesign UI yet. Do not integrate live AI yet.
+Do not integrate live AI yet. Do not rewrite Ardour's GTK UI as the next step.
 
 The build, empty-session, command-runner, import, placement, render, observation graph, and rollback baselines are now proven. Rollback semantics for the spike are defined by `reson.command_journal.v0`, pre-batch session snapshots, `restore_batch_snapshot`, snapshot retention, batch risk gating, and canonical observation hashes.
+
+The next product milestone should be a local web frontend over the existing bridge: inspect imported assets, show a timeline, review plan diffs, approve/apply, play rendered previews, and roll back. Ardour's existing GUI remains useful for visual comparison.
 
 ## Phase 5 Bridge Decision
 
@@ -423,3 +445,5 @@ See `docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md` for the 
 The first schema contract is `docs/schemas/command-journal-v0.md`.
 
 The current engine spike implements journal emission, failed-batch journaling, session snapshot archive creation, `restore_batch_snapshot` replay, snapshot retention pruning, risk-specific approval gating, and canonical observation hashing.
+
+The current product workflow also implements multi-track DAW test-pack import, approval-gated import plans, `_DAW/placement.md` trim parsing, `sourceStart`/`duration` propagation, and trimmed region creation in the engine.
