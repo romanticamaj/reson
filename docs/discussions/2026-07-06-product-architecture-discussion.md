@@ -2,14 +2,13 @@
 
 ## Summary
 
-This discussion established the project now named SIANN as a spec-first, local AI-native DAW project.
+This discussion established SIANN as a spec-first, local AI-native DAW project.
 
 The product direction is:
 
 > Native audio engine, designed from the bottom up for both humans and agents to operate.
 
-The working name at the time was **Reson**, from resonance plus reasoning.
-ADR-0013 later renamed the public product to **SIANN**.
+The project name is **SIANN**.
 
 ## Market Framing
 
@@ -102,24 +101,9 @@ The MVP uses explicit markers/sections. Automatic song-section detection is defe
 
 ## Naming Discussion
 
-Candidate names discussed:
-
-- Reson
-- Sonant
-- Trace
-- Axiom
-- Nodal
-- Motif
-- Phase
-- Loom
-
-Reson was selected as the original working name because it combines:
-
-- Resonance: sound and audio-native identity.
-- Reasoning: agent planning and project understanding.
-
-ADR-0013 later superseded this working-name decision and selected SIANN as the
-public product name.
+SIANN was selected as the project name for the open-source direction. Keep the
+repository, CLI, schemas, fixtures, generated artifacts, and engine bridge names
+aligned with `siann`.
 
 Collision checks were shallow and not a substitute for trademark clearance.
 
@@ -144,17 +128,17 @@ These findings were integrated into the architecture spec.
 Repo:
 
 ```text
-/Users/garyhsieh/reson
+/Users/garyhsieh/siann
 ```
 
 Initial architecture spec:
 
 ```text
-docs/superpowers/specs/2026-07-06-reson-architecture-design.md
+docs/superpowers/specs/2026-07-06-siann-architecture-design.md
 ```
 
 Initial spec commit:
 
 ```text
-23ee3ff docs: add Reson architecture design spec
+23ee3ff docs: add architecture design spec
 ```

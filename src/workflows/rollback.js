@@ -6,8 +6,8 @@ function readJson(file) {
 }
 
 function firstBatch(journal) {
-  if (!journal || journal.schemaVersion !== 'reson.command_journal.v0') {
-    throw new Error('journal schemaVersion must be reson.command_journal.v0');
+  if (!journal || journal.schemaVersion !== 'siann.command_journal.v0') {
+    throw new Error('journal schemaVersion must be siann.command_journal.v0');
   }
   if (!Array.isArray(journal.batches) || journal.batches.length === 0) {
     throw new Error('journal batches must be a non-empty array');
@@ -42,7 +42,7 @@ function buildRollbackCommand(journal, sourceCommand) {
   const snapshotPath = snapshotPathFromJournal(journal);
   const session = sessionCommand(sourceCommand);
   return {
-    schemaVersion: 'reson.command.v0',
+    schemaVersion: 'siann.command.v0',
     batchRisk: 'normal',
     commands: [
       {

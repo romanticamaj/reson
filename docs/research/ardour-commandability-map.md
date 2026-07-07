@@ -8,10 +8,10 @@ This document tracks the first SIANN engine spike: prove whether an Ardour-deriv
 
 ## Repository Setup
 
-- SIANN product/docs repo: `https://github.com/romanticamaj/reson`
-- Ardour engine fork: `https://github.com/romanticamaj/ardour`
-- Local engine checkout: `/Users/garyhsieh/reson-engine`
-- Engine `origin`: `https://github.com/romanticamaj/ardour.git`
+- SIANN product/docs repo: `https://github.com/romanticamaj/siann`
+- Ardour engine fork: `https://github.com/romanticamaj/siann-engine`
+- Local engine checkout: `/Users/garyhsieh/siann-engine`
+- Engine `origin`: `https://github.com/romanticamaj/siann-engine.git`
 - Engine `upstream`: `https://github.com/Ardour/ardour.git`
 - Checked Ardour revision: `1ec8feeec75247daa70b1fb39ef29a19c5a4ce9d`
 - `git describe`: `9.7-121-g1ec8feeec7`
@@ -23,7 +23,7 @@ Keep Ardour source out of this repository. Use this repo for product docs, ADRs,
 Initial configure attempt:
 
 ```sh
-cd /Users/garyhsieh/reson-engine
+cd /Users/garyhsieh/siann-engine
 ./waf configure --with-backends=coreaudio,dummy --no-phone-home --no-nls
 ```
 
@@ -104,7 +104,7 @@ Successful minimal build:
 Built targets of interest:
 
 - `build/session_utils/ardour9-new_empty_session`
-- `build/session_utils/ardour9-reson_command`
+- `build/session_utils/ardour9-siann_command`
 - `build/libs/backends/dummy/libdummy_audiobackend.dylib`
 - `build/gtk2_ardour/ardev_common_waf.sh`
 - Panner dylibs under `build/libs/panners/`
@@ -113,29 +113,29 @@ Built targets of interest:
 Verified help command:
 
 ```sh
-cd /Users/garyhsieh/reson-engine/session_utils
+cd /Users/garyhsieh/siann-engine/session_utils
 ./run ardour9-new_empty_session --help
 ```
 
 Verified non-interactive empty session creation:
 
 ```sh
-rm -rf /tmp/reson-engine-spike
-mkdir -p /tmp/reson-engine-spike
-cd /Users/garyhsieh/reson-engine/session_utils
-./run ardour9-new_empty_session -s 48000 /tmp/reson-engine-spike/EmptySession EmptySession
+rm -rf /tmp/siann-engine-spike
+mkdir -p /tmp/siann-engine-spike
+cd /Users/garyhsieh/siann-engine/session_utils
+./run ardour9-new_empty_session -s 48000 /tmp/siann-engine-spike/EmptySession EmptySession
 ```
 
 Output included:
 
 ```text
-Created session in '/tmp/reson-engine-spike/EmptySession'
+Created session in '/tmp/siann-engine-spike/EmptySession'
 ```
 
 Generated session file:
 
 ```text
-/tmp/reson-engine-spike/EmptySession/EmptySession.ardour
+/tmp/siann-engine-spike/EmptySession/EmptySession.ardour
 ```
 
 Known runtime warnings:
@@ -149,39 +149,39 @@ Known runtime warnings:
 Engine fork commit:
 
 ```text
-a4aeb7e882 session-utils: add reson command runner
-a4f30920f4 session-utils: import audio in reson command
-63b63919ff session-utils: render audio in reson command
-2ccd95592e session-utils: place audio regions in reson command
+a4aeb7e882 session-utils: add siann command runner
+a4f30920f4 session-utils: import audio in siann command
+63b63919ff session-utils: render audio in siann command
+2ccd95592e session-utils: place audio regions in siann command
 1584772143 session-utils: observe audio project graph
-99e9de08c9 session-utils: emit reson command journal
-27f310db87 session-utils: restore reson command snapshots
-1ec8feeec7 session-utils: journal failed reson batches
-93a2c72347 session-utils: prune reson snapshots
-23f2fc8830 session-utils: enforce reson batch risk
-a982bd43e9 session-utils: canonicalize reson observations
+99e9de08c9 session-utils: emit siann command journal
+27f310db87 session-utils: restore siann command snapshots
+1ec8feeec7 session-utils: journal failed siann batches
+93a2c72347 session-utils: prune siann snapshots
+23f2fc8830 session-utils: enforce siann batch risk
+a982bd43e9 session-utils: canonicalize siann observations
 f4d3404724 session-utils: trim imported audio regions
 ```
 
 New utility:
 
 ```text
-session_utils/reson_command.cc
+session_utils/siann_command.cc
 ```
 
 Build command:
 
 ```sh
-./waf build --targets=ardour9-reson_command
+./waf build --targets=ardour9-siann_command
 ```
 
 Run command:
 
 ```sh
-cd /Users/garyhsieh/reson-engine
-TOP=/Users/garyhsieh/reson-engine
+cd /Users/garyhsieh/siann-engine
+TOP=/Users/garyhsieh/siann-engine
 . build/gtk2_ardour/ardev_common_waf.sh
-build/session_utils/ardour9-reson_command /tmp/reson-command-spike/create-session.json
+build/session_utils/ardour9-siann_command /tmp/siann-command-spike/create-session.json
 ```
 
 Supported operations:
@@ -210,11 +210,11 @@ Verified command file:
 
 ```json
 {
-  "schemaVersion": "reson.command.v0",
+  "schemaVersion": "siann.command.v0",
   "commands": [
     {
       "op": "create_session",
-      "sessionDir": "/tmp/reson-command-spike/CommandSession",
+      "sessionDir": "/tmp/siann-command-spike/CommandSession",
       "sessionName": "CommandSession",
       "sampleRate": 48000
     },
@@ -239,7 +239,7 @@ Observed result:
 
 ```json
 {
-  "schemaVersion": "reson.result.v0",
+  "schemaVersion": "siann.result.v0",
   "results": [
     {
       "op": "create_session",
@@ -264,14 +264,14 @@ Observed result:
 
 Verification:
 
-- Created `/tmp/reson-command-spike/CommandSession/CommandSession.ardour`.
+- Created `/tmp/siann-command-spike/CommandSession/CommandSession.ardour`.
 - Reopened the session with `open_session`.
 - `observe_session` returned `FX Risers 1` and `FX Risers 2`.
-- `rg "FX Risers" /tmp/reson-command-spike/CommandSession/CommandSession.ardour` confirmed the tracks were persisted.
+- `rg "FX Risers" /tmp/siann-command-spike/CommandSession/CommandSession.ardour` confirmed the tracks were persisted.
 
 Audio import verification:
 
-- Fixture: `/Users/garyhsieh/reson-engine/share/media/click-120bpm.flac`.
+- Fixture: `/Users/garyhsieh/siann-engine/share/media/click-120bpm.flac`.
 - Command: `import_audio` with `trackName: "Imported Click"`, `createTrack: true`, `start: "00:01.000"`, and `regionName: "Click Loop"`.
 - Result JSON returned `sourceCount: 1`, `trackName: "Imported Click"`, `regionName: "Click Loop"`, and `start: 48000`.
 - Session XML persisted `click-120bpm.wav`, the `Imported Click` audio route, and the `Click Loop` playlist region.
@@ -281,14 +281,14 @@ Trim import verification:
 
 - `import_audio` now supports `sourceStart` and `duration`.
 - The command runner maps `sourceStart` to the region's source offset and `duration` to region length.
-- Verified with `/Users/garyhsieh/Downloads/_DAW.zip` extracted under `/tmp/reson-user-daw-source`.
-- Generated `/tmp/reson-user-daw-trim-demo/Session/UserDawPlacementDemo.ardour`.
-- Rendered `/tmp/reson-user-daw-trim-demo/preview.wav`.
+- Verified with `/Users/garyhsieh/Downloads/_DAW.zip` extracted under `/tmp/siann-user-daw-source`.
+- Generated `/tmp/siann-user-daw-trim-demo/Session/UserDawPlacementDemo.ardour`.
+- Rendered `/tmp/siann-user-daw-trim-demo/preview.wav`.
 - Observed BGM region lengths matched `_DAW/placement.md`: `52`, `109`, `35`, `69`, `50`, and `55` seconds.
 
 Render verification:
 
-- Command: `render` with `outputPath: "/tmp/reson-command-render-spike/out/render.wav"`, `bitDepth: "16"`, and `sampleRate: 48000`.
+- Command: `render` with `outputPath: "/tmp/siann-command-render-spike/out/render.wav"`, `bitDepth: "16"`, and `sampleRate: 48000`.
 - Result JSON returned `ok: true` and the normalized `.wav` output path.
 - Output file: 16-bit stereo 48000 Hz WAV, approximately 375 KB.
 - SHA-256: `0b4f64cbfd80f16247972f4bf3f5960635dc653d88054550ba3b47f0847ed4ae`.
@@ -307,12 +307,12 @@ Observation graph verification:
 
 - `observe_session` now emits audio track playlists, regions, region timing, layer, lock, mute, source counts, and source metadata.
 - Source metadata uses deterministic `fileName` instead of absolute source paths so independent replay folders can be compared directly.
-- Two independent command-log replays to `/tmp/reson-command-graph-a` and `/tmp/reson-command-graph-b` produced identical observation JSON with `graph_cmp_rc=0`.
+- Two independent command-log replays to `/tmp/siann-command-graph-a` and `/tmp/siann-command-graph-b` produced identical observation JSON with `graph_cmp_rc=0`.
 - Both graph replay renders also matched SHA-256 `0b4f64cbfd80f16247972f4bf3f5960635dc653d88054550ba3b47f0847ed4ae`.
 
 Command journal verification:
 
-- Root `journalPath` in a command file now asks `ardour9-reson_command` to write a `reson.command_journal.v0` file after a successful batch.
+- Root `journalPath` in a command file now asks `ardour9-siann_command` to write a `siann.command_journal.v0` file after a successful batch.
 - Verified basic create-track journal output with three entries: `create_session`, `create_audio_track`, and `save_session`.
 - Verified import/place journal output with five entries: `create_session`, `create_audio_track`, `import_audio`, `place_audio`, and `save_session`.
 - Journal entries include pre/post observation hashes when a session exists, touched stable engine IDs for track/playlist/region/source operations, and `restore_batch_snapshot` rollback metadata.
@@ -328,7 +328,7 @@ Command journal verification:
 
 ### Session Utilities
 
-Directory: `/Users/garyhsieh/reson-engine/session_utils`
+Directory: `/Users/garyhsieh/siann-engine/session_utils`
 
 The upstream `session_utils/README` describes non-interactive command-line tools that directly use `libardour` to access Ardour sessions.
 
@@ -345,11 +345,11 @@ Confirmed baseline:
 
 - `ardour9-new_empty_session` can be built and run from source.
 - It can create an empty Ardour session non-interactively with the dummy backend once backend and panner targets are built.
-- `ardour9-reson_command` can run a JSON command sequence that creates a session, creates audio tracks, saves, reopens, and observes the session.
+- `ardour9-siann_command` can run a JSON command sequence that creates a session, creates audio tracks, saves, reopens, and observes the session.
 
 ### Lua Scripts
 
-Directory: `/Users/garyhsieh/reson-engine/share/scripts`
+Directory: `/Users/garyhsieh/siann-engine/share/scripts`
 
 Relevant examples:
 
@@ -386,7 +386,7 @@ Initial JSON command file target:
 
 ```json
 {
-  "schemaVersion": "reson.command.v0",
+  "schemaVersion": "siann.command.v0",
   "commands": [
     {
       "op": "create_session",
@@ -414,16 +414,16 @@ This is a spike format only. Durable SIANN commands should target stable IDs, no
 
 - Audio tracks can be created non-interactively through the C++ session utility bridge.
 - Source media import no longer relies on editor UI state for the proven import/place path.
-- Time strings are mapped to sample positions inside `ardour9-reson_command`.
+- Time strings are mapped to sample positions inside `ardour9-siann_command`.
 - One session utility can open, mutate, save, observe, render, and export in one process.
 - Rollback starts with pre-batch session snapshots and command journals, not direct agent access to Ardour undo.
-- The first committed utility is the unified `ardour9-reson_command` runner.
+- The first committed utility is the unified `ardour9-siann_command` runner.
 
 ## Current Recommendation
 
 Do not integrate live AI yet. Do not rewrite Ardour's GTK UI as the next step.
 
-The build, empty-session, command-runner, import, placement, render, observation graph, and rollback baselines are now proven. Rollback semantics for the spike are defined by `reson.command_journal.v0`, pre-batch session snapshots, `restore_batch_snapshot`, snapshot retention, batch risk gating, and canonical observation hashes.
+The build, empty-session, command-runner, import, placement, render, observation graph, and rollback baselines are now proven. Rollback semantics for the spike are defined by `siann.command_journal.v0`, pre-batch session snapshots, `restore_batch_snapshot`, snapshot retention, batch risk gating, and canonical observation hashes.
 
 The next product milestone should be a local web frontend over the existing bridge: inspect imported assets, show a timeline, review plan diffs, approve/apply, play rendered previews, and roll back. Ardour's existing GUI remains useful for visual comparison.
 

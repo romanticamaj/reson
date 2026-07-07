@@ -10,8 +10,8 @@ function writeJson(file, value) {
   fs.writeFileSync(file, JSON.stringify(value, null, 2));
 }
 
-test('reson-bridge run prints a machine-readable command summary', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-bridge-cli-'));
+test('siann run prints a machine-readable command summary', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-cli-'));
   const journalPath = path.join(tmp, 'journal.json');
   const commandPath = path.join(tmp, 'command.json');
   const runnerPath = path.join(tmp, 'fake-runner.js');
@@ -21,7 +21,7 @@ test('reson-bridge run prints a machine-readable command summary', () => {
     commands: [{ op: 'create_session', sessionDir: path.join(tmp, 'Session'), sessionName: 'CliDemo' }],
   });
   writeJson(journalPath, {
-    schemaVersion: 'reson.command_journal.v0',
+    schemaVersion: 'siann.command_journal.v0',
     journalId: 'journal',
     batches: [{
       batchId: 'batch_0001',
@@ -35,11 +35,11 @@ test('reson-bridge run prints a machine-readable command summary', () => {
   fs.writeFileSync(runnerPath, [
     '#!/usr/bin/env node',
     'console.log("startup noise");',
-    'console.log(JSON.stringify({ schemaVersion: "reson.result.v0", results: [{ op: "create_session", ok: true }] }));',
+    'console.log(JSON.stringify({ schemaVersion: "siann.result.v0", results: [{ op: "create_session", ok: true }] }));',
   ].join('\n'));
   fs.chmodSync(runnerPath, 0o755);
 
-  const cli = path.join(__dirname, '..', 'bin', 'reson-bridge.js');
+  const cli = path.join(__dirname, '..', 'bin', 'siann.js');
   const result = spawnSync(process.execPath, [cli, 'run', commandPath, '--runner', runnerPath, '--json'], {
     cwd: path.join(__dirname, '..'),
     encoding: 'utf8',
@@ -52,13 +52,13 @@ test('reson-bridge run prints a machine-readable command summary', () => {
   assert.equal(summary.journal.risk, 'low');
 });
 
-test('reson-bridge --help exits successfully', () => {
-  const cli = path.join(__dirname, '..', 'bin', 'reson-bridge.js');
+test('siann --help exits successfully', () => {
+  const cli = path.join(__dirname, '..', 'bin', 'siann.js');
   const result = spawnSync(process.execPath, [cli, '--help'], {
     cwd: path.join(__dirname, '..'),
     encoding: 'utf8',
   });
 
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /reson-bridge run <command-file\.json>/);
+  assert.match(result.stdout, /siann run <command-file\.json>/);
 });

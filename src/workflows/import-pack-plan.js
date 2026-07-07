@@ -93,7 +93,7 @@ function buildImportPackPlan(manifest, manifestFile) {
   const previewOutputPath = manifest.preview ? manifest.preview.outputPath : null;
 
   return {
-    schemaVersion: 'reson.import_pack_plan.v0',
+    schemaVersion: 'siann.import_pack_plan.v0',
     workflow: 'import-pack',
     manifestFile: manifestFile ? path.resolve(manifestFile) : null,
     summary: {
@@ -140,8 +140,8 @@ function loadImportPackPlan(planFile) {
   if (!plan || typeof plan !== 'object' || Array.isArray(plan)) {
     throw new Error('plan must be an object');
   }
-  if (plan.schemaVersion !== 'reson.import_pack_plan.v0') {
-    throw new Error('schemaVersion must be reson.import_pack_plan.v0');
+  if (plan.schemaVersion !== 'siann.import_pack_plan.v0') {
+    throw new Error('schemaVersion must be siann.import_pack_plan.v0');
   }
   if (plan.workflow !== 'import-pack') {
     throw new Error('workflow must be import-pack');

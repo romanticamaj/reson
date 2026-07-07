@@ -8,10 +8,10 @@ Prove whether the Ardour-derived engine path can support SIANN's first command b
 
 ## Phase 0: Repository Setup
 
-- [x] Publish SIANN docs repo: `https://github.com/romanticamaj/reson`
-- [x] Fork Ardour to `https://github.com/romanticamaj/ardour`
-- [x] Clone engine checkout to `/Users/garyhsieh/reson-engine`
-- [x] Set engine `origin` to `romanticamaj/ardour`
+- [x] Publish SIANN docs repo: `https://github.com/romanticamaj/siann`
+- [x] Fork Ardour to `https://github.com/romanticamaj/siann-engine`
+- [x] Clone engine checkout to `/Users/garyhsieh/siann-engine`
+- [x] Set engine `origin` to `romanticamaj/siann-engine`
 - [x] Set engine `upstream` to `Ardour/ardour`
 - [x] Record checked Ardour revision in `docs/research/ardour-commandability-map.md`
 
@@ -41,8 +41,8 @@ Prove whether the Ardour-derived engine path can support SIANN's first command b
 
 ## Phase 3: Minimal Command Runner
 
-- [x] Define `reson.command.v0` spike schema.
-- [x] Add a small command runner in the Ardour fork as `session_utils/reson_command.cc`.
+- [x] Define `siann.command.v0` spike schema.
+- [x] Add a small command runner in the Ardour fork as `session_utils/siann_command.cc`.
 - [x] Support `create_session`.
 - [x] Support `import_audio`.
 - [x] Support `create_track` via `create_audio_track`.

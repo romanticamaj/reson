@@ -1,6 +1,6 @@
 {
-  "schemaVersion": "reson.command.v0",
-  "journalPath": "/tmp/reson-bridge-demo/rollback/journal.json",
+  "schemaVersion": "siann.command.v0",
+  "journalPath": "/tmp/siann-demo/rollback/journal.json",
   "batchRisk": "normal",
   "snapshotRetention": {
     "maxCount": 3
@@ -8,7 +8,7 @@
   "commands": [
     {
       "op": "create_session",
-      "sessionDir": "/tmp/reson-bridge-demo/rollback/Session",
+      "sessionDir": "/tmp/siann-demo/rollback/Session",
       "sessionName": "RollbackDemo",
       "sampleRate": 48000
     },

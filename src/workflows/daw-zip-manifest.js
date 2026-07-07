@@ -106,7 +106,7 @@ function addTrack(tracks, seen, name) {
 function buildDawZipManifest(sourceRoot, options = {}) {
   const absoluteSourceRoot = path.resolve(sourceRoot);
   assertDirectory(absoluteSourceRoot, 'sourceRoot');
-  const outRoot = path.resolve(options.outRoot || '/tmp/reson-user-daw-demo');
+  const outRoot = path.resolve(options.outRoot || '/tmp/siann-user-daw-demo');
   const sessionDir = path.resolve(options.sessionDir || path.join(outRoot, 'Session'));
   const previewPath = path.resolve(options.previewPath || path.join(outRoot, 'preview.wav'));
   const journalPath = path.resolve(options.journalPath || path.join(outRoot, 'journal.json'));
@@ -153,7 +153,7 @@ function buildDawZipManifest(sourceRoot, options = {}) {
   }
 
   return {
-    schemaVersion: 'reson.import_pack.v0',
+    schemaVersion: 'siann.import_pack.v0',
     session: {
       dir: sessionDir,
       name: options.sessionName || 'UserDawPlacementDemo',

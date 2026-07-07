@@ -1,6 +1,6 @@
 {
-  "schemaVersion": "reson.command.v0",
-  "journalPath": "/tmp/reson-bridge-demo/create-session/journal.json",
+  "schemaVersion": "siann.command.v0",
+  "journalPath": "/tmp/siann-demo/create-session/journal.json",
   "batchRisk": "low",
   "snapshotRetention": {
     "maxCount": 3
@@ -8,7 +8,7 @@
   "commands": [
     {
       "op": "create_session",
-      "sessionDir": "/tmp/reson-bridge-demo/create-session/Session",
+      "sessionDir": "/tmp/siann-demo/create-session/Session",
       "sessionName": "BridgeDemo",
       "sampleRate": 48000
     },

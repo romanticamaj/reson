@@ -96,10 +96,10 @@ Do not start by rewriting the DAW UI. First prove that SIANN can operate an Ardo
 
 As of 2026-07-07, the first commandability and import-pack workflow is implemented across two repositories:
 
-- `reson-engine` (`/Users/garyhsieh/reson-engine`) is the Ardour-derived engine fork. It contains the C++ session utility runner `session_utils/reson_command.cc`, built as `ardour9-reson_command`.
-- `reson` (`/Users/garyhsieh/reson`) contains the developer bridge and product workflow layer: `bin/reson-bridge.js`, `src/bridge/runner.js`, `src/workflows/`, `scripts/`, fixtures, tests, docs, and public README.
+- `siann-engine` (`/Users/garyhsieh/siann-engine`) is the Ardour-derived engine fork. It contains the C++ session utility runner `session_utils/siann_command.cc`, built as `ardour9-siann_command`.
+- `siann` (`/Users/garyhsieh/siann`) contains the developer bridge and product workflow layer: `bin/siann.js`, `src/bridge/runner.js`, `src/workflows/`, `scripts/`, fixtures, tests, docs, and public README.
 
-The current `reson` repo is no longer docs-only. It has production-shaped developer tooling for the first local workflow, but it does not yet include the future Studio UI or agent runtime.
+The current `siann` repo is no longer docs-only. It has production-shaped developer tooling for the first local workflow, but it does not yet include the future Studio UI or agent runtime.
 
 Implemented bridge capabilities:
 
@@ -170,9 +170,9 @@ During the first Ardour-derived spike, this boundary is aspirational for the fin
 
 Current code ownership follows this boundary:
 
-- Engine mutations live in `reson-engine/session_utils/reson_command.cc`.
-- Bridge orchestration lives in `reson/bin/reson-bridge.js` and `reson/src/bridge/runner.js`.
-- Workflow-specific planning lives in `reson/src/workflows/`.
+- Engine mutations live in `siann-engine/session_utils/siann_command.cc`.
+- Bridge orchestration lives in `siann/bin/siann.js` and `siann/src/bridge/runner.js`.
+- Workflow-specific planning lives in `siann/src/workflows/`.
 - Studio UI and agent runtime are not implemented yet.
 
 ## Core Rule
@@ -398,7 +398,7 @@ Initial observation command:
 ```json
 {
   "op": "observe_session",
-  "schemaVersion": "reson.observe.v0",
+  "schemaVersion": "siann.observe.v0",
   "include": ["tracks", "regions", "markers", "sections", "tempoMap", "media"]
 }
 ```

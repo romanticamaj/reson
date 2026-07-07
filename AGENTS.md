@@ -2,11 +2,10 @@
 
 ## Project Structure & Module Organization
 
-This repository contains planning documents and the first developer-facing command bridge integration layer for SIANN, a local AI-native music production environment. It is not docs-only anymore: the engine fork lives in `/Users/garyhsieh/reson-engine`, while this repo owns the Node bridge wrapper, workflow generators, fixtures, tests, and product documentation.
+This repository contains planning documents and the first developer-facing command bridge integration layer for SIANN, a local AI-native music production environment. It is not docs-only anymore: the engine fork lives in `/Users/garyhsieh/siann-engine`, while this repo owns the Node bridge wrapper, workflow generators, fixtures, tests, and product documentation.
 
-SIANN is the public product name. Keep existing `reson` repository paths, CLI
-names, environment variables, fixtures, and schema identifiers stable until a
-separate compatibility-aware migration is accepted.
+Use SIANN/`siann` consistently for public names, CLI names, schemas, fixture
+paths, generated artifacts, and local repository references.
 
 - `README.md` is public/product-facing. Do not expose internal implementation details, ADR lists, or roadmap-style planning there.
 - `docs/README.md` summarizes the current product and architecture direction.
@@ -16,7 +15,7 @@ separate compatibility-aware migration is accepted.
 - `docs/schemas/` stores command, observation, journal, and bridge contract drafts.
 - `docs/superpowers/specs/` stores larger design specifications.
 - `src/bridge/` contains the Node-based developer bridge wrapper around the engine command runner.
-- `bin/reson-bridge.js` is the CLI entrypoint for bridge workflows.
+- `bin/siann.js` is the CLI entrypoint for bridge workflows.
 - `examples/bridge/` contains command fixtures that developers can run against a local engine checkout.
 - `examples/import-pack/` contains the first product workflow fixture: manifest-driven asset placement and preview rendering.
 - `scripts/create-demo-audio.js` writes small WAV fixtures for workflow smoke tests and examples.
@@ -27,7 +26,7 @@ Keep implementation modules separate by the documented architecture: audio engin
 
 Key internal documents:
 
-- [Architecture design](docs/superpowers/specs/2026-07-06-reson-architecture-design.md)
+- [Architecture design](docs/superpowers/specs/2026-07-06-siann-architecture-design.md)
 - [ADR index](docs/adr/0000-adr-index.md)
 - [Initial product and architecture discussion](docs/discussions/2026-07-06-product-architecture-discussion.md)
 - [Ardour commandability map](docs/research/ardour-commandability-map.md)
@@ -56,7 +55,7 @@ The engine is the trust boundary. AI and UI layers must not directly mutate low-
 
 Implementation tracks:
 
-- **Engine:** implemented in `/Users/garyhsieh/reson-engine`; owns Ardour-derived session operations for import, trim, placement, save, render, observation, journal snapshots, and rollback.
+- **Engine:** implemented in `/Users/garyhsieh/siann-engine`; owns Ardour-derived session operations for import, trim, placement, save, render, observation, journal snapshots, and rollback.
 - **Command bridge:** partially implemented in this repo; owns JSON command files, workflow manifests, plan approval, validation, rollback command generation, and Node test coverage.
 - **Agent runtime:** not implemented yet; planned provider adapters, model configuration, tool calling, planning loops, risk policy, and local-only mode.
 - **Studio UI:** not implemented yet; next likely direction is a local web frontend for import-pack workflows, mapping review, plan diffs, preview playback, and apply/rollback controls.
@@ -95,10 +94,6 @@ Accepted decisions are tracked as ADRs:
 - [ADR-0012: Move From Headless Batch Runner To Live Project Bridge](docs/adr/0012-move-from-headless-batch-runner-to-live-project-bridge.md)
 - [ADR-0013: Rename Project To SIANN](docs/adr/0013-rename-project-to-siann.md)
 
-Superseded decisions:
-
-- [ADR-0001: Use Reson As Working Name](docs/adr/0001-use-reson-as-working-name.md), replaced by ADR-0013.
-
 ## Build, Test, and Development Commands
 
 Useful repository checks are:
@@ -107,16 +102,16 @@ Useful repository checks are:
 - `rg "term" docs/` searches the documentation.
 - `find docs -type f | sort` lists tracked documentation areas.
 - `npm test` runs the bridge wrapper, CLI, and fixture tests with Node's built-in test runner.
-- `node bin/reson-bridge.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
-- `node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/reson-import-pack-demo/plan.json --json` generates a reviewable import-pack plan without mutating the engine session.
-- `node bin/reson-bridge.js workflow validate-plan /tmp/reson-import-pack-demo/plan.json --json` checks plan integrity and whether it can be approved or applied.
-- `node bin/reson-bridge.js workflow approve-plan /tmp/reson-import-pack-demo/plan.json --out /tmp/reson-import-pack-demo/approved-plan.json --approved-by "$USER" --json` records explicit review approval and command integrity.
-- `node bin/reson-bridge.js workflow apply-plan /tmp/reson-import-pack-demo/approved-plan.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json` applies an approved plan by writing and running the engine command batch.
-- `node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json --source-command /tmp/reson-import-pack-demo/import-pack.command.json --out /tmp/reson-import-pack-demo/rollback.command.json --run --json` restores the import-pack snapshot and observes the rolled-back session.
-- `node bin/reson-bridge.js validate-journal /tmp/reson-bridge-demo/create-session/journal.json --json` validates and summarizes a generated command journal.
-- `node scripts/create-daw-manifest.js /tmp/reson-user-daw-source --out /tmp/reson-user-daw-multitrack-demo/manifest.json --session-dir /tmp/reson-user-daw-multitrack-demo/Session --preview /tmp/reson-user-daw-multitrack-demo/preview.wav --journal /tmp/reson-user-daw-multitrack-demo/journal.json --json` converts an extracted `_DAW/` plus `_SpliceSFX/` test pack into a multi-track import-pack manifest; `_DAW/placement.md` trim fields become `sourceStart` and `duration`.
+- `node bin/siann.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
+- `node bin/siann.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/siann-import-pack-demo/plan.json --json` generates a reviewable import-pack plan without mutating the engine session.
+- `node bin/siann.js workflow validate-plan /tmp/siann-import-pack-demo/plan.json --json` checks plan integrity and whether it can be approved or applied.
+- `node bin/siann.js workflow approve-plan /tmp/siann-import-pack-demo/plan.json --out /tmp/siann-import-pack-demo/approved-plan.json --approved-by "$USER" --json` records explicit review approval and command integrity.
+- `node bin/siann.js workflow apply-plan /tmp/siann-import-pack-demo/approved-plan.json --out /tmp/siann-import-pack-demo/import-pack.command.json --run --json` applies an approved plan by writing and running the engine command batch.
+- `node bin/siann.js rollback /tmp/siann-import-pack-demo/journal.json --source-command /tmp/siann-import-pack-demo/import-pack.command.json --out /tmp/siann-import-pack-demo/rollback.command.json --run --json` restores the import-pack snapshot and observes the rolled-back session.
+- `node bin/siann.js validate-journal /tmp/siann-demo/create-session/journal.json --json` validates and summarizes a generated command journal.
+- `node scripts/create-daw-manifest.js /tmp/siann-user-daw-source --out /tmp/siann-user-daw-multitrack-demo/manifest.json --session-dir /tmp/siann-user-daw-multitrack-demo/Session --preview /tmp/siann-user-daw-multitrack-demo/preview.wav --journal /tmp/siann-user-daw-multitrack-demo/journal.json --json` converts an extracted `_DAW/` plus `_SpliceSFX/` test pack into a multi-track import-pack manifest; `_DAW/placement.md` trim fields become `sourceStart` and `duration`.
 
-The bridge CLI defaults to `../reson-engine`. Use `RESON_ENGINE_DIR=/path/to/reson-engine` or `--engine-dir /path/to/reson-engine` when needed.
+The bridge CLI defaults to `../siann-engine`. Use `SIANN_ENGINE_DIR=/path/to/siann-engine` or `--engine-dir /path/to/siann-engine` when needed.
 
 ## Coding Style & Naming Conventions
 

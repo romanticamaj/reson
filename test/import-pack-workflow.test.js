@@ -18,7 +18,7 @@ function writeJson(file, value) {
 
 function manifest(root) {
   return {
-    schemaVersion: 'reson.import_pack.v0',
+    schemaVersion: 'siann.import_pack.v0',
     session: {
       dir: path.join(root, 'Session'),
       name: 'ImportPackDemo',
@@ -58,10 +58,10 @@ function manifest(root) {
 }
 
 test('buildImportPackCommand turns a manifest into an engine command batch', () => {
-  const root = '/tmp/reson-import-pack-unit';
+  const root = '/tmp/siann-import-pack-unit';
   const command = buildImportPackCommand(manifest(root));
 
-  assert.equal(command.schemaVersion, 'reson.command.v0');
+  assert.equal(command.schemaVersion, 'siann.command.v0');
   assert.equal(command.journalPath, path.join(root, 'journal.json'));
   assert.equal(command.batchRisk, 'normal');
   assert.deepEqual(command.snapshotRetention, { maxCount: 3 });
@@ -83,7 +83,7 @@ test('buildImportPackCommand turns a manifest into an engine command batch', () 
 });
 
 test('loadImportPackManifest rejects assets targeting unknown tracks', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-invalid-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-import-pack-invalid-'));
   const file = path.join(tmp, 'manifest.json');
   const data = manifest(tmp);
   data.assets[0].trackName = 'Missing Track';
@@ -93,7 +93,7 @@ test('loadImportPackManifest rejects assets targeting unknown tracks', () => {
 });
 
 test('writeImportPackCommand writes a generated command file', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-write-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-import-pack-write-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const outFile = path.join(tmp, 'generated.command.json');
   writeJson(manifestFile, manifest(tmp));
@@ -107,7 +107,7 @@ test('writeImportPackCommand writes a generated command file', () => {
 });
 
 test('writeImportPackCommand resolves relative manifest paths from the manifest directory', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-relative-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-import-pack-relative-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const outFile = path.join(tmp, 'generated.command.json');
   const data = manifest(tmp);
@@ -126,13 +126,13 @@ test('writeImportPackCommand resolves relative manifest paths from the manifest 
   assert.equal(command.commands[6].outputPath, path.join(tmp, 'preview.wav'));
 });
 
-test('reson-bridge workflow import-pack writes a command summary', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-cli-'));
+test('siann workflow import-pack writes a command summary', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-import-pack-cli-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const outFile = path.join(tmp, 'generated.command.json');
   writeJson(manifestFile, manifest(tmp));
 
-  const cli = path.join(__dirname, '..', 'bin', 'reson-bridge.js');
+  const cli = path.join(__dirname, '..', 'bin', 'siann.js');
   const result = spawnSync(process.execPath, [cli, 'workflow', 'import-pack', manifestFile, '--out', outFile, '--json'], {
     cwd: path.join(__dirname, '..'),
     encoding: 'utf8',

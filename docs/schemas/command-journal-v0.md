@@ -6,7 +6,7 @@ Status: Draft contract
 
 ## Purpose
 
-`reson.command_journal.v0` records how a command batch changed an engine session. It is the audit and rollback contract between the command bridge, agent runtime, and future UI.
+`siann.command_journal.v0` records how a command batch changed an engine session. It is the audit and rollback contract between the command bridge, agent runtime, and future UI.
 
 The journal is not an agent plan. It is emitted by the bridge after validation and execution, using observed engine state and engine-assigned IDs.
 
@@ -14,7 +14,7 @@ The journal is not an agent plan. It is emitted by the bridge after validation a
 
 ```json
 {
-  "schemaVersion": "reson.command_journal.v0",
+  "schemaVersion": "siann.command_journal.v0",
   "journalId": "jrnl_20260706_0001",
   "session": {
     "sessionId": "sess_01",
@@ -33,7 +33,7 @@ The journal is not an agent plan. It is emitted by the bridge after validation a
 
 Required top-level fields:
 
-- `schemaVersion`: must be `reson.command_journal.v0`.
+- `schemaVersion`: must be `siann.command_journal.v0`.
 - `journalId`: stable ID for this journal file.
 - `session`: session identity known to the bridge.
 - `createdAt`: UTC timestamp.
@@ -46,8 +46,8 @@ During the C++ session utility spike, command files may include a root `journalP
 
 ```json
 {
-  "schemaVersion": "reson.command.v0",
-  "journalPath": "/tmp/reson-command/journal.json",
+  "schemaVersion": "siann.command.v0",
+  "journalPath": "/tmp/siann-command/journal.json",
   "batchRisk": "normal",
   "riskApproval": {
     "confirmed": false
@@ -59,7 +59,7 @@ During the C++ session utility spike, command files may include a root `journalP
 }
 ```
 
-When `journalPath` is present, `ardour9-reson_command` writes a journal after the command batch succeeds. If it is absent, the runner preserves the original result-only behavior.
+When `journalPath` is present, `ardour9-siann_command` writes a journal after the command batch succeeds. If it is absent, the runner preserves the original result-only behavior.
 
 The current spike writes a gzip-compressed tar archive before the first mutation after `create_session` or `open_session`. Snapshot files are stored next to the journal under `snapshots/` and are named from the journal basename, for example `journal-42_batch_0001_before.tar.gz`.
 
@@ -74,9 +74,9 @@ The C++ session utility spike supports restoring the batch snapshot with:
 ```json
 {
   "op": "restore_batch_snapshot",
-  "sessionDir": "/tmp/reson-command/Session",
+  "sessionDir": "/tmp/siann-command/Session",
   "sessionName": "Session",
-  "snapshotPath": "/tmp/reson-command/snapshots/journal-42_batch_0001_before.tar.gz"
+  "snapshotPath": "/tmp/siann-command/snapshots/journal-42_batch_0001_before.tar.gz"
 }
 ```
 
@@ -98,7 +98,7 @@ A batch is the smallest user-visible rollback unit.
     "observationHash": "sha256:...",
     "snapshot": {
       "kind": "session_archive",
-      "path": ".reson/snapshots/journal-42_batch_0001_before.tar.gz",
+      "path": ".siann/snapshots/journal-42_batch_0001_before.tar.gz",
       "sha256": "..."
     }
   },
@@ -131,7 +131,7 @@ Each entry records one validated command.
 {
   "entryId": "entry_0001",
   "op": "place_audio",
-  "commandSchemaVersion": "reson.command.v0",
+  "commandSchemaVersion": "siann.command.v0",
   "command": {
     "op": "place_audio",
     "regionId": "220",
@@ -168,7 +168,7 @@ The bridge must populate `touched` from observed engine IDs, not from agent-supp
 {
   "entryId": "entry_0003",
   "op": "not_a_real_operation",
-  "commandSchemaVersion": "reson.command.v0",
+  "commandSchemaVersion": "siann.command.v0",
   "command": {
     "op": "not_a_real_operation"
   },

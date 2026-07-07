@@ -19,8 +19,8 @@ function assertString(value, name) {
 
 function validateManifest(manifest) {
   assertObject(manifest, 'manifest');
-  if (manifest.schemaVersion !== 'reson.import_pack.v0') {
-    throw new Error('schemaVersion must be reson.import_pack.v0');
+  if (manifest.schemaVersion !== 'siann.import_pack.v0') {
+    throw new Error('schemaVersion must be siann.import_pack.v0');
   }
   assertObject(manifest.session, 'session');
   assertString(manifest.session.dir, 'session.dir');
@@ -143,7 +143,7 @@ function buildImportPackCommand(manifest) {
   commands.push({ op: 'observe_session' });
 
   return {
-    schemaVersion: 'reson.command.v0',
+    schemaVersion: 'siann.command.v0',
     journalPath: manifest.journalPath || path.join(manifest.session.dir, '..', 'journal.json'),
     batchRisk: manifest.batchRisk || 'normal',
     snapshotRetention: manifest.snapshotRetention || { maxCount: 3 },

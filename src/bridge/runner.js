@@ -10,20 +10,20 @@ function parseJsonFile(file) {
 
 function parseResultOutput(stdout) {
   const lines = String(stdout).trim().split(/\n/).reverse();
-  const resultLine = lines.find((line) => line.trim().startsWith('{"schemaVersion":"reson.result.v0"'));
+  const resultLine = lines.find((line) => line.trim().startsWith('{"schemaVersion":"siann.result.v0"'));
   if (!resultLine) {
-    throw new Error('reson result JSON not found in runner output');
+    throw new Error('siann result JSON not found in runner output');
   }
   const result = JSON.parse(resultLine);
-  if (result.schemaVersion !== 'reson.result.v0' || !Array.isArray(result.results)) {
-    throw new Error('runner output is not a reson.result.v0 result');
+  if (result.schemaVersion !== 'siann.result.v0' || !Array.isArray(result.results)) {
+    throw new Error('runner output is not a siann.result.v0 result');
   }
   return result;
 }
 
 function validateJournal(journal) {
-  if (!journal || journal.schemaVersion !== 'reson.command_journal.v0') {
-    throw new Error('journal schemaVersion must be reson.command_journal.v0');
+  if (!journal || journal.schemaVersion !== 'siann.command_journal.v0') {
+    throw new Error('journal schemaVersion must be siann.command_journal.v0');
   }
   if (!journal.journalId || typeof journal.journalId !== 'string') {
     throw new Error('journalId must be a non-empty string');
@@ -64,7 +64,7 @@ function summarizeJournal(journal, journalPath) {
 }
 
 function defaultEngineDir() {
-  return process.env.RESON_ENGINE_DIR || path.resolve(process.cwd(), '..', 'reson-engine');
+  return process.env.SIANN_ENGINE_DIR || path.resolve(process.cwd(), '..', 'siann-engine');
 }
 
 function engineCommand(commandFile, options = {}) {
@@ -84,7 +84,7 @@ function engineCommand(commandFile, options = {}) {
     args: ['-lc', [
       `TOP=${quotedEngineDir}`,
       `. ${quotedEngineDir}/build/gtk2_ardour/ardev_common_waf.sh`,
-      `${quotedEngineDir}/build/session_utils/ardour9-reson_command ${quotedCommandFile}`,
+      `${quotedEngineDir}/build/session_utils/ardour9-siann_command ${quotedCommandFile}`,
     ].join('; ')],
     cwd: engineDir,
   };

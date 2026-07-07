@@ -20,23 +20,23 @@ test('parseResultOutput reads the final result JSON after engine noise', () => {
   const parsed = parseResultOutput([
     '-- List Of Registered Controllables',
     'plugin scan warning',
-    '{"schemaVersion":"reson.result.v0","results":[{"op":"observe_session","ok":true}]}',
+    '{"schemaVersion":"siann.result.v0","results":[{"op":"observe_session","ok":true}]}',
   ].join('\n'));
 
-  assert.equal(parsed.schemaVersion, 'reson.result.v0');
+  assert.equal(parsed.schemaVersion, 'siann.result.v0');
   assert.equal(parsed.results[0].op, 'observe_session');
 });
 
 test('validateJournal rejects missing batches', () => {
   assert.throws(
-    () => validateJournal({ schemaVersion: 'reson.command_journal.v0', journalId: 'bad' }),
+    () => validateJournal({ schemaVersion: 'siann.command_journal.v0', journalId: 'bad' }),
     /journal batches must be a non-empty array/
   );
 });
 
 test('summarizeJournal exposes developer-facing journal status', () => {
   const journal = {
-    schemaVersion: 'reson.command_journal.v0',
+    schemaVersion: 'siann.command_journal.v0',
     journalId: 'demo',
     batches: [{
       batchId: 'batch_0001',
@@ -65,7 +65,7 @@ test('summarizeJournal exposes developer-facing journal status', () => {
 });
 
 test('runCommandFile wraps a runner, parses result output, and loads the journal', async () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-bridge-test-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-test-'));
   const journalPath = path.join(tmp, 'journal.json');
   const commandPath = path.join(tmp, 'command.json');
   const runnerPath = path.join(tmp, 'fake-runner.js');
@@ -75,7 +75,7 @@ test('runCommandFile wraps a runner, parses result output, and loads the journal
     commands: [{ op: 'create_session', sessionDir: path.join(tmp, 'Session'), sessionName: 'Demo' }],
   });
   writeJson(journalPath, {
-    schemaVersion: 'reson.command_journal.v0',
+    schemaVersion: 'siann.command_journal.v0',
     journalId: 'journal',
     batches: [{
       batchId: 'batch_0001',
@@ -89,7 +89,7 @@ test('runCommandFile wraps a runner, parses result output, and loads the journal
   fs.writeFileSync(runnerPath, [
     '#!/usr/bin/env node',
     'console.log("engine warning before json");',
-    'console.log(JSON.stringify({ schemaVersion: "reson.result.v0", results: [{ op: "create_session", ok: true }] }));',
+    'console.log(JSON.stringify({ schemaVersion: "siann.result.v0", results: [{ op: "create_session", ok: true }] }));',
   ].join('\n'));
   fs.chmodSync(runnerPath, 0o755);
 
@@ -102,7 +102,7 @@ test('runCommandFile wraps a runner, parses result output, and loads the journal
 });
 
 test('runCommandFile summarizes failed journals even when the runner prints no result JSON', async () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-bridge-failed-test-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-failed-test-'));
   const journalPath = path.join(tmp, 'journal.json');
   const commandPath = path.join(tmp, 'command.json');
   const runnerPath = path.join(tmp, 'fake-failing-runner.js');
@@ -113,7 +113,7 @@ test('runCommandFile summarizes failed journals even when the runner prints no r
     commands: [{ op: 'create_session', sessionDir: path.join(tmp, 'Session'), sessionName: 'Rejected' }],
   });
   writeJson(journalPath, {
-    schemaVersion: 'reson.command_journal.v0',
+    schemaVersion: 'siann.command_journal.v0',
     journalId: 'journal',
     batches: [{
       batchId: 'batch_0001',

@@ -4,7 +4,7 @@ This directory contains product, architecture, and decision records for SIANN.
 
 Key documents:
 
-- [Architecture spec](superpowers/specs/2026-07-06-reson-architecture-design.md)
+- [Architecture spec](superpowers/specs/2026-07-06-siann-architecture-design.md)
 - [ADR index](adr/0000-adr-index.md)
 - [Initial product and architecture discussion](discussions/2026-07-06-product-architecture-discussion.md)
 - [Internal schemas](schemas/README.md)
@@ -26,8 +26,8 @@ The first milestone is not a UI rewrite. It is an Ardour commandability spike th
 
 SIANN now has two active codebases:
 
-- `/Users/garyhsieh/reson-engine` is the Ardour-derived engine fork. It contains the C++ `session_utils/reson_command.cc` runner that directly opens and mutates Ardour sessions.
-- `/Users/garyhsieh/reson` is the product, docs, and developer bridge repo. It now contains a Node CLI wrapper, workflow generators, approval-gated plan files, example fixtures, and tests. It is not docs-only anymore, but it does not yet contain the future Studio UI or AI runtime.
+- `/Users/garyhsieh/siann-engine` is the Ardour-derived engine fork. It contains the C++ `session_utils/siann_command.cc` runner that directly opens and mutates Ardour sessions.
+- `/Users/garyhsieh/siann` is the product, docs, and developer bridge repo. It now contains a Node CLI wrapper, workflow generators, approval-gated plan files, example fixtures, and tests. It is not docs-only anymore, but it does not yet contain the future Studio UI or AI runtime.
 
 Current shipped workflow:
 

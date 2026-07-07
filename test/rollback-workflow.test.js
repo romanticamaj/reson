@@ -17,7 +17,7 @@ function writeJson(file, value) {
 
 function commandFile(root) {
   return {
-    schemaVersion: 'reson.command.v0',
+    schemaVersion: 'siann.command.v0',
     journalPath: path.join(root, 'journal.json'),
     commands: [
       {
@@ -35,7 +35,7 @@ function commandFile(root) {
 
 function journal(root) {
   return {
-    schemaVersion: 'reson.command_journal.v0',
+    schemaVersion: 'siann.command_journal.v0',
     journalId: 'journal',
     batches: [{
       batchId: 'batch_0001',
@@ -58,10 +58,10 @@ function journal(root) {
 }
 
 test('buildRollbackCommand creates restore, reopen, and observe commands', () => {
-  const root = '/tmp/reson-rollback-unit';
+  const root = '/tmp/siann-rollback-unit';
   const rollback = buildRollbackCommand(journal(root), commandFile(root));
 
-  assert.equal(rollback.schemaVersion, 'reson.command.v0');
+  assert.equal(rollback.schemaVersion, 'siann.command.v0');
   assert.equal(rollback.batchRisk, 'normal');
   assert.deepEqual(rollback.commands.map((command) => command.op), [
     'restore_batch_snapshot',
@@ -74,7 +74,7 @@ test('buildRollbackCommand creates restore, reopen, and observe commands', () =>
 });
 
 test('writeRollbackCommand writes a rollback command file next to the journal by default', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-rollback-write-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-rollback-write-'));
   const journalFile = path.join(root, 'journal.json');
   const commandPath = path.join(root, 'import-pack.command.json');
   writeJson(journalFile, journal(root));
@@ -89,15 +89,15 @@ test('writeRollbackCommand writes a rollback command file next to the journal by
   assert.equal(JSON.parse(fs.readFileSync(summary.commandFile, 'utf8')).commands[0].op, 'restore_batch_snapshot');
 });
 
-test('reson-bridge rollback writes a machine-readable rollback summary', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-rollback-cli-'));
+test('siann rollback writes a machine-readable rollback summary', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-rollback-cli-'));
   const journalFile = path.join(root, 'journal.json');
   const commandPath = path.join(root, 'import-pack.command.json');
   const outFile = path.join(root, 'restore.command.json');
   writeJson(journalFile, journal(root));
   writeJson(commandPath, commandFile(root));
 
-  const cli = path.join(__dirname, '..', 'bin', 'reson-bridge.js');
+  const cli = path.join(__dirname, '..', 'bin', 'siann.js');
   const result = spawnSync(process.execPath, [
     cli,
     'rollback',

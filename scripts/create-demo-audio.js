@@ -30,7 +30,7 @@ function writeWav(file, frequency, seconds = 0.5) {
   fs.writeFileSync(file, buffer);
 }
 
-const outDir = process.argv[2] || '/tmp/reson-import-pack-demo/audio';
+const outDir = process.argv[2] || '/tmp/siann-import-pack-demo/audio';
 fs.mkdirSync(outDir, { recursive: true });
 writeWav(path.join(outDir, 'riser.wav'), 660);
 writeWav(path.join(outDir, 'impact.wav'), 110);

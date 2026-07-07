@@ -76,21 +76,18 @@ The goal is not to replace producer judgment. The goal is to make detailed sessi
 ## Developer Access
 
 This repository contains the public project materials, contributor guidance, and the first developer bridge for exploring SIANN command workflows.
-The product name is SIANN; the repository path, bridge CLI, and environment
-variables still use `reson` identifiers while the developer interface remains
-stable.
 
 ```sh
 git clone <repo-url>
-cd reson
+cd siann
 npm test
-node bin/reson-bridge.js run examples/bridge/create-session.command.json --json
-node scripts/create-demo-audio.js /tmp/reson-import-pack-demo/audio
-node bin/reson-bridge.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/reson-import-pack-demo/plan.json --json
-node bin/reson-bridge.js workflow validate-plan /tmp/reson-import-pack-demo/plan.json --json
-node bin/reson-bridge.js workflow approve-plan /tmp/reson-import-pack-demo/plan.json --out /tmp/reson-import-pack-demo/approved-plan.json --approved-by "$USER" --json
-node bin/reson-bridge.js workflow apply-plan /tmp/reson-import-pack-demo/approved-plan.json --out /tmp/reson-import-pack-demo/import-pack.command.json --run --json
-node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json --source-command /tmp/reson-import-pack-demo/import-pack.command.json --out /tmp/reson-import-pack-demo/rollback.command.json --run --json
+node bin/siann.js run examples/bridge/create-session.command.json --json
+node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio
+node bin/siann.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/siann-import-pack-demo/plan.json --json
+node bin/siann.js workflow validate-plan /tmp/siann-import-pack-demo/plan.json --json
+node bin/siann.js workflow approve-plan /tmp/siann-import-pack-demo/plan.json --out /tmp/siann-import-pack-demo/approved-plan.json --approved-by "$USER" --json
+node bin/siann.js workflow apply-plan /tmp/siann-import-pack-demo/approved-plan.json --out /tmp/siann-import-pack-demo/import-pack.command.json --run --json
+node bin/siann.js rollback /tmp/siann-import-pack-demo/journal.json --source-command /tmp/siann-import-pack-demo/import-pack.command.json --out /tmp/siann-import-pack-demo/rollback.command.json --run --json
 ```
 
 For extracted DAW test packs that follow the `_DAW/` and `_SpliceSFX/` layout,
@@ -99,15 +96,15 @@ and length values, they are carried into the plan as `sourceStart` and
 `duration` so BGM regions are trimmed during import:
 
 ```sh
-node scripts/create-daw-manifest.js /tmp/reson-user-daw-source \
-  --out /tmp/reson-user-daw-multitrack-demo/manifest.json \
-  --session-dir /tmp/reson-user-daw-multitrack-demo/Session \
-  --preview /tmp/reson-user-daw-multitrack-demo/preview.wav \
-  --journal /tmp/reson-user-daw-multitrack-demo/journal.json \
+node scripts/create-daw-manifest.js /tmp/siann-user-daw-source \
+  --out /tmp/siann-user-daw-multitrack-demo/manifest.json \
+  --session-dir /tmp/siann-user-daw-multitrack-demo/Session \
+  --preview /tmp/siann-user-daw-multitrack-demo/preview.wav \
+  --journal /tmp/siann-user-daw-multitrack-demo/journal.json \
   --json
 ```
 
-The bridge CLI expects the local SIANN engine checkout next to this repository at `../reson-engine`. Set `RESON_ENGINE_DIR=/path/to/reson-engine` if your checkout lives elsewhere.
+The CLI expects the local SIANN engine checkout next to this repository at `../siann-engine`. Set `SIANN_ENGINE_DIR=/path/to/siann-engine` if your checkout lives elsewhere.
 
 For contributor-specific architecture notes, implementation boundaries, and internal documentation links, see [AGENTS.md](AGENTS.md).
 

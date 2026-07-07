@@ -6,45 +6,31 @@ Status: Accepted
 
 ## Context
 
-ADR-0001 selected Reson as the working name so the project could move quickly
-through early architecture and engine spike work. The product now needs a
-stronger public name before the Studio UI and broader developer-facing material
-are shaped around it.
-
-The existing repository, bridge CLI, command schemas, and engine runner already
-use `reson` identifiers in paths, binary names, fixtures, journals, and local
-developer commands. Renaming those implementation identifiers immediately would
-create churn without changing the product direction.
+The product is moving toward an open-source project. Carrying two names across
+the repository, CLI, schemas, generated artifacts, and engine bridge would make
+the project harder to understand and contribute to.
 
 ## Decision
 
-Use **SIANN** as the public product and project name.
+Use **SIANN** as the single public product and project name.
 
-Use SIANN for:
+Use `siann` for implementation identifiers:
 
-- Public README and product-facing language.
-- Architecture descriptions.
-- Studio UI and agent/runtime product concepts.
-- Future public branding.
-
-Keep the existing `reson` implementation identifiers temporarily:
-
-- Local repository path: `/Users/garyhsieh/reson`.
-- Engine checkout path: `/Users/garyhsieh/reson-engine`.
-- Bridge CLI: `reson-bridge`.
-- Environment variable: `RESON_ENGINE_DIR`.
-- Existing command, fixture, and journal identifiers.
-
-Any future migration from `reson-*` implementation identifiers to `siann-*`
-should be handled as a separate compatibility-aware change.
+- Local repository path: `/Users/garyhsieh/siann`.
+- Engine checkout path: `/Users/garyhsieh/siann-engine`.
+- GitHub repository: `romanticamaj/siann`.
+- Bridge CLI: `siann`.
+- Environment variable: `SIANN_ENGINE_DIR`.
+- Command, result, observation, import-pack, and journal schema namespaces:
+  `siann.*`.
+- Fixture, generated artifact, and `/tmp` example paths.
+- Engine bridge runner names: `siann_command` and `ardour9-siann_command`.
 
 ## Consequences
 
-SIANN replaces Reson in public-facing and active architecture documentation.
-Historical ADRs may still reference Reson when describing earlier decisions.
-
-Developer commands remain stable for now, so existing tests, examples, generated
-plans, journals, and engine integrations keep working.
+This is a breaking rename for early developer tooling and generated artifacts.
+The project is still pre-release, so clarity is more valuable than preserving
+the temporary early command names.
 
 The name still requires deeper trademark, domain, GitHub, package, and app-store
 clearance before a public launch.

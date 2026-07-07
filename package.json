@@ -1,10 +1,10 @@
 {
-  "name": "reson",
+  "name": "siann",
   "version": "0.1.0",
   "private": true,
   "description": "Developer integration layer for SIANN command bridge workflows.",
   "bin": {
-    "reson-bridge": "bin/reson-bridge.js"
+    "siann": "bin/siann.js"
   },
   "scripts": {
     "test": "node --test"

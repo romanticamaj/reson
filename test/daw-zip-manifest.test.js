@@ -32,13 +32,13 @@ function fixture(root) {
 }
 
 test('buildDawZipManifest creates one track per BGM bed and SFX cue', () => {
-  const sourceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-daw-source-'));
-  const outRoot = path.join(os.tmpdir(), 'reson-daw-demo');
+  const sourceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-daw-source-'));
+  const outRoot = path.join(os.tmpdir(), 'siann-daw-demo');
   fixture(sourceRoot);
 
   const manifest = buildDawZipManifest(sourceRoot, { outRoot });
 
-  assert.equal(manifest.schemaVersion, 'reson.import_pack.v0');
+  assert.equal(manifest.schemaVersion, 'siann.import_pack.v0');
   assert.equal(manifest.session.name, 'UserDawPlacementDemo');
   assert.deepEqual(manifest.tracks.map((track) => track.name), [
     'BGM01 AcousticGuitarDawn',
@@ -61,8 +61,8 @@ test('buildDawZipManifest creates one track per BGM bed and SFX cue', () => {
 });
 
 test('writeDawZipManifest writes a reusable manifest file', () => {
-  const sourceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-daw-source-write-'));
-  const outRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-daw-demo-write-'));
+  const sourceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-daw-source-write-'));
+  const outRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-daw-demo-write-'));
   const manifestFile = path.join(outRoot, 'manifest.json');
   fixture(sourceRoot);
 
@@ -77,8 +77,8 @@ test('writeDawZipManifest writes a reusable manifest file', () => {
 });
 
 test('create-daw-manifest CLI writes a multi-track manifest', () => {
-  const sourceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-daw-source-cli-'));
-  const outRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-daw-demo-cli-'));
+  const sourceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-daw-source-cli-'));
+  const outRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-daw-demo-cli-'));
   const manifestFile = path.join(outRoot, 'manifest.json');
   fixture(sourceRoot);
 

@@ -10,7 +10,7 @@ test('bridge command fixtures are valid developer examples', () => {
   assert.ok(files.length > 0, 'expected at least one bridge command fixture');
   for (const file of files) {
     const fixture = JSON.parse(fs.readFileSync(path.join(fixtureDir, file), 'utf8'));
-    assert.equal(fixture.schemaVersion, 'reson.command.v0', `${file} should declare command schema`);
+    assert.equal(fixture.schemaVersion, 'siann.command.v0', `${file} should declare command schema`);
     assert.equal(typeof fixture.journalPath, 'string', `${file} should write a command journal`);
     assert.ok(Array.isArray(fixture.commands), `${file} should include commands`);
     assert.ok(fixture.commands.length > 0, `${file} should not be empty`);
@@ -22,7 +22,7 @@ test('import-pack manifest fixture is a valid developer example', () => {
   const manifestFile = path.join(__dirname, '..', 'examples', 'import-pack', 'manifest.json');
   const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
 
-  assert.equal(manifest.schemaVersion, 'reson.import_pack.v0');
+  assert.equal(manifest.schemaVersion, 'siann.import_pack.v0');
   assert.ok(Array.isArray(manifest.tracks));
   assert.ok(Array.isArray(manifest.assets));
   assert.ok(manifest.assets.length > 0);

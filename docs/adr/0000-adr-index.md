@@ -22,7 +22,3 @@ Status values:
 - [ADR-0011: Use Journaled Command Rollback For The Engine Bridge](0011-use-journaled-command-rollback-for-engine-bridge.md)
 - [ADR-0012: Move From Headless Batch Runner To Live Project Bridge](0012-move-from-headless-batch-runner-to-live-project-bridge.md)
 - [ADR-0013: Rename Project To SIANN](0013-rename-project-to-siann.md)
-
-## Superseded
-
-- [ADR-0001: Use Reson As Working Name](0001-use-reson-as-working-name.md), superseded by [ADR-0013](0013-rename-project-to-siann.md)

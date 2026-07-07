@@ -20,7 +20,7 @@ function writeJson(file, value) {
 
 function manifest(root) {
   return {
-    schemaVersion: 'reson.import_pack.v0',
+    schemaVersion: 'siann.import_pack.v0',
     session: {
       dir: path.join(root, 'Session'),
       name: 'ImportPackDemo',
@@ -60,10 +60,10 @@ function manifest(root) {
 }
 
 test('buildImportPackPlan creates a reviewable plan before apply', () => {
-  const root = '/tmp/reson-import-pack-plan-unit';
+  const root = '/tmp/siann-import-pack-plan-unit';
   const plan = buildImportPackPlan(manifest(root), '/repo/examples/import-pack/manifest.json');
 
-  assert.equal(plan.schemaVersion, 'reson.import_pack_plan.v0');
+  assert.equal(plan.schemaVersion, 'siann.import_pack_plan.v0');
   assert.equal(plan.workflow, 'import-pack');
   assert.equal(plan.manifestFile, '/repo/examples/import-pack/manifest.json');
   assert.deepEqual(plan.review, {
@@ -96,12 +96,12 @@ test('buildImportPackPlan creates a reviewable plan before apply', () => {
   assert.equal(plan.steps[3].start, '8');
   assert.equal(plan.steps[3].sourceStart, '1');
   assert.equal(plan.steps[3].duration, '3');
-  assert.equal(plan.command.schemaVersion, 'reson.command.v0');
+  assert.equal(plan.command.schemaVersion, 'siann.command.v0');
   assert.equal(plan.command.commands[3].op, 'import_audio');
 });
 
 test('writeImportPackPlan writes a review file and applyImportPackPlan materializes a command file', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-plan-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-import-pack-plan-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const planFile = path.join(tmp, 'plan.json');
   const approvedPlanFile = path.join(tmp, 'approved-plan.json');
@@ -144,7 +144,7 @@ test('writeImportPackPlan writes a review file and applyImportPackPlan materiali
 });
 
 test('validateImportPackPlan reports approval and integrity state', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-plan-validate-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-import-pack-plan-validate-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const planFile = path.join(tmp, 'plan.json');
   const approvedPlanFile = path.join(tmp, 'approved-plan.json');
@@ -168,7 +168,7 @@ test('validateImportPackPlan reports approval and integrity state', () => {
 });
 
 test('applyImportPackPlan rejects tampered approved plans', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-plan-tamper-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-import-pack-plan-tamper-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const planFile = path.join(tmp, 'plan.json');
   const approvedPlanFile = path.join(tmp, 'approved-plan.json');
@@ -187,15 +187,15 @@ test('applyImportPackPlan rejects tampered approved plans', () => {
   );
 });
 
-test('reson-bridge writes, validates, approves, and applies an import-pack plan through the CLI', () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reson-import-pack-plan-cli-'));
+test('siann writes, validates, approves, and applies an import-pack plan through the CLI', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'siann-import-pack-plan-cli-'));
   const manifestFile = path.join(tmp, 'manifest.json');
   const planFile = path.join(tmp, 'plan.json');
   const approvedPlanFile = path.join(tmp, 'approved-plan.json');
   const commandFile = path.join(tmp, 'import-pack.command.json');
   writeJson(manifestFile, manifest(tmp));
 
-  const cli = path.join(__dirname, '..', 'bin', 'reson-bridge.js');
+  const cli = path.join(__dirname, '..', 'bin', 'siann.js');
   const planResult = spawnSync(process.execPath, [
     cli,
     'workflow',
@@ -213,7 +213,7 @@ test('reson-bridge writes, validates, approves, and applies an import-pack plan 
   const planSummary = JSON.parse(planResult.stdout);
   assert.equal(planSummary.planFile, planFile);
   assert.equal(planSummary.reviewState, 'pending');
-  assert.equal(JSON.parse(fs.readFileSync(planFile, 'utf8')).schemaVersion, 'reson.import_pack_plan.v0');
+  assert.equal(JSON.parse(fs.readFileSync(planFile, 'utf8')).schemaVersion, 'siann.import_pack_plan.v0');
 
   const validateResult = spawnSync(process.execPath, [
     cli,

@@ -24,18 +24,18 @@ function usage(status = 0) {
   const out = status === 0 ? process.stdout : process.stderr;
   out.write([
     'Usage:',
-    '  reson-bridge run <command-file.json> [--engine-dir <path>] [--runner <path>] [--json]',
-    '  reson-bridge validate-journal <journal-file.json> [--json]',
-    '  reson-bridge workflow import-pack <manifest.json> --plan <plan-file.json> [--json]',
-    '  reson-bridge workflow import-pack <manifest.json> --out <command-file.json> [--run] [--json]',
-    '  reson-bridge workflow validate-plan <plan-file.json> [--json]',
-    '  reson-bridge workflow approve-plan <plan-file.json> --out <approved-plan-file.json> [--approved-by <name>] [--json]',
-    '  reson-bridge workflow reject-plan <plan-file.json> --out <rejected-plan-file.json> [--rejected-by <name>] [--reason <text>] [--json]',
-    '  reson-bridge workflow apply-plan <plan-file.json> --out <command-file.json> [--run] [--json]',
-    '  reson-bridge rollback <journal.json> [--source-command <command-file.json>] [--out <command-file.json>] [--run] [--json]',
+    '  siann run <command-file.json> [--engine-dir <path>] [--runner <path>] [--json]',
+    '  siann validate-journal <journal-file.json> [--json]',
+    '  siann workflow import-pack <manifest.json> --plan <plan-file.json> [--json]',
+    '  siann workflow import-pack <manifest.json> --out <command-file.json> [--run] [--json]',
+    '  siann workflow validate-plan <plan-file.json> [--json]',
+    '  siann workflow approve-plan <plan-file.json> --out <approved-plan-file.json> [--approved-by <name>] [--json]',
+    '  siann workflow reject-plan <plan-file.json> --out <rejected-plan-file.json> [--rejected-by <name>] [--reason <text>] [--json]',
+    '  siann workflow apply-plan <plan-file.json> --out <command-file.json> [--run] [--json]',
+    '  siann rollback <journal.json> [--source-command <command-file.json>] [--out <command-file.json>] [--run] [--json]',
     '',
     'Environment:',
-    '  RESON_ENGINE_DIR  Defaults to ../reson-engine when --engine-dir is omitted.',
+    '  SIANN_ENGINE_DIR  Defaults to ../siann-engine when --engine-dir is omitted.',
     '',
   ].join('\n'));
   process.exit(status);
