@@ -83,6 +83,11 @@ test('live runtime imports, places, renders, and closes a SIANN-owned session', 
     const rollbackId = imported.body.rollback.rollbackId;
     assert.match(regionId, /^[A-Za-z0-9-]+$/);
     assert.match(rollbackId, /^rollback_/);
+    assert.equal(fs.existsSync(imported.body.journal.path), true);
+    const journal = JSON.parse(fs.readFileSync(imported.body.journal.path, 'utf8'));
+    assert.equal(journal.schemaVersion, 'siann.runtime_journal.v0');
+    assert.equal(journal.entries[0].requestId, imported.requestId);
+    assert.equal(journal.entries[0].rollback.rollbackId, rollbackId);
 
     const placed = await client.request('commands.apply', {
       sessionId,
@@ -110,6 +115,8 @@ test('live runtime imports, places, renders, and closes a SIANN-owned session', 
       rollbackId,
     });
     assert.equal(rolledBack.body.rolledBack, true);
+    const rollbackJournal = JSON.parse(fs.readFileSync(imported.body.journal.path, 'utf8'));
+    assert.equal(rollbackJournal.entries.at(-1).method, 'session.rollback');
     const afterRollback = await client.request('session.observe', { sessionId });
     const liveImportTrack = afterRollback.body.observation.routes.find((route) => route.name === 'Live Import');
     assert.equal(liveImportTrack, undefined);

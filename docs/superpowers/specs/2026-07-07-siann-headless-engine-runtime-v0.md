@@ -234,6 +234,11 @@ closes the session, and stops the runtime in one process.
 `session.rollback` restores the requested snapshot inside the same runtime
 process, reloads the SIANN-owned session, and trims later rollback points.
 
+The runtime writes a persistent `siann.runtime_journal.v0` file next to the
+SIANN-owned session directory under `.siann/runtime-journal.json`. The current
+journal records apply and rollback entries with request IDs, commands/results,
+observation hashes, and rollback snapshot metadata.
+
 ## First Implementation Slice
 
 The smallest useful slice is:
@@ -245,5 +250,5 @@ The smallest useful slice is:
 4. Add a Node client wrapper in this repo.
 5. Prove two command batches can mutate the same live session in one process.
 
-Next work can focus on richer journal persistence, multi-step rollback UI
-contracts, and finer-grained recovery policies.
+Next work can focus on multi-step rollback UI contracts and finer-grained
+recovery policies.
