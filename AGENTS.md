@@ -145,4 +145,4 @@ Pull requests should include a brief summary, the reason for the change, affecte
 
 Do not commit provider keys, local audio assets, rendered stems, or private project files. Keep AI provider integrations runtime-pluggable and document any data-flow or privacy boundary changes in an ADR.
 
-No license file has been added yet. The architecture assumes an Ardour-derived path, so GPL and open-source licensing constraints must be handled before broader distribution or packaging.
+The repository is GPL-2.0-or-later to stay aligned with the Ardour-derived engine path. Keep licensing and attribution changes explicit in docs and PR descriptions.

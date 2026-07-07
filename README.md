@@ -78,7 +78,7 @@ The goal is not to replace producer judgment. The goal is to make detailed sessi
 This repository contains the public project materials, contributor guidance, and the first developer bridge for exploring SIANN command workflows.
 
 ```sh
-git clone <repo-url>
+git clone https://github.com/romanticamaj/siann.git
 cd siann
 npm test
 node bin/siann.js run examples/bridge/create-session.command.json --json
@@ -106,7 +106,11 @@ node scripts/create-daw-manifest.js /tmp/siann-user-daw-source \
 
 The CLI expects the local SIANN engine checkout next to this repository at `../siann-engine`. Set `SIANN_ENGINE_DIR=/path/to/siann-engine` if your checkout lives elsewhere.
 
-For contributor-specific architecture notes, implementation boundaries, and internal documentation links, see [AGENTS.md](AGENTS.md).
+For contributor-specific architecture notes, implementation boundaries, and internal documentation links, see [AGENTS.md](AGENTS.md). For contribution workflow, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+SIANN is licensed under GPL-2.0-or-later. The engine path is Ardour-derived, so contributors should assume GPL-compatible licensing requirements for engine and bridge work.
 
 ## Keywords
 

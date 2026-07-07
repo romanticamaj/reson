@@ -2,7 +2,16 @@
   "name": "siann",
   "version": "0.1.0",
   "private": true,
+  "license": "GPL-2.0-or-later",
   "description": "Developer integration layer for SIANN command bridge workflows.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romanticamaj/siann.git"
+  },
+  "bugs": {
+    "url": "https://github.com/romanticamaj/siann/issues"
+  },
+  "homepage": "https://github.com/romanticamaj/siann#readme",
   "bin": {
     "siann": "bin/siann.js"
   },
