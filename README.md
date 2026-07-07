@@ -1,20 +1,20 @@
-# Reson
+# SIANN
 
 **AI-native digital audio workstation for producers, musicians, and creative teams.**
 
-Reson is a local music production environment designed for the next generation of human and AI collaboration. It gives producers a studio workspace where an AI assistant can understand the session, suggest arrangement edits, place audio, prepare transitions, render previews, and roll changes back safely.
+SIANN is a local music production environment designed for the next generation of human and AI collaboration. It gives producers a studio workspace where an AI assistant can understand the session, suggest arrangement edits, place audio, prepare transitions, render previews, and roll changes back safely.
 
-Unlike prompt-to-song tools, Reson is built for working inside real production sessions. It is designed for producers who already have stems, loops, FX, markers, arrangement ideas, and taste, and want an intelligent copilot that can help organize and execute detailed production work.
+Unlike prompt-to-song tools, SIANN is built for working inside real production sessions. It is designed for producers who already have stems, loops, FX, markers, arrangement ideas, and taste, and want an intelligent copilot that can help organize and execute detailed production work.
 
 ```text
 Import assets. Describe the goal. Review the plan. Preview the result. Stay in control.
 ```
 
-## Why Reson
+## Why SIANN
 
-Modern music production is filled with repetitive editing: aligning FX, placing impacts, building transitions, organizing imported assets, naming tracks, preparing alternates, and checking versions. Reson is designed to make that work faster without turning the producer into a passenger.
+Modern music production is filled with repetitive editing: aligning FX, placing impacts, building transitions, organizing imported assets, naming tracks, preparing alternates, and checking versions. SIANN is designed to make that work faster without turning the producer into a passenger.
 
-With Reson, an assistant can help with tasks like:
+With SIANN, an assistant can help with tasks like:
 
 - Arranging risers, impacts, sweeps, ambience, and transition FX.
 - Turning a folder of audio assets into an organized session.
@@ -23,7 +23,7 @@ With Reson, an assistant can help with tasks like:
 - Suggesting structured edits before anything is applied.
 - Keeping creative decisions reviewable and reversible.
 
-Reson is closer to **Cursor for music production** than a one-shot AI song generator.
+SIANN is closer to **Cursor for music production** than a one-shot AI song generator.
 
 ## Key Capabilities
 
@@ -38,14 +38,14 @@ Reson is closer to **Cursor for music production** than a one-shot AI song gener
 
 ## Example Workflow
 
-Imagine importing a folder of FX and giving Reson this instruction:
+Imagine importing a folder of FX and giving SIANN this instruction:
 
 ```text
 Put risers four seconds before each chorus, impacts on every drop,
 and ambience in the intro and outro. Keep FX below the vocal.
 ```
 
-Reson can turn that request into a reviewable production plan:
+SIANN can turn that request into a reviewable production plan:
 
 1. Read the available assets and session structure.
 2. Match files to the intended musical roles.
@@ -67,7 +67,7 @@ The goal is not to replace producer judgment. The goal is to make detailed sessi
 ## Product Principles
 
 - **Producer control first:** AI should propose, explain, preview, and apply only within clear boundaries.
-- **Real sessions, not disposable generations:** Reson is designed for iterative production work.
+- **Real sessions, not disposable generations:** SIANN is designed for iterative production work.
 - **Audition everything:** creative changes should be easy to hear before committing.
 - **Reversible by default:** experimentation should not make sessions fragile.
 - **Privacy by design:** provider data flow must be visible and intentional.
@@ -75,7 +75,10 @@ The goal is not to replace producer judgment. The goal is to make detailed sessi
 
 ## Developer Access
 
-This repository contains the public project materials, contributor guidance, and the first developer bridge for exploring Reson command workflows.
+This repository contains the public project materials, contributor guidance, and the first developer bridge for exploring SIANN command workflows.
+The product name is SIANN; the repository path, bridge CLI, and environment
+variables still use `reson` identifiers while the developer interface remains
+stable.
 
 ```sh
 git clone <repo-url>
@@ -104,7 +107,7 @@ node scripts/create-daw-manifest.js /tmp/reson-user-daw-source \
   --json
 ```
 
-The bridge CLI expects a local Reson engine checkout next to this repository at `../reson-engine`. Set `RESON_ENGINE_DIR=/path/to/reson-engine` if your checkout lives elsewhere.
+The bridge CLI expects the local SIANN engine checkout next to this repository at `../reson-engine`. Set `RESON_ENGINE_DIR=/path/to/reson-engine` if your checkout lives elsewhere.
 
 For contributor-specific architecture notes, implementation boundaries, and internal documentation links, see [AGENTS.md](AGENTS.md).
 

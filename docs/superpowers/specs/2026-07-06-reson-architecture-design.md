@@ -1,12 +1,12 @@
-# Reson Architecture Design
+# SIANN Architecture Design
 
 Date: 2026-07-06
 
 ## Product Definition
 
-Reson is a local, AI-native music production environment.
+SIANN is a local, AI-native music production environment.
 
-It is not a web DAW, prompt-to-song generator, or traditional DAW with a chat sidebar. Reson is a native audio engine and project runtime designed from the start for both humans and agents to operate it.
+It is not a web DAW, prompt-to-song generator, or traditional DAW with a chat sidebar. SIANN is a native audio engine and project runtime designed from the start for both humans and agents to operate it.
 
 Core traits:
 
@@ -17,17 +17,17 @@ Core traits:
 - Observable
 - Reversible
 
-Working brand language:
+Current brand name:
 
-> Resonance plus reasoning.
+> SIANN
 
 ## Product Thesis
 
 The market gap is not "AI can generate audio." That is becoming common. The gap is a DAW/session runtime where an AI agent can inspect the project, plan production work, execute bounded changes, render previews, compare results, and roll back safely.
 
-Reson should feel closer to Codex, Claude Code, or Cursor for music production than to Suno or a browser loop generator.
+SIANN should feel closer to Codex, Claude Code, or Cursor for music production than to Suno or a browser loop generator.
 
-The producer provides API keys for one or more AI providers. Reson supplies the local DAW runtime, project graph, audio engine boundary, command bridge, and review/apply workflow.
+The producer provides API keys for one or more AI providers. SIANN supplies the local DAW runtime, project graph, audio engine boundary, command bridge, and review/apply workflow.
 
 ## Architecture Options
 
@@ -76,7 +76,7 @@ Pros:
 - Preserves Ardour-grade local audio credibility.
 - Focuses the first milestone on the true product wedge: agent-operable session control.
 - Allows multiple future UIs and AI runtimes to sit above the same command bridge.
-- Lets Reson validate audio operations through Ardour's existing render/session behavior.
+- Lets SIANN validate audio operations through Ardour's existing render/session behavior.
 
 Cons:
 
@@ -88,9 +88,9 @@ Verdict: recommended.
 
 ## Recommended Direction
 
-Reson should begin as an Ardour-derived fork with a new command bridge and agent runtime.
+SIANN should begin as an Ardour-derived fork with a new command bridge and agent runtime.
 
-Do not start by rewriting the DAW UI. First prove that Reson can operate an Ardour session through structured, reversible commands while preserving the native audio engine path.
+Do not start by rewriting the DAW UI. First prove that SIANN can operate an Ardour session through structured, reversible commands while preserving the native audio engine path.
 
 ## Current Shipped State
 
@@ -132,20 +132,20 @@ The test pack flow creates one track per BGM bed and one track per SFX cue. `_DA
 ## System Boundary
 
 ```text
-Reson Studio UI
+SIANN Studio UI
   - classic DAW views
   - AI task panel
   - plan/review/apply workflow
   - diffs, logs, previews, audition
 
-Reson Agent Runtime
+SIANN Agent Runtime
   - model adapters
   - API key management
   - observe/plan/act loops
   - policy and risk levels
   - tool calling over command bridge
 
-Reson Command Bridge
+SIANN Command Bridge
   - typed command schema
   - state snapshots
   - validation
@@ -154,7 +154,7 @@ Reson Command Bridge
   - render preview hooks
   - command/event logs
 
-Reson Engine
+SIANN Engine
   - Ardour-derived audio/session core
   - tracks, regions, playlists
   - routing, buses, sends
@@ -166,7 +166,7 @@ Reson Engine
 
 The audio engine is the trust boundary. UI and AI must not directly mutate engine internals.
 
-During the first Ardour-derived spike, this boundary is aspirational for the final Reson architecture and enforceable only for Reson/agent commands. Ardour's legacy UI may remain visible for diagnostics, but any manual mutation through that UI is outside the command log and invalidates replay determinism for that session run.
+During the first Ardour-derived spike, this boundary is aspirational for the final SIANN architecture and enforceable only for SIANN/agent commands. Ardour's legacy UI may remain visible for diagnostics, but any manual mutation through that UI is outside the command log and invalidates replay determinism for that session run.
 
 Current code ownership follows this boundary:
 
@@ -216,7 +216,7 @@ Engine operations must be deterministic where possible. Imported or generated me
 
 ## Command Bridge Boundary
 
-The command bridge is the only mutation path for Reson UI and AI. During the Ardour spike, legacy Ardour UI mutations are allowed only as diagnostic/manual actions and are not replayable command-bridge state.
+The command bridge is the only mutation path for SIANN UI and AI. During the Ardour spike, legacy Ardour UI mutations are allowed only as diagnostic/manual actions and are not replayable command-bridge state.
 
 Responsibilities:
 
@@ -274,10 +274,10 @@ The agent runtime must not hold raw pointers or direct references to engine stat
 
 Agents can expose sensitive project data: filenames, unreleased stems, lyrics, client names, prompt text, rough mixes, and arrangement metadata.
 
-Reson must make provider data flow explicit:
+SIANN must make provider data flow explicit:
 
 - Users configure API keys outside project files.
-- Before a cloud provider receives project data, Reson shows or logs the payload category being sent.
+- Before a cloud provider receives project data, SIANN shows or logs the payload category being sent.
 - Local-only mode blocks cloud model calls and permits only local model/runtime adapters.
 - Agent observations should default to summaries and structured metadata, not raw audio upload.
 - Any raw audio, stem, lyric, or full project export sent to a provider requires explicit user approval.
@@ -285,7 +285,7 @@ Reson must make provider data flow explicit:
 
 ## Autonomy Model
 
-Reson starts with a hybrid autonomy model.
+SIANN starts with a hybrid autonomy model.
 
 Default mode: Copilot.
 
@@ -316,9 +316,9 @@ The first UI can be simple. It should prioritize:
 - Apply/rollback controls.
 - Timeline inspection sufficient to validate placement.
 
-Long-term, Reson Studio can become a full modern DAW UI, but early work should avoid rewriting Ardour's entire interface before command bridge viability is proven.
+Long-term, SIANN Studio can become a full modern DAW UI, but early work should avoid rewriting Ardour's entire interface before command bridge viability is proven.
 
-Ardour's existing GUI is C++/GTK/gtkmm with custom canvas components. It is useful for diagnostics and visual comparison, but it is not the intended long-term Reson UI direction. The preferred next UI milestone is a local web frontend over the command bridge: import pack inspection, timeline blocks, plan review, approve/apply, preview playback, and rollback.
+Ardour's existing GUI is C++/GTK/gtkmm with custom canvas components. It is useful for diagnostics and visual comparison, but it is not the intended long-term SIANN UI direction. The preferred next UI milestone is a local web frontend over the command bridge: import pack inspection, timeline blocks, plan review, approve/apply, preview playback, and rollback.
 
 ## First Product Workflow
 
@@ -408,8 +408,8 @@ Observation responses must include:
 - Schema version.
 - Snapshot/version token.
 - Session ID.
-- Entity list with stable Reson IDs.
-- Mapping from Ardour-native IDs or paths to Reson IDs where available.
+- Entity list with stable SIANN IDs.
+- Mapping from Ardour-native IDs or paths to SIANN IDs where available.
 - Tempo map and time-signature map serialization.
 - Marker and section definitions.
 - Dirty/non-deterministic flag if legacy UI or non-command mutations occurred.
@@ -446,7 +446,7 @@ Each entity needs:
 
 ## Verification Strategy
 
-Reson must earn trust like a DAW, not like a chatbot.
+SIANN must earn trust like a DAW, not like a chatbot.
 
 Required test categories:
 
@@ -464,14 +464,14 @@ AI quality tests are separate from engine correctness. A bad plan should not cor
 
 ## First Technical Spike
 
-The first spike should answer whether Ardour can serve as Reson Engine.
+The first spike should answer whether Ardour can serve as SIANN Engine.
 
 Default spike decisions:
 
 - Primary platform: macOS first, because the current development machine is macOS. Linux remains the expected easier build/reference platform if macOS blocks progress.
 - UI posture: keep Ardour's existing UI visible during the spike. Do not redesign UI yet.
 - Bridge shape: start with a local JSON command runner. Prefer the lowest-risk path that reaches Ardour session operations, whether in-process or through existing scripting/control surfaces. Do not commit to a permanent IPC protocol until commandability is proven.
-- Session format: keep Ardour session compatibility during the spike. Do not rename or fork the session format until Reson-specific metadata is required.
+- Session format: keep Ardour session compatibility during the spike. Do not rename or fork the session format until SIANN-specific metadata is required.
 - AI involvement: no live AI in the first spike. Use static JSON commands to prove the command bridge before adding model variability.
 
 Bridge decision ladder:
@@ -483,7 +483,7 @@ Bridge decision ladder:
 
 Tasks:
 
-1. Fork Ardour under the Reson working name.
+1. Fork Ardour under the SIANN working name.
 2. Build on the primary development platform.
 3. Identify APIs for session open/save.
 4. Identify APIs for importing audio.
@@ -527,7 +527,7 @@ These questions were deferred to, and are now answered by, the Ardour commandabi
 - Which Ardour internal API is safest for session mutations.
 - Whether existing Lua or OSC paths are sufficient for early command execution.
 - Whether a new in-process command service is needed.
-- How Reson-specific metadata should be stored without breaking Ardour session compatibility.
+- How SIANN-specific metadata should be stored without breaking Ardour session compatibility.
 - How to separate AI-generated code policy from upstream Ardour contribution policy if upstream contributions are later desired.
 
 ## Completed Immediate Next Step

@@ -4,11 +4,11 @@ Date: 2026-07-06
 
 ## Goal
 
-Prove whether the Ardour-derived engine path can support Reson's first command bridge: static JSON commands that create/open a session, import audio, place clips at exact timestamps, save, render, and replay deterministically where feasible.
+Prove whether the Ardour-derived engine path can support SIANN's first command bridge: static JSON commands that create/open a session, import audio, place clips at exact timestamps, save, render, and replay deterministically where feasible.
 
 ## Phase 0: Repository Setup
 
-- [x] Publish Reson docs repo: `https://github.com/romanticamaj/reson`
+- [x] Publish SIANN docs repo: `https://github.com/romanticamaj/reson`
 - [x] Fork Ardour to `https://github.com/romanticamaj/ardour`
 - [x] Clone engine checkout to `/Users/garyhsieh/reson-engine`
 - [x] Set engine `origin` to `romanticamaj/ardour`
@@ -71,7 +71,7 @@ Prove whether the Ardour-derived engine path can support Reson's first command b
 
 ## Phase 6: Real DAW Pack Workflow
 
-- [x] Add developer bridge CLI in the Reson repo.
+- [x] Add developer bridge CLI in the SIANN repo.
 - [x] Add import-pack workflow generation.
 - [x] Add reviewable plan files.
 - [x] Enforce explicit plan approval before apply.

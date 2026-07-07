@@ -6,7 +6,7 @@ Status: Accepted
 
 ## Context
 
-The current Reson workflow proves commandability through a headless batch runner:
+The current SIANN workflow proves commandability through a headless batch runner:
 
 ```text
 Node CLI
@@ -29,7 +29,7 @@ Keep the headless batch runner as the test, fixture, replay, import, and offline
 For the product UI, move toward a live project bridge:
 
 ```text
-Reson Studio UI
+SIANN Studio UI
   timeline, import tools, plan review, preview playback, rollback controls
 
 Local Bridge Server
@@ -38,7 +38,7 @@ Local Bridge Server
 Live Engine Session Adapter
   owns one open Ardour-derived session, applies commands in engine-safe context
 
-Reson Engine
+SIANN Engine
   Ardour-derived session, tracks, playlists, regions, render, persistence
 ```
 

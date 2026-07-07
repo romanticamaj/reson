@@ -1,6 +1,6 @@
 # ADR Index
 
-This directory records architecture decisions for Reson.
+This directory records architecture decisions for SIANN.
 
 Status values:
 
@@ -10,7 +10,6 @@ Status values:
 
 ## Accepted
 
-- [ADR-0001: Use Reson As Working Name](0001-use-reson-as-working-name.md)
 - [ADR-0002: Build A Local Native AI-Operable DAW](0002-build-local-native-ai-operable-daw.md)
 - [ADR-0003: Start From An Ardour-Derived Engine](0003-start-from-ardour-derived-engine.md)
 - [ADR-0004: Separate Engine, Command Bridge, Agent Runtime, And UI](0004-separate-engine-command-bridge-agent-runtime-ui.md)
@@ -22,3 +21,8 @@ Status values:
 - [ADR-0010: Treat Privacy And Provider Data Flow As A First-Class Boundary](0010-privacy-provider-data-flow-boundary.md)
 - [ADR-0011: Use Journaled Command Rollback For The Engine Bridge](0011-use-journaled-command-rollback-for-engine-bridge.md)
 - [ADR-0012: Move From Headless Batch Runner To Live Project Bridge](0012-move-from-headless-batch-runner-to-live-project-bridge.md)
+- [ADR-0013: Rename Project To SIANN](0013-rename-project-to-siann.md)
+
+## Superseded
+
+- [ADR-0001: Use Reson As Working Name](0001-use-reson-as-working-name.md), superseded by [ADR-0013](0013-rename-project-to-siann.md)

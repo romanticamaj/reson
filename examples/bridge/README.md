@@ -1,4 +1,4 @@
-# Reson Bridge Examples
+# SIANN Bridge Examples
 
 These fixtures are small command files for exploring the developer bridge CLI.
 

@@ -6,7 +6,7 @@ Status: Accepted
 
 ## Context
 
-The starter workflow should prove that Reson is an AI-operable project runtime, not just an audio generator.
+The starter workflow should prove that SIANN is an AI-operable project runtime, not just an audio generator.
 
 The user's initial requirement is to import music/FX files plus a mapping of where they should appear in mm:ss time, then prompt the DAW to locate and place them properly.
 

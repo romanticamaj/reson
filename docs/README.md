@@ -1,6 +1,6 @@
-# Reson Docs
+# SIANN Docs
 
-This directory contains product, architecture, and decision records for Reson.
+This directory contains product, architecture, and decision records for SIANN.
 
 Key documents:
 
@@ -11,7 +11,7 @@ Key documents:
 
 ## Current Direction
 
-Reson is a local AI-native music production environment:
+SIANN is a local AI-native music production environment:
 
 ```text
 Ardour-derived audio engine
@@ -24,7 +24,7 @@ The first milestone is not a UI rewrite. It is an Ardour commandability spike th
 
 ## Current Implementation Status
 
-Reson now has two active codebases:
+SIANN now has two active codebases:
 
 - `/Users/garyhsieh/reson-engine` is the Ardour-derived engine fork. It contains the C++ `session_utils/reson_command.cc` runner that directly opens and mutates Ardour sessions.
 - `/Users/garyhsieh/reson` is the product, docs, and developer bridge repo. It now contains a Node CLI wrapper, workflow generators, approval-gated plan files, example fixtures, and tests. It is not docs-only anymore, but it does not yet contain the future Studio UI or AI runtime.

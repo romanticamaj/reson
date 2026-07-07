@@ -8,7 +8,7 @@ Status: Accepted
 
 The Ardour-derived engine spike proved that a headless C++ session utility can create and open sessions, import audio, create tracks, place regions, save, render, observe a project graph, and replay deterministic fixture command logs.
 
-The next trust problem is rollback. Reson needs user-visible reversibility for agent actions, but AI plans must not directly manipulate low-level Ardour session state or assume that mutable names still identify the same objects.
+The next trust problem is rollback. SIANN needs user-visible reversibility for agent actions, but AI plans must not directly manipulate low-level Ardour session state or assume that mutable names still identify the same objects.
 
 ## Decision
 

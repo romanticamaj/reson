@@ -2,7 +2,11 @@
 
 ## Project Structure & Module Organization
 
-This repository contains planning documents and the first developer-facing command bridge integration layer for Reson, a local AI-native music production environment. It is not docs-only anymore: the engine fork lives in `/Users/garyhsieh/reson-engine`, while this repo owns the Node bridge wrapper, workflow generators, fixtures, tests, and product documentation.
+This repository contains planning documents and the first developer-facing command bridge integration layer for SIANN, a local AI-native music production environment. It is not docs-only anymore: the engine fork lives in `/Users/garyhsieh/reson-engine`, while this repo owns the Node bridge wrapper, workflow generators, fixtures, tests, and product documentation.
+
+SIANN is the public product name. Keep existing `reson` repository paths, CLI
+names, environment variables, fixtures, and schema identifiers stable until a
+separate compatibility-aware migration is accepted.
 
 - `README.md` is public/product-facing. Do not expose internal implementation details, ADR lists, or roadmap-style planning there.
 - `docs/README.md` summarizes the current product and architecture direction.
@@ -32,19 +36,19 @@ Key internal documents:
 
 ## Architecture & Implementation Boundaries
 
-Reson is structured around four conceptual layers:
+SIANN is structured around four conceptual layers:
 
 ```text
-Reson Studio UI
+SIANN Studio UI
   DAW views, import tools, AI task panel, plan review, preview, rollback.
 
-Reson Agent Runtime
+SIANN Agent Runtime
   Model adapters, API key handling, observation, planning, risk policy, tool calls.
 
-Reson Command Bridge
+SIANN Command Bridge
   Typed commands, validation, snapshots, transactions, undo, event logs, render hooks.
 
-Reson Engine
+SIANN Engine
   Ardour-derived session core for tracks, regions, routing, plugins, automation, render.
 ```
 
@@ -78,7 +82,6 @@ Commands target stable IDs, not mutable track names. Name-based lookup may exist
 
 Accepted decisions are tracked as ADRs:
 
-- [ADR-0001: Use Reson As Working Name](docs/adr/0001-use-reson-as-working-name.md)
 - [ADR-0002: Build A Local Native AI-Operable DAW](docs/adr/0002-build-local-native-ai-operable-daw.md)
 - [ADR-0003: Start From An Ardour-Derived Engine](docs/adr/0003-start-from-ardour-derived-engine.md)
 - [ADR-0004: Separate Engine, Command Bridge, Agent Runtime, And UI](docs/adr/0004-separate-engine-command-bridge-agent-runtime-ui.md)
@@ -89,6 +92,12 @@ Accepted decisions are tracked as ADRs:
 - [ADR-0009: Keep AI Provider Integrations Runtime-Pluggable](docs/adr/0009-keep-ai-provider-integrations-runtime-pluggable.md)
 - [ADR-0010: Treat Privacy And Provider Data Flow As A First-Class Boundary](docs/adr/0010-privacy-provider-data-flow-boundary.md)
 - [ADR-0011: Use Journaled Command Rollback For The Engine Bridge](docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md)
+- [ADR-0012: Move From Headless Batch Runner To Live Project Bridge](docs/adr/0012-move-from-headless-batch-runner-to-live-project-bridge.md)
+- [ADR-0013: Rename Project To SIANN](docs/adr/0013-rename-project-to-siann.md)
+
+Superseded decisions:
+
+- [ADR-0001: Use Reson As Working Name](docs/adr/0001-use-reson-as-working-name.md), replaced by ADR-0013.
 
 ## Build, Test, and Development Commands
 

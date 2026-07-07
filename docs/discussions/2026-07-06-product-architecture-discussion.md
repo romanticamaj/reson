@@ -2,13 +2,14 @@
 
 ## Summary
 
-This discussion established Reson as a spec-first, local AI-native DAW project.
+This discussion established the project now named SIANN as a spec-first, local AI-native DAW project.
 
 The product direction is:
 
 > Native audio engine, designed from the bottom up for both humans and agents to operate.
 
-The working name is **Reson**, from resonance plus reasoning.
+The working name at the time was **Reson**, from resonance plus reasoning.
+ADR-0013 later renamed the public product to **SIANN**.
 
 ## Market Framing
 
@@ -25,18 +26,18 @@ The conclusion was that the open market gap is not one-shot generation. The gap 
 observe -> plan -> act -> render/preview -> verify -> rollback
 ```
 
-This frames Reson as closer to Codex, Claude Code, or Cursor for music production than to a prompt-to-song generator.
+This frames SIANN as closer to Codex, Claude Code, or Cursor for music production than to a prompt-to-song generator.
 
 ## Product Definition
 
-Reson is not intended to be:
+SIANN is not intended to be:
 
 - A web DAW.
 - Another Suno.
 - Cubase with a chat sidebar.
 - A generic AI song generator.
 
-Reson is intended to be:
+SIANN is intended to be:
 
 - Local audio engine.
 - AI-operable session runtime.
@@ -62,17 +63,17 @@ OpenStudio was considered useful as a reference for modern frontend and AI work,
 
 The accepted direction is:
 
-> Use Ardour as the local engine/session foundation and build Reson's command bridge and agent runtime around it.
+> Use Ardour as the local engine/session foundation and build SIANN's command bridge and agent runtime around it.
 
 ## Boundary Decision
 
 The architecture should separate:
 
 ```text
-Reson Engine
-Reson Command Bridge
-Reson Agent Runtime
-Reson Studio UI
+SIANN Engine
+SIANN Command Bridge
+SIANN Agent Runtime
+SIANN Studio UI
 ```
 
 The engine is the trust boundary.
@@ -95,7 +96,7 @@ The first workflow is:
 Import Pack + Mapping + Prompt Arrange
 ```
 
-The user imports audio/music/FX files plus mapping data. The prompt asks Reson to place them on the timeline at correct mm:ss or section-relative positions.
+The user imports audio/music/FX files plus mapping data. The prompt asks SIANN to place them on the timeline at correct mm:ss or section-relative positions.
 
 The MVP uses explicit markers/sections. Automatic song-section detection is deferred.
 
@@ -112,10 +113,13 @@ Candidate names discussed:
 - Phase
 - Loom
 
-Reson was selected as working name because it combines:
+Reson was selected as the original working name because it combines:
 
 - Resonance: sound and audio-native identity.
 - Reasoning: agent planning and project understanding.
+
+ADR-0013 later superseded this working-name decision and selected SIANN as the
+public product name.
 
 Collision checks were shallow and not a substitute for trademark clearance.
 
@@ -154,4 +158,3 @@ Initial spec commit:
 ```text
 23ee3ff docs: add Reson architecture design spec
 ```
-

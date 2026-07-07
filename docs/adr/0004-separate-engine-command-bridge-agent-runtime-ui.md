@@ -10,19 +10,19 @@ The project needs a stable audio backend and a redesignable AI-friendly control 
 
 ## Decision
 
-Separate Reson into four conceptual layers:
+Separate SIANN into four conceptual layers:
 
 ```text
-Reson Engine
+SIANN Engine
   Ardour-derived audio/session core.
 
-Reson Command Bridge
+SIANN Command Bridge
   Typed mutation and observation boundary.
 
-Reson Agent Runtime
+SIANN Agent Runtime
   AI provider adapters, planning, tool calling, policy, and task state.
 
-Reson Studio UI
+SIANN Studio UI
   Human-facing DAW views, AI task panel, plan review, audition, and rollback.
 ```
 

@@ -4,11 +4,11 @@ Date: 2026-07-06
 
 ## Purpose
 
-This document tracks the first Reson engine spike: prove whether an Ardour-derived engine can be operated through structured, reversible commands before any UI redesign or live AI integration.
+This document tracks the first SIANN engine spike: prove whether an Ardour-derived engine can be operated through structured, reversible commands before any UI redesign or live AI integration.
 
 ## Repository Setup
 
-- Reson product/docs repo: `https://github.com/romanticamaj/reson`
+- SIANN product/docs repo: `https://github.com/romanticamaj/reson`
 - Ardour engine fork: `https://github.com/romanticamaj/ardour`
 - Local engine checkout: `/Users/garyhsieh/reson-engine`
 - Engine `origin`: `https://github.com/romanticamaj/ardour.git`
@@ -16,7 +16,7 @@ This document tracks the first Reson engine spike: prove whether an Ardour-deriv
 - Checked Ardour revision: `1ec8feeec75247daa70b1fb39ef29a19c5a4ce9d`
 - `git describe`: `9.7-121-g1ec8feeec7`
 
-Keep Ardour source out of this repository. Use this repo for product docs, ADRs, command schemas, research notes, and Reson-specific contributor guidance.
+Keep Ardour source out of this repository. Use this repo for product docs, ADRs, command schemas, research notes, and SIANN-specific contributor guidance.
 
 ## Build Discovery
 
@@ -144,7 +144,7 @@ Known runtime warnings:
 - A local `SpectraLayers.vst3` plugin produced a warning during plugin scan.
 - These warnings did not block empty session creation.
 
-## Reson Command Runner
+## SIANN Command Runner
 
 Engine fork commit:
 
@@ -364,7 +364,7 @@ No conclusion yet. Per ADR-0007, reject OSC for structural edits unless research
 
 ### In-Process C++ Runner
 
-If Lua and existing utilities are insufficient, prototype a Reson-specific C++ session utility in the Ardour fork. Start by copying `session_utils/example.cc` or extending the session utility pattern, not by modifying UI code.
+If Lua and existing utilities are insufficient, prototype a SIANN-specific C++ session utility in the Ardour fork. Start by copying `session_utils/example.cc` or extending the session utility pattern, not by modifying UI code.
 
 ## Required Operations
 
@@ -408,7 +408,7 @@ Initial JSON command file target:
 }
 ```
 
-This is a spike format only. Durable Reson commands should target stable IDs, not names.
+This is a spike format only. Durable SIANN commands should target stable IDs, not names.
 
 ## Resolved Spike Questions
 

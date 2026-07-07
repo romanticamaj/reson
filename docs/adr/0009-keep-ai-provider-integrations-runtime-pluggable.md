@@ -10,7 +10,7 @@ The product should allow producers to provide API keys and use different AI prov
 
 ## Decision
 
-Keep AI integrations inside Reson Agent Runtime.
+Keep AI integrations inside SIANN Agent Runtime.
 
 The runtime owns:
 

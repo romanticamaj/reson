@@ -12,7 +12,7 @@ The market already includes prompt-to-song generators, browser AI music tools, t
 
 ## Decision
 
-Build Reson as a local, native audio production environment designed for both humans and agents to operate.
+Build SIANN as a local, native audio production environment designed for both humans and agents to operate.
 
 Core traits:
 
@@ -23,7 +23,7 @@ Core traits:
 - Observable
 - Reversible
 
-Reson should feel more like Codex, Claude Code, or Cursor for music production than a prompt-to-song generator.
+SIANN should feel more like Codex, Claude Code, or Cursor for music production than a prompt-to-song generator.
 
 ## Consequences
 

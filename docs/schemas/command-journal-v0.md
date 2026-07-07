@@ -1,4 +1,4 @@
-# Reson Command Journal v0
+# SIANN Command Journal v0
 
 Date: 2026-07-06
 

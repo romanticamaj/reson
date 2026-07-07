@@ -1,6 +1,6 @@
 # Import Pack Workflow
 
-This example turns a small asset manifest into a reviewable Reson plan, applies
+This example turns a small asset manifest into a reviewable SIANN plan, applies
 the reviewed plan through the bridge, renders a preview, and leaves rollback
 metadata in the generated journal.
 
@@ -49,6 +49,6 @@ node scripts/create-daw-manifest.js /tmp/reson-user-daw-source \
 ```
 
 The generated layout creates one track per BGM bed and one track per SFX cue so
-the timeline is easier to inspect visually in Ardour or a future Reson UI. BGM
+the timeline is easier to inspect visually in Ardour or a future SIANN UI. BGM
 rows in `placement.md` provide `sourceStart` and `duration`, which the engine
 uses to trim imported regions instead of always placing whole source files.

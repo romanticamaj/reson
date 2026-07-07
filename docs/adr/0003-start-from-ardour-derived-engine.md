@@ -12,7 +12,7 @@ OpenStudio has a modern JUCE/React shape and existing AI experiments, but its au
 
 ## Decision
 
-Start Reson from an Ardour-derived engine path.
+Start SIANN from an Ardour-derived engine path.
 
 Use Ardour as the local audio/session foundation and preserve its render, routing, plugin, automation, and session behavior during the early phases.
 
@@ -22,5 +22,5 @@ The first work must prove Ardour commandability rather than immediately replacin
 
 GPL/open-source constraints are accepted.
 
-Upstream contribution policy needs special care because Ardour's development guidance around AI-generated code may affect whether Reson changes can be upstreamed.
+Upstream contribution policy needs special care because Ardour's development guidance around AI-generated code may affect whether SIANN changes can be upstreamed.
 

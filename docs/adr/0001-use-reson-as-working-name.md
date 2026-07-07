@@ -2,7 +2,7 @@
 
 Date: 2026-07-06
 
-Status: Accepted
+Status: Superseded by [ADR-0013: Rename Project To SIANN](0013-rename-project-to-siann.md)
 
 ## Context
 
@@ -38,4 +38,3 @@ The repo is located at:
 ```
 
 Reson remains a working name, not a cleared trademark. A deeper trademark, domain, GitHub, package, and app-store collision check is required before public launch.
-

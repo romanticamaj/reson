@@ -8,7 +8,7 @@ Status: Accepted
 
 AI should not directly mutate low-level audio/session state. Direct mutation would make undo, audit, replay, validation, and trust difficult.
 
-The first spec review also identified a conflict: during an Ardour-derived spike, legacy Ardour UI can still mutate state. Therefore the command bridge can only be the mutation boundary for Reson/agent commands until the UI is replaced or constrained.
+The first spec review also identified a conflict: during an Ardour-derived spike, legacy Ardour UI can still mutate state. Therefore the command bridge can only be the mutation boundary for SIANN/agent commands until the UI is replaced or constrained.
 
 ## Decision
 
@@ -24,5 +24,5 @@ During the spike, legacy Ardour UI mutations are allowed only as diagnostic/manu
 
 The bridge needs typed command schemas, observation schemas, validation, transaction handling, rollback, event logs, and replay tests.
 
-This is the main difference between Reson and a chat assistant bolted onto a DAW.
+This is the main difference between SIANN and a chat assistant bolted onto a DAW.
 
