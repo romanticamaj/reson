@@ -2,7 +2,7 @@
 
 Date: 2026-07-07
 
-Status: Accepted
+Status: Superseded by [ADR-0014: Build SIANN As A Headless DAW Runtime](0014-build-siann-as-headless-daw-runtime.md)
 
 ## Context
 
@@ -71,4 +71,3 @@ The bridge server needs:
 Rollback in live mode should evolve from file snapshot restore toward live checkpoints and bridge-derived inverse operations where safe. Session-level snapshot restore is still acceptable for offline recovery and early trust building.
 
 This decision shifts the product architecture from "CLI mutates a session file" to "local app operates a single live project through a bridge-owned engine session." It preserves the proven batch runner, but prevents it from becoming the accidental product architecture.
-

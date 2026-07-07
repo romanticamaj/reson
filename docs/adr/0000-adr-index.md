@@ -20,5 +20,9 @@ Status values:
 - [ADR-0009: Keep AI Provider Integrations Runtime-Pluggable](0009-keep-ai-provider-integrations-runtime-pluggable.md)
 - [ADR-0010: Treat Privacy And Provider Data Flow As A First-Class Boundary](0010-privacy-provider-data-flow-boundary.md)
 - [ADR-0011: Use Journaled Command Rollback For The Engine Bridge](0011-use-journaled-command-rollback-for-engine-bridge.md)
-- [ADR-0012: Move From Headless Batch Runner To Live Project Bridge](0012-move-from-headless-batch-runner-to-live-project-bridge.md)
 - [ADR-0013: Rename Project To SIANN](0013-rename-project-to-siann.md)
+- [ADR-0014: Build SIANN As A Headless DAW Runtime](0014-build-siann-as-headless-daw-runtime.md)
+
+## Superseded
+
+- [ADR-0012: Move From Headless Batch Runner To Live Project Bridge](0012-move-from-headless-batch-runner-to-live-project-bridge.md), superseded by [ADR-0014](0014-build-siann-as-headless-daw-runtime.md)

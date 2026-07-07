@@ -27,6 +27,7 @@ Keep implementation modules separate by the documented architecture: audio engin
 Key internal documents:
 
 - [Architecture design](docs/superpowers/specs/2026-07-06-siann-architecture-design.md)
+- [Headless engine runtime v0](docs/superpowers/specs/2026-07-07-siann-headless-engine-runtime-v0.md)
 - [ADR index](docs/adr/0000-adr-index.md)
 - [Initial product and architecture discussion](docs/discussions/2026-07-06-product-architecture-discussion.md)
 - [Ardour commandability map](docs/research/ardour-commandability-map.md)
@@ -91,8 +92,12 @@ Accepted decisions are tracked as ADRs:
 - [ADR-0009: Keep AI Provider Integrations Runtime-Pluggable](docs/adr/0009-keep-ai-provider-integrations-runtime-pluggable.md)
 - [ADR-0010: Treat Privacy And Provider Data Flow As A First-Class Boundary](docs/adr/0010-privacy-provider-data-flow-boundary.md)
 - [ADR-0011: Use Journaled Command Rollback For The Engine Bridge](docs/adr/0011-use-journaled-command-rollback-for-engine-bridge.md)
-- [ADR-0012: Move From Headless Batch Runner To Live Project Bridge](docs/adr/0012-move-from-headless-batch-runner-to-live-project-bridge.md)
 - [ADR-0013: Rename Project To SIANN](docs/adr/0013-rename-project-to-siann.md)
+- [ADR-0014: Build SIANN As A Headless DAW Runtime](docs/adr/0014-build-siann-as-headless-daw-runtime.md)
+
+Superseded decisions:
+
+- [ADR-0012: Move From Headless Batch Runner To Live Project Bridge](docs/adr/0012-move-from-headless-batch-runner-to-live-project-bridge.md), replaced by ADR-0014.
 
 ## Build, Test, and Development Commands
 

@@ -5,6 +5,7 @@ This directory contains product, architecture, and decision records for SIANN.
 Key documents:
 
 - [Architecture spec](superpowers/specs/2026-07-06-siann-architecture-design.md)
+- [Headless engine runtime v0](superpowers/specs/2026-07-07-siann-headless-engine-runtime-v0.md)
 - [ADR index](adr/0000-adr-index.md)
 - [Initial product and architecture discussion](discussions/2026-07-06-product-architecture-discussion.md)
 - [Internal schemas](schemas/README.md)
@@ -14,7 +15,8 @@ Key documents:
 SIANN is a local AI-native music production environment:
 
 ```text
-Ardour-derived audio engine
+Ardour-derived audio core
++ SIANN headless engine runtime
 + command bridge
 + pluggable AI runtime
 + AI-friendly studio UI
@@ -52,4 +54,7 @@ The real-user DAW pack workflow supports:
 - Rendered preview WAV output.
 - Ardour session output for visual inspection.
 
-The next product layer should be a local web-based Studio UI over this bridge, not a rewrite of Ardour's GTK UI.
+The next product layer is the SIANN headless engine runtime: a persistent,
+SIANN-owned session process that future UI and agent clients can control. Ardour
+compatibility remains useful for verification, but opening arbitrary Ardour
+projects is not the primary workflow.
