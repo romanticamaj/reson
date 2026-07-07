@@ -35,8 +35,9 @@ riser and impact on separate tracks, renders `/tmp/reson-import-pack-demo/previe
 and records the snapshot path needed for rollback. The rollback command restores
 the pre-batch snapshot and observes the restored session.
 
-For extracted DAW test packs with `_DAW/` BGM files and `_SpliceSFX/` sound
-effects, generate a multi-track manifest before the same plan/apply flow:
+For extracted DAW test packs with `_DAW/` BGM files, `_DAW/placement.md`, and
+`_SpliceSFX/` sound effects, generate a multi-track manifest before the same
+plan/apply flow:
 
 ```sh
 node scripts/create-daw-manifest.js /tmp/reson-user-daw-source \
@@ -48,4 +49,6 @@ node scripts/create-daw-manifest.js /tmp/reson-user-daw-source \
 ```
 
 The generated layout creates one track per BGM bed and one track per SFX cue so
-the timeline is easier to inspect visually in Ardour or a future Reson UI.
+the timeline is easier to inspect visually in Ardour or a future Reson UI. BGM
+rows in `placement.md` provide `sourceStart` and `duration`, which the engine
+uses to trim imported regions instead of always placing whole source files.

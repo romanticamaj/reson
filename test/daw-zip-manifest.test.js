@@ -16,6 +16,15 @@ function writeWavPlaceholder(file) {
 }
 
 function fixture(root) {
+  fs.mkdirSync(path.join(root, '_DAW'), { recursive: true });
+  fs.writeFileSync(path.join(root, '_DAW', 'placement.md'), [
+    '# DAW Placement Sheet',
+    '',
+    '| 放置時碼 | Bed | 變化版 | 你設的區間 | 檔案 |',
+    '|------|-----|--------|-----------|------|',
+    '| 00m05s | BGM01 | AcousticGuitarDawn_a | 起 00:00 ｜ 長 00:52 / 全 02:12 | `00m05s_BGM01_AcousticGuitarDawn_a.wav` |',
+    '| 00m57s | BGM02 | FeltPianoAutumnDrift_a | 起 00:03 ｜ 長 01:49 / 全 02:16 | `00m57s_BGM02_FeltPianoAutumnDrift_a.wav` |',
+  ].join('\n'));
   writeWavPlaceholder(path.join(root, '_DAW', '00m05s_BGM01_AcousticGuitarDawn_a.wav'));
   writeWavPlaceholder(path.join(root, '_DAW', '00m57s_BGM02_FeltPianoAutumnDrift_a.wav'));
   writeWavPlaceholder(path.join(root, '_SpliceSFX', 'SFX_C01_01m03s_wood-box-open.wav'));
@@ -41,11 +50,13 @@ test('buildDawZipManifest creates one track per BGM bed and SFX cue', () => {
     trackName: asset.trackName,
     regionName: asset.regionName,
     start: asset.start,
+    sourceStart: asset.sourceStart,
+    duration: asset.duration,
   })), [
-    { trackName: 'BGM01 AcousticGuitarDawn', regionName: 'BGM01 AcousticGuitarDawn a', start: '5' },
-    { trackName: 'BGM02 FeltPianoAutumnDrift', regionName: 'BGM02 FeltPianoAutumnDrift a', start: '57' },
-    { trackName: 'SFX C01 wood-box-open', regionName: 'SFX C01 wood-box-open', start: '63' },
-    { trackName: 'SFX C02 leaves-crunch', regionName: 'SFX C02 leaves-crunch', start: '92' },
+    { trackName: 'BGM01 AcousticGuitarDawn', regionName: 'BGM01 AcousticGuitarDawn a', start: '5', sourceStart: '0', duration: '52' },
+    { trackName: 'BGM02 FeltPianoAutumnDrift', regionName: 'BGM02 FeltPianoAutumnDrift a', start: '57', sourceStart: '3', duration: '109' },
+    { trackName: 'SFX C01 wood-box-open', regionName: 'SFX C01 wood-box-open', start: '63', sourceStart: undefined, duration: undefined },
+    { trackName: 'SFX C02 leaves-crunch', regionName: 'SFX C02 leaves-crunch', start: '92', sourceStart: undefined, duration: undefined },
   ]);
 });
 

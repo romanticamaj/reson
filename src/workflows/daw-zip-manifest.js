@@ -15,6 +15,43 @@ function secondsFromName(name) {
   return String((Number(match[1]) * 60) + Number(match[2]));
 }
 
+function secondsFromClock(value) {
+  const trimmed = value.trim();
+  const match = trimmed.match(/^(\d{1,2}):(\d{2})$/);
+  if (match) {
+    return String((Number(match[1]) * 60) + Number(match[2]));
+  }
+  const seconds = Number(trimmed);
+  if (!Number.isFinite(seconds)) {
+    throw new Error(`invalid time value: ${value}`);
+  }
+  return String(seconds);
+}
+
+function parsePlacementSheet(file) {
+  if (!fs.existsSync(file)) {
+    return new Map();
+  }
+  const placements = new Map();
+  const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/);
+  for (const line of lines) {
+    if (!line.includes('`') || !line.includes('長')) {
+      continue;
+    }
+    const fileMatch = line.match(/`([^`]+\.wav)`/i);
+    const sourceStartMatch = line.match(/起\s*([0-9:]+)/);
+    const durationMatch = line.match(/長\s*([0-9:]+)/);
+    if (!fileMatch || !sourceStartMatch || !durationMatch) {
+      continue;
+    }
+    placements.set(fileMatch[1], {
+      sourceStart: secondsFromClock(sourceStartMatch[1]),
+      duration: secondsFromClock(durationMatch[1]),
+    });
+  }
+  return placements;
+}
+
 function stripVariant(value) {
   return value.replace(/_([a-z])$/i, '');
 }
@@ -75,6 +112,7 @@ function buildDawZipManifest(sourceRoot, options = {}) {
   const journalPath = path.resolve(options.journalPath || path.join(outRoot, 'journal.json'));
   const bgmDir = path.join(absoluteSourceRoot, '_DAW');
   const sfxDir = path.join(absoluteSourceRoot, '_SpliceSFX');
+  const placementByFile = parsePlacementSheet(path.join(bgmDir, 'placement.md'));
 
   const tracks = [];
   const seenTracks = new Set();
@@ -82,14 +120,20 @@ function buildDawZipManifest(sourceRoot, options = {}) {
 
   for (const fileName of listWavs(bgmDir)) {
     const names = bgmNames(fileName);
+    const placement = placementByFile.get(fileName);
     addTrack(tracks, seenTracks, names.trackName);
-    assets.push({
+    const asset = {
       id: assetId(fileName),
       path: path.join(bgmDir, fileName),
       trackName: names.trackName,
       regionName: names.regionName,
       start: secondsFromName(fileName),
-    });
+    };
+    if (placement) {
+      asset.sourceStart = placement.sourceStart;
+      asset.duration = placement.duration;
+    }
+    assets.push(asset);
   }
 
   for (const fileName of listWavs(sfxDir)) {

@@ -38,6 +38,8 @@ function manifest(root) {
         trackName: 'FX Risers',
         regionName: 'Riser 01',
         start: '8',
+        sourceStart: '1',
+        duration: '3',
       },
       {
         id: 'impact_01',
@@ -75,6 +77,8 @@ test('buildImportPackCommand turns a manifest into an engine command batch', () 
   ]);
   assert.equal(command.commands[3].trackName, 'FX Risers');
   assert.equal(command.commands[3].regionName, 'Riser 01');
+  assert.equal(command.commands[3].sourceStart, '1');
+  assert.equal(command.commands[3].duration, '3');
   assert.equal(command.commands[6].outputPath, path.join(root, 'preview.wav'));
 });
 

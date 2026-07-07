@@ -91,7 +91,9 @@ node bin/reson-bridge.js rollback /tmp/reson-import-pack-demo/journal.json --sou
 ```
 
 For extracted DAW test packs that follow the `_DAW/` and `_SpliceSFX/` layout,
-generate a multi-track manifest first:
+generate a multi-track manifest first. If `_DAW/placement.md` includes in-point
+and length values, they are carried into the plan as `sourceStart` and
+`duration` so BGM regions are trimmed during import:
 
 ```sh
 node scripts/create-daw-manifest.js /tmp/reson-user-daw-source \

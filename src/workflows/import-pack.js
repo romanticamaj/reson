@@ -43,6 +43,12 @@ function validateManifest(manifest) {
     assertString(asset.trackName, `asset ${asset.id}.trackName`);
     assertString(asset.regionName, `asset ${asset.id}.regionName`);
     assertString(asset.start, `asset ${asset.id}.start`);
+    if (asset.sourceStart !== undefined) {
+      assertString(asset.sourceStart, `asset ${asset.id}.sourceStart`);
+    }
+    if (asset.duration !== undefined) {
+      assertString(asset.duration, `asset ${asset.id}.duration`);
+    }
     if (!trackNames.has(asset.trackName)) {
       throw new Error(`unknown trackName: ${asset.trackName}`);
     }
@@ -108,13 +114,20 @@ function buildImportPackCommand(manifest) {
   }
 
   for (const asset of manifest.assets) {
-    commands.push({
+    const command = {
       op: 'import_audio',
       path: asset.path,
       trackName: asset.trackName,
       regionName: asset.regionName,
       start: asset.start,
-    });
+    };
+    if (asset.sourceStart !== undefined) {
+      command.sourceStart = asset.sourceStart;
+    }
+    if (asset.duration !== undefined) {
+      command.duration = asset.duration;
+    }
+    commands.push(command);
   }
 
   commands.push({ op: 'save_session' });

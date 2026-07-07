@@ -40,6 +40,8 @@ function manifest(root) {
         trackName: 'FX Risers',
         regionName: 'Riser 01',
         start: '8',
+        sourceStart: '1',
+        duration: '3',
       },
       {
         id: 'impact_01',
@@ -92,6 +94,8 @@ test('buildImportPackPlan creates a reviewable plan before apply', () => {
   assert.equal(plan.steps[3].assetId, 'riser_01');
   assert.equal(plan.steps[3].trackName, 'FX Risers');
   assert.equal(plan.steps[3].start, '8');
+  assert.equal(plan.steps[3].sourceStart, '1');
+  assert.equal(plan.steps[3].duration, '3');
   assert.equal(plan.command.schemaVersion, 'reson.command.v0');
   assert.equal(plan.command.commands[3].op, 'import_audio');
 });

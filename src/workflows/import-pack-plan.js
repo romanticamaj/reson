@@ -65,6 +65,8 @@ function commandStep(command, manifest) {
       trackName: command.trackName,
       regionName: command.regionName,
       start: command.start,
+      sourceStart: command.sourceStart,
+      duration: command.duration,
     };
   }
   if (command.op === 'save_session') {
