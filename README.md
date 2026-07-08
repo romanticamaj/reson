@@ -81,7 +81,18 @@ This repository contains the public project materials, contributor guidance, and
 git clone https://github.com/romanticamaj/siann.git
 cd siann
 npm test
-node bin/siann.js run examples/bridge/create-session.command.json --json
+node bin/siann.js live import-pack examples/import-pack/manifest.json --json
+```
+
+The live import-pack command starts the local SIANN engine runtime, creates a
+session, imports the manifest assets onto tracks, saves the session, and renders
+a preview file. The generated session can be opened in Ardour when you want a
+visual compatibility check.
+
+For a review-and-approve workflow before applying changes, generate an import
+plan first:
+
+```sh
 node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio
 node bin/siann.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/siann-import-pack-demo/plan.json --json
 node bin/siann.js workflow validate-plan /tmp/siann-import-pack-demo/plan.json --json

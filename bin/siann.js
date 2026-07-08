@@ -10,6 +10,9 @@ const {
   writeImportPackCommand,
 } = require('../src/workflows/import-pack');
 const {
+  runLiveImportPack,
+} = require('../src/workflows/live-import-pack');
+const {
   applyImportPackPlan,
   approveImportPackPlan,
   rejectImportPackPlan,
@@ -32,6 +35,7 @@ function usage(status = 0) {
     '  siann workflow approve-plan <plan-file.json> --out <approved-plan-file.json> [--approved-by <name>] [--json]',
     '  siann workflow reject-plan <plan-file.json> --out <rejected-plan-file.json> [--rejected-by <name>] [--reason <text>] [--json]',
     '  siann workflow apply-plan <plan-file.json> --out <command-file.json> [--run] [--json]',
+    '  siann live import-pack <manifest.json> [--engine-dir <path>] [--runtime <path>] [--json]',
     '  siann rollback <journal.json> [--source-command <command-file.json>] [--out <command-file.json>] [--run] [--json]',
     '',
     'Environment:',
@@ -51,6 +55,8 @@ function parseOptions(args) {
       options.engineDir = args[++i];
     } else if (arg === '--runner') {
       options.runner = args[++i];
+    } else if (arg === '--runtime') {
+      options.runtime = args[++i];
     } else if (arg === '--out') {
       options.out = args[++i];
     } else if (arg === '--plan') {
@@ -105,6 +111,20 @@ async function main() {
     const summary = await runCommandFile(commandFile, {
       engineDir: options.engineDir,
       runner: options.runner,
+    });
+    printSummary(summary, options.json);
+    process.exit(summary.ok ? 0 : 1);
+  }
+
+  if (command === 'live') {
+    const workflow = options.positional[0];
+    const manifestFile = options.positional[1];
+    if (workflow !== 'import-pack' || !manifestFile) {
+      usage(1);
+    }
+    const summary = await runLiveImportPack(manifestFile, {
+      engineDir: options.engineDir,
+      runner: options.runtime,
     });
     printSummary(summary, options.json);
     process.exit(summary.ok ? 0 : 1);
