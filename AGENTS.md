@@ -108,6 +108,7 @@ Useful repository checks are:
 - `find docs -type f | sort` lists tracked documentation areas.
 - `npm test` runs the bridge wrapper, CLI, and fixture tests with Node's built-in test runner.
 - `node bin/siann.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
+- `node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio` creates the WAV files required by `examples/import-pack/manifest.json`.
 - `node bin/siann.js live import-pack examples/import-pack/manifest.json --engine-dir /Users/garyhsieh/siann-engine --json` runs the current live-session smoke path: start runtime, create session, import tracks and regions, render preview, save, close, and stop runtime.
 - `SIANN_RUN_ENGINE_TESTS=1 SIANN_ENGINE_DIR=/Users/garyhsieh/siann-engine node --test test/live-import-pack.test.js` runs the gated live import-pack integration test against the local engine checkout.
 - `node bin/siann.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/siann-import-pack-demo/plan.json --json` generates a reviewable import-pack plan without mutating the engine session.
