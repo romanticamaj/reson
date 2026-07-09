@@ -31,8 +31,11 @@ Key internal documents:
 - [ADR index](docs/adr/0000-adr-index.md)
 - [Initial product and architecture discussion](docs/discussions/2026-07-06-product-architecture-discussion.md)
 - [Ardour commandability map](docs/research/ardour-commandability-map.md)
+- [Engine command coverage](docs/research/engine-command-coverage.md)
 - [Engine spike checklist](docs/research/engine-spike-checklist.md)
 - [Command journal v0](docs/schemas/command-journal-v0.md)
+- [Session observation v0](docs/schemas/session-observation-v0.md)
+- [UI base evaluation](docs/research/ui-base-evaluation.md)
 
 ## Architecture & Implementation Boundaries
 

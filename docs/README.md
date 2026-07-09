@@ -8,6 +8,8 @@ Key documents:
 - [Headless engine runtime v0](superpowers/specs/2026-07-07-siann-headless-engine-runtime-v0.md)
 - [ADR index](adr/0000-adr-index.md)
 - [Initial product and architecture discussion](discussions/2026-07-06-product-architecture-discussion.md)
+- [Engine command coverage](research/engine-command-coverage.md)
+- [UI base evaluation](research/ui-base-evaluation.md)
 - [Internal schemas](schemas/README.md)
 
 ## Current Direction
@@ -22,7 +24,10 @@ Ardour-derived audio core
 + AI-friendly studio UI
 ```
 
-The first milestone is not a UI rewrite. It is an Ardour commandability spike that proves static JSON commands can create/open a session, import audio, place clips at exact times, save, render, and replay deterministically where feasible.
+The current milestone is the SIANN core command surface: prove that the
+headless runtime can create and own a session, observe it, apply editing
+commands, render previews, roll back safely, and still emit Ardour-compatible
+session artifacts for visual verification.
 
 ## Current Implementation Status
 
