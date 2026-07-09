@@ -83,12 +83,14 @@ cd siann
 npm test
 node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio
 node bin/siann.js live import-pack examples/import-pack/manifest.json --json
+node bin/siann.js export dawproject examples/import-pack/manifest.json --out /tmp/siann-import-pack-demo/session.dawproject --copy-media --json
 ```
 
 The live import-pack command starts the local SIANN engine runtime, creates a
 session, imports the manifest assets onto tracks, saves the session, and renders
 a preview file. The generated session can be opened in Ardour when you want a
-visual compatibility check.
+visual compatibility check. The DAWproject export creates a Cubase-importable
+project exchange package with copied audio media and timeline placement.
 
 For a review-and-approve workflow before applying changes, generate an import
 plan first:
@@ -112,6 +114,11 @@ node scripts/create-daw-manifest.js /tmp/siann-user-daw-source \
   --session-dir /tmp/siann-user-daw-multitrack-demo/Session \
   --preview /tmp/siann-user-daw-multitrack-demo/preview.wav \
   --journal /tmp/siann-user-daw-multitrack-demo/journal.json \
+  --json
+node bin/siann.js export dawproject \
+  /tmp/siann-user-daw-multitrack-demo/manifest.json \
+  --out /tmp/siann-user-daw-multitrack-demo/session.dawproject \
+  --copy-media \
   --json
 ```
 

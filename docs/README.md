@@ -10,6 +10,7 @@ Key documents:
 - [Initial product and architecture discussion](discussions/2026-07-06-product-architecture-discussion.md)
 - [Engine command coverage](research/engine-command-coverage.md)
 - [UI base evaluation](research/ui-base-evaluation.md)
+- [DAWproject export v0](schemas/dawproject-export-v0.md)
 - [Internal schemas](schemas/README.md)
 
 ## Current Direction
@@ -58,6 +59,7 @@ The real-user DAW pack workflow supports:
 - `sourceStart` and `duration` trim metadata.
 - Rendered preview WAV output.
 - Ardour session output for visual inspection.
+- DAWproject export for Cubase-compatible project exchange.
 
 The next product layer is the SIANN headless engine runtime: a persistent,
 SIANN-owned session process that future UI and agent clients can control. Ardour

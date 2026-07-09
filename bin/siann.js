@@ -7,6 +7,9 @@ const {
   validateJournal,
 } = require('../src/bridge/runner');
 const {
+  writeDawprojectExport,
+} = require('../src/exporters/dawproject');
+const {
   writeImportPackCommand,
 } = require('../src/workflows/import-pack');
 const {
@@ -36,6 +39,7 @@ function usage(status = 0) {
     '  siann workflow reject-plan <plan-file.json> --out <rejected-plan-file.json> [--rejected-by <name>] [--reason <text>] [--json]',
     '  siann workflow apply-plan <plan-file.json> --out <command-file.json> [--run] [--json]',
     '  siann live import-pack <manifest.json> [--engine-dir <path>] [--runtime <path>] [--json]',
+    '  siann export dawproject <manifest.json> --out <file.dawproject> [--copy-media] [--json]',
     '  siann rollback <journal.json> [--source-command <command-file.json>] [--out <command-file.json>] [--run] [--json]',
     '',
     'Environment:',
@@ -71,6 +75,8 @@ function parseOptions(args) {
       options.reason = args[++i];
     } else if (arg === '--run') {
       options.run = true;
+    } else if (arg === '--copy-media') {
+      options.copyMedia = true;
     } else if (arg === '-h' || arg === '--help') {
       options.help = true;
     } else {
@@ -125,6 +131,19 @@ async function main() {
     const summary = await runLiveImportPack(manifestFile, {
       engineDir: options.engineDir,
       runner: options.runtime,
+    });
+    printSummary(summary, options.json);
+    process.exit(summary.ok ? 0 : 1);
+  }
+
+  if (command === 'export') {
+    const format = options.positional[0];
+    const manifestFile = options.positional[1];
+    if (format !== 'dawproject' || !manifestFile || !options.out) {
+      usage(1);
+    }
+    const summary = writeDawprojectExport(manifestFile, options.out, {
+      copyMedia: options.copyMedia,
     });
     printSummary(summary, options.json);
     process.exit(summary.ok ? 0 : 1);

@@ -34,6 +34,7 @@ Key internal documents:
 - [Engine command coverage](docs/research/engine-command-coverage.md)
 - [Engine spike checklist](docs/research/engine-spike-checklist.md)
 - [Command journal v0](docs/schemas/command-journal-v0.md)
+- [DAWproject export v0](docs/schemas/dawproject-export-v0.md)
 - [Session observation v0](docs/schemas/session-observation-v0.md)
 - [UI base evaluation](docs/research/ui-base-evaluation.md)
 
@@ -113,6 +114,8 @@ Useful repository checks are:
 - `node bin/siann.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
 - `node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio` creates the WAV files required by `examples/import-pack/manifest.json`.
 - `node bin/siann.js live import-pack examples/import-pack/manifest.json --engine-dir /Users/garyhsieh/siann-engine --json` runs the current live-session smoke path: start runtime, create session, import tracks and regions, render preview, save, close, and stop runtime.
+- `node bin/siann.js export dawproject examples/import-pack/manifest.json --out /tmp/siann-import-pack-demo/session.dawproject --copy-media --json` writes the Cubase-compatible DAWproject exchange package.
+- `node --test test/dawproject-export.test.js` runs focused DAWproject exporter coverage.
 - `SIANN_RUN_ENGINE_TESTS=1 SIANN_ENGINE_DIR=/Users/garyhsieh/siann-engine node --test test/live-import-pack.test.js` runs the gated live import-pack integration test against the local engine checkout.
 - `node bin/siann.js workflow import-pack examples/import-pack/manifest.json --plan /tmp/siann-import-pack-demo/plan.json --json` generates a reviewable import-pack plan without mutating the engine session.
 - `node bin/siann.js workflow validate-plan /tmp/siann-import-pack-demo/plan.json --json` checks plan integrity and whether it can be approved or applied.
