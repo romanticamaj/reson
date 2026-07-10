@@ -14,6 +14,8 @@ paths, generated artifacts, and local repository references.
 - `docs/research/` stores engine spike findings, commandability maps, and implementation research.
 - `docs/schemas/` stores command, observation, journal, and bridge contract drafts.
 - `docs/superpowers/specs/` stores larger design specifications.
+- `.codex/skills/siann-intake/SKILL.md` is the canonical agent-facing intake skill for arbitrary audio files, placement notes, and DAWproject export.
+- `.claude/skills/siann-intake/SKILL.md` points Claude-style agents at the same SIANN intake boundary.
 - `src/bridge/` contains the Node-based developer bridge wrapper around the engine command runner.
 - `bin/siann.js` is the CLI entrypoint for bridge workflows.
 - `examples/bridge/` contains command fixtures that developers can run against a local engine checkout.

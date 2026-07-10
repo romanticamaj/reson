@@ -3,10 +3,10 @@
 `siann.intake_plan.v0` is the boundary between nondeterministic AI intake and
 deterministic audio execution.
 
-The AI or heuristic planner may inspect loose files, naming patterns, context
-documents, placement sheets, and user instructions. Its job is to produce a
-reviewable SIANN manifest plus assumptions and uncertainty. It must not mutate
-the audio engine directly.
+The LLM planner owns the primary intake path. It may inspect loose files,
+naming patterns, context documents, placement sheets, and user instructions.
+Its job is to produce a reviewable SIANN manifest plus assumptions and
+uncertainty. It must not mutate the audio engine directly.
 
 Once a valid `siann.import_pack.v0` manifest exists, execution moves to the
 command bridge and engine, where validation, rendering, DAWproject export,
@@ -62,9 +62,14 @@ raw files + context
 
 | Strategy | Status | Notes |
 | --- | --- | --- |
-| `daw_zip_heuristic` | implemented | Detects `_DAW/`, `_SpliceSFX/`, filename timecodes, and `_DAW/placement.md`. |
-| `unsupported_freeform` | implemented | Produces a review-blocked plan when deterministic heuristics cannot infer a manifest. |
-| `llm_intake_planner` | planned | Future model-backed planner for loose audio files and non-fixed context. |
+| `llm_intake_planner` | target | Primary product path: model-backed planner for loose audio files and non-fixed context. |
+| `daw_zip_heuristic` | fixture helper | Detects `_DAW/`, `_SpliceSFX/`, filename timecodes, and `_DAW/placement.md` for regression coverage and examples. |
+| `unsupported_freeform` | fixture helper | Produces a review-blocked plan when deterministic heuristics cannot infer a manifest. |
+
+The heuristic strategies are not the product contract. They exist so tests and
+example workflows can run without a model provider. New agent sessions should
+use the SIANN intake skill as the planning entrypoint and then call the
+deterministic CLI commands.
 
 ## Review Rules
 
@@ -75,4 +80,3 @@ raw files + context
   provide length later.
 - AI-generated names and placements should be treated as proposed mappings until
   reviewed or validated by tests.
-
