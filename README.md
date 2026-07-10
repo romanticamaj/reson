@@ -86,6 +86,10 @@ node bin/siann.js live import-pack examples/import-pack/manifest.json --json
 node bin/siann.js export dawproject examples/import-pack/manifest.json --out /tmp/siann-import-pack-demo/session.dawproject --copy-media --json
 ```
 
+The intake planner is the first agent-operable boundary: it converts recognized
+audio-pack layouts into a reviewable SIANN manifest and marks unsupported loose
+inputs for review before deterministic execution.
+
 The live import-pack command starts the local SIANN engine runtime, creates a
 session, imports the manifest assets onto tracks, saves the session, and renders
 a preview file. The generated session can be opened in Ardour when you want a
@@ -114,6 +118,9 @@ node scripts/create-daw-manifest.js /tmp/siann-user-daw-source \
   --session-dir /tmp/siann-user-daw-multitrack-demo/Session \
   --preview /tmp/siann-user-daw-multitrack-demo/preview.wav \
   --journal /tmp/siann-user-daw-multitrack-demo/journal.json \
+  --json
+node bin/siann.js plan intake /tmp/siann-user-daw-source \
+  --out /tmp/siann-user-daw-multitrack-demo/intake-plan.json \
   --json
 node bin/siann.js export dawproject \
   /tmp/siann-user-daw-multitrack-demo/manifest.json \

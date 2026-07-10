@@ -35,6 +35,7 @@ Key internal documents:
 - [Engine spike checklist](docs/research/engine-spike-checklist.md)
 - [Command journal v0](docs/schemas/command-journal-v0.md)
 - [DAWproject export v0](docs/schemas/dawproject-export-v0.md)
+- [Intake plan v0](docs/schemas/intake-plan-v0.md)
 - [Session observation v0](docs/schemas/session-observation-v0.md)
 - [UI base evaluation](docs/research/ui-base-evaluation.md)
 
@@ -113,6 +114,7 @@ Useful repository checks are:
 - `npm test` runs the bridge wrapper, CLI, and fixture tests with Node's built-in test runner.
 - `node bin/siann.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
 - `node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio` creates the WAV files required by `examples/import-pack/manifest.json`.
+- `node bin/siann.js plan intake /tmp/siann-user-daw-source --out /tmp/siann-user-daw-multitrack-demo/intake-plan.json --json` writes an agent-reviewable intake plan from loose source files or known DAW pack layouts.
 - `node bin/siann.js live import-pack examples/import-pack/manifest.json --engine-dir /Users/garyhsieh/siann-engine --json` runs the current live-session smoke path: start runtime, create session, import tracks and regions, render preview, save, close, and stop runtime.
 - `node bin/siann.js export dawproject examples/import-pack/manifest.json --out /tmp/siann-import-pack-demo/session.dawproject --copy-media --json` writes the Cubase-compatible DAWproject exchange package.
 - `node --test test/dawproject-export.test.js` runs focused DAWproject exporter coverage.

@@ -11,6 +11,7 @@ Key documents:
 - [Engine command coverage](research/engine-command-coverage.md)
 - [UI base evaluation](research/ui-base-evaluation.md)
 - [DAWproject export v0](schemas/dawproject-export-v0.md)
+- [Intake plan v0](schemas/intake-plan-v0.md)
 - [Internal schemas](schemas/README.md)
 
 ## Current Direction
@@ -41,6 +42,7 @@ Current shipped workflow:
 
 ```text
 extracted DAW test pack
+-> agent-operable intake plan
 -> multi-track manifest
 -> reviewable import plan
 -> explicit approval gate
@@ -55,6 +57,7 @@ The real-user DAW pack workflow supports:
 - `_DAW/` BGM assets.
 - `_DAW/placement.md` in-point and duration parsing.
 - `_SpliceSFX/` sound effects.
+- Intake plans with assumptions, evidence, confidence, and review blockers.
 - One track per BGM bed or SFX cue.
 - `sourceStart` and `duration` trim metadata.
 - Rendered preview WAV output.

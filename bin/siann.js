@@ -13,6 +13,9 @@ const {
   writeImportPackCommand,
 } = require('../src/workflows/import-pack');
 const {
+  writeIntakePlan,
+} = require('../src/workflows/intake-plan');
+const {
   runLiveImportPack,
 } = require('../src/workflows/live-import-pack');
 const {
@@ -32,6 +35,7 @@ function usage(status = 0) {
     'Usage:',
     '  siann run <command-file.json> [--engine-dir <path>] [--runner <path>] [--json]',
     '  siann validate-journal <journal-file.json> [--json]',
+    '  siann plan intake <source-dir> --out <intake-plan.json> [--context <file>] [--json]',
     '  siann workflow import-pack <manifest.json> --plan <plan-file.json> [--json]',
     '  siann workflow import-pack <manifest.json> --out <command-file.json> [--run] [--json]',
     '  siann workflow validate-plan <plan-file.json> [--json]',
@@ -65,6 +69,8 @@ function parseOptions(args) {
       options.out = args[++i];
     } else if (arg === '--plan') {
       options.plan = args[++i];
+    } else if (arg === '--context') {
+      options.context = args[++i];
     } else if (arg === '--source-command') {
       options.sourceCommand = args[++i];
     } else if (arg === '--approved-by') {
@@ -117,6 +123,19 @@ async function main() {
     const summary = await runCommandFile(commandFile, {
       engineDir: options.engineDir,
       runner: options.runner,
+    });
+    printSummary(summary, options.json);
+    process.exit(summary.ok ? 0 : 1);
+  }
+
+  if (command === 'plan') {
+    const planner = options.positional[0];
+    const sourceDir = options.positional[1];
+    if (planner !== 'intake' || !sourceDir || !options.out) {
+      usage(1);
+    }
+    const summary = writeIntakePlan(sourceDir, options.out, {
+      contextFile: options.context,
     });
     printSummary(summary, options.json);
     process.exit(summary.ok ? 0 : 1);
