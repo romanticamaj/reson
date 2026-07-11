@@ -40,6 +40,7 @@ Key internal documents:
 - [Intake plan v0](docs/schemas/intake-plan-v0.md)
 - [Session observation v0](docs/schemas/session-observation-v0.md)
 - [UI base evaluation](docs/research/ui-base-evaluation.md)
+- [Windows setup](docs/setup/windows.md)
 
 ## Architecture & Implementation Boundaries
 
@@ -114,6 +115,8 @@ Useful repository checks are:
 - `rg "term" docs/` searches the documentation.
 - `find docs -type f | sort` lists tracked documentation areas.
 - `npm test` runs the bridge wrapper, CLI, and fixture tests with Node's built-in test runner.
+- `npm run smoke:dawproject -- --json` runs the cross-platform DAWproject smoke test without the engine checkout.
+- `node scripts/create-demo-import-pack.js --out /tmp/siann-import-pack-demo --json` creates portable demo audio plus a manifest under the chosen output directory.
 - `node bin/siann.js run examples/bridge/create-session.command.json --json` runs a command fixture against the local engine checkout.
 - `node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio` creates the WAV files required by `examples/import-pack/manifest.json`.
 - `node bin/siann.js plan intake /tmp/siann-user-daw-source --out /tmp/siann-user-daw-multitrack-demo/intake-plan.json --json` writes an agent-reviewable intake plan from loose source files or known DAW pack layouts.

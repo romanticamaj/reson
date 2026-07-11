@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 
 function writeWav(file, frequency, seconds = 0.5) {
@@ -30,8 +31,20 @@ function writeWav(file, frequency, seconds = 0.5) {
   fs.writeFileSync(file, buffer);
 }
 
-const outDir = process.argv[2] || '/tmp/siann-import-pack-demo/audio';
-fs.mkdirSync(outDir, { recursive: true });
-writeWav(path.join(outDir, 'riser.wav'), 660);
-writeWav(path.join(outDir, 'impact.wav'), 110);
-console.log(`Wrote demo audio to ${outDir}`);
+function writeDemoAudio(outDir) {
+  const absoluteOutDir = path.resolve(outDir);
+  fs.mkdirSync(absoluteOutDir, { recursive: true });
+  writeWav(path.join(absoluteOutDir, 'riser.wav'), 660);
+  writeWav(path.join(absoluteOutDir, 'impact.wav'), 110);
+  return absoluteOutDir;
+}
+
+if (require.main === module) {
+  const outDir = process.argv[2] || path.join(os.tmpdir(), 'siann-import-pack-demo', 'audio');
+  console.log(`Wrote demo audio to ${writeDemoAudio(outDir)}`);
+}
+
+module.exports = {
+  writeDemoAudio,
+  writeWav,
+};

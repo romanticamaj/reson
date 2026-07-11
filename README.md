@@ -81,20 +81,19 @@ This repository contains the public project materials, contributor guidance, and
 git clone https://github.com/romanticamaj/siann.git
 cd siann
 npm test
-node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio
-node bin/siann.js live import-pack examples/import-pack/manifest.json --json
-node bin/siann.js export dawproject examples/import-pack/manifest.json --out /tmp/siann-import-pack-demo/session.dawproject --copy-media --json
+node scripts/smoke-dawproject.js --json
 ```
 
 The intake planner is the first agent-operable boundary: it converts recognized
 audio-pack layouts into a reviewable SIANN manifest and marks unsupported loose
 inputs for review before deterministic execution.
 
-The live import-pack command starts the local SIANN engine runtime, creates a
-session, imports the manifest assets onto tracks, saves the session, and renders
-a preview file. The generated session can be opened in Ardour when you want a
-visual compatibility check. The DAWproject export creates a Cubase-importable
-project exchange package with copied audio media and timeline placement.
+The DAWproject smoke test creates demo audio, writes a portable manifest, and
+exports a Cubase-importable project exchange package with copied audio media and
+timeline placement. The live import-pack command starts the local SIANN engine
+runtime, creates a session, imports the manifest assets onto tracks, saves the
+session, and renders a preview file. The generated session can be opened in
+Ardour when you want a visual compatibility check.
 
 For a review-and-approve workflow before applying changes, generate an import
 plan first:
@@ -130,6 +129,8 @@ node bin/siann.js export dawproject \
 ```
 
 The CLI expects the local SIANN engine checkout next to this repository at `../siann-engine`. Set `SIANN_ENGINE_DIR=/path/to/siann-engine` if your checkout lives elsewhere.
+
+For Windows setup and Cubase DAWproject testing, see [Windows Setup](docs/setup/windows.md).
 
 For contributor-specific architecture notes, implementation boundaries, and internal documentation links, see [AGENTS.md](AGENTS.md). For contribution workflow, see [CONTRIBUTING.md](CONTRIBUTING.md).
 

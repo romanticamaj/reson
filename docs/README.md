@@ -12,6 +12,7 @@ Key documents:
 - [UI base evaluation](research/ui-base-evaluation.md)
 - [DAWproject export v0](schemas/dawproject-export-v0.md)
 - [Intake plan v0](schemas/intake-plan-v0.md)
+- [Windows setup](setup/windows.md)
 - [Internal schemas](schemas/README.md)
 
 ## Current Direction
@@ -63,6 +64,7 @@ The real-user DAW pack workflow supports:
 - Rendered preview WAV output.
 - Ardour session output for visual inspection.
 - DAWproject export for Cubase-compatible project exchange.
+- Windows-side DAWproject smoke tests through Node-only scripts.
 
 The next product layer is the SIANN headless engine runtime: a persistent,
 SIANN-owned session process that future UI and agent clients can control. Ardour

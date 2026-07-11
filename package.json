@@ -16,7 +16,10 @@
     "siann": "bin/siann.js"
   },
   "scripts": {
-    "test": "node --test"
+    "smoke:dawproject": "node scripts/smoke-dawproject.js",
+    "test": "node --test",
+    "test:dawproject": "node --test test/dawproject-export.test.js",
+    "test:intake": "node --test test/intake-plan.test.js test/skill-docs.test.js"
   },
   "engines": {
     "node": ">=20"

@@ -5,8 +5,8 @@ the reviewed plan through the bridge, renders a preview, and leaves rollback
 metadata in the generated journal.
 
 ```sh
-node scripts/create-demo-audio.js /tmp/siann-import-pack-demo/audio
-node bin/siann.js workflow import-pack examples/import-pack/manifest.json \
+node scripts/create-demo-import-pack.js --out /tmp/siann-import-pack-demo --json
+node bin/siann.js workflow import-pack /tmp/siann-import-pack-demo/manifest.json \
   --plan /tmp/siann-import-pack-demo/plan.json \
   --json
 node bin/siann.js workflow validate-plan /tmp/siann-import-pack-demo/plan.json --json

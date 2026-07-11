@@ -38,8 +38,9 @@ SIANN CLI.
 1. Identify the source input.
 
    Accept folders, zip files, individual audio files, and context documents. If
-   the user gives a zip, extract it into `/tmp/siann-intake-<short-name>/source`
-   or a similarly isolated temp directory.
+   the user gives a zip, extract it into an isolated temp directory, such as
+   `/tmp/siann-intake-<short-name>/source` on macOS/Linux or
+   `%TEMP%\siann-intake-<short-name>\source` on Windows.
 
 2. Inventory the input.
 
@@ -64,7 +65,7 @@ SIANN CLI.
    {
      "schemaVersion": "siann.import_pack.v0",
      "session": {
-       "dir": "/tmp/siann-intake-demo/Session",
+       "dir": "<workdir>/Session",
        "name": "SIANNIntakeSession",
        "sampleRate": 48000
      },
@@ -83,7 +84,7 @@ SIANN CLI.
        }
      ],
      "preview": {
-       "outputPath": "/tmp/siann-intake-demo/preview.wav",
+       "outputPath": "<workdir>/preview.wav",
        "sampleRate": 48000,
        "bitDepth": "16"
      }
@@ -115,7 +116,7 @@ SIANN CLI.
    unzip -t <session.dawproject>
    ```
 
-   If `/usr/bin/xmllint` is available, validate `project.xml` and
+   If `xmllint` is available, validate `project.xml` and
    `metadata.xml` against the DAWproject XSDs:
 
    ```sh
@@ -132,7 +133,7 @@ SIANN CLI.
    If the user wants audio or visual verification, run:
 
    ```sh
-   node bin/siann.js live import-pack <manifest.json> --engine-dir /Users/garyhsieh/siann-engine --json
+   node bin/siann.js live import-pack <manifest.json> --engine-dir <path-to-siann-engine> --json
    ```
 
 8. Report paths and review points.
@@ -145,7 +146,7 @@ SIANN CLI.
 Use these only after AI intake has decided the mapping:
 
 - `node bin/siann.js export dawproject <manifest.json> --out <file.dawproject> --copy-media --json`
-- `node bin/siann.js live import-pack <manifest.json> --engine-dir /Users/garyhsieh/siann-engine --json`
+- `node bin/siann.js live import-pack <manifest.json> --engine-dir <path-to-siann-engine> --json`
 - `node bin/siann.js plan intake <source-dir> --out <intake-plan.json> --json`
 
 `plan intake` is a deterministic helper for known fixtures and regression
@@ -159,4 +160,3 @@ coverage. It is not the primary AI-native planner.
   external references.
 - The final response tells the user where the `.dawproject` is.
 - Ambiguity is captured in `needsReview`, not hidden.
-

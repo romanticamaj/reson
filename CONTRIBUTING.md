@@ -11,13 +11,28 @@ git clone https://github.com/romanticamaj/siann.git
 git clone https://github.com/romanticamaj/siann-engine.git
 cd siann
 npm test
+npm run smoke:dawproject -- --json
 ```
 
 The bridge defaults to `../siann-engine`. Set `SIANN_ENGINE_DIR=/path/to/siann-engine` if your checkout lives elsewhere.
 
+On Windows, start with the Node-only DAWproject path before engine runtime
+testing:
+
+```powershell
+git clone https://github.com/romanticamaj/siann.git
+cd siann
+npm test
+npm run smoke:dawproject -- --out "$env:TEMP\siann-dawproject-smoke" --json
+```
+
+See [docs/setup/windows.md](docs/setup/windows.md) for Cubase DAWproject import
+testing and skill installation notes.
+
 ## Before Opening a Pull Request
 
 - Run `npm test` from the SIANN repo.
+- Run `npm run smoke:dawproject -- --json` for cross-platform DAWproject changes.
 - For engine-facing bridge changes, run a real command fixture:
 
 ```sh
