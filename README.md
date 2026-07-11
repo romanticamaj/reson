@@ -84,6 +84,11 @@ npm test
 node scripts/smoke-dawproject.js --json
 ```
 
+With this repository alone, developers and agent sessions can run intake
+planning, manifest generation, tests, and DAWproject export. That path does not
+compile the audio engine and is the recommended first validation flow on
+Windows.
+
 The intake planner is the first agent-operable boundary: it converts recognized
 audio-pack layouts into a reviewable SIANN manifest and marks unsupported loose
 inputs for review before deterministic execution.
@@ -92,8 +97,9 @@ The DAWproject smoke test creates demo audio, writes a portable manifest, and
 exports a Cubase-importable project exchange package with copied audio media and
 timeline placement. The live import-pack command starts the local SIANN engine
 runtime, creates a session, imports the manifest assets onto tracks, saves the
-session, and renders a preview file. The generated session can be opened in
-Ardour when you want a visual compatibility check.
+session, and renders a preview file. That live engine path requires the separate
+`siann-engine` checkout. The generated session can be opened in Ardour when you
+want a visual compatibility check.
 
 For a review-and-approve workflow before applying changes, generate an import
 plan first:
@@ -128,7 +134,11 @@ node bin/siann.js export dawproject \
   --json
 ```
 
-The CLI expects the local SIANN engine checkout next to this repository at `../siann-engine`. Set `SIANN_ENGINE_DIR=/path/to/siann-engine` if your checkout lives elsewhere.
+For live engine commands, the CLI expects the local SIANN engine checkout next
+to this repository at `../siann-engine`. Set
+`SIANN_ENGINE_DIR=/path/to/siann-engine` if your checkout lives elsewhere. The
+engine is kept as a sibling project for now so the product/bridge repo remains
+lightweight while the Ardour-derived runtime build is still being stabilized.
 
 For Windows setup and Cubase DAWproject testing, see [Windows Setup](docs/setup/windows.md).
 

@@ -4,17 +4,24 @@ SIANN is an early-stage, local-first AI-native DAW project. Contributions should
 
 ## Development Setup
 
-Clone the product repo next to the engine repo:
+Start with the product/bridge repo:
 
 ```sh
 git clone https://github.com/romanticamaj/siann.git
-git clone https://github.com/romanticamaj/siann-engine.git
 cd siann
 npm test
 npm run smoke:dawproject -- --json
 ```
 
-The bridge defaults to `../siann-engine`. Set `SIANN_ENGINE_DIR=/path/to/siann-engine` if your checkout lives elsewhere.
+Clone the engine only when you are working on live session commands, preview
+rendering, Ardour session mutation, or engine integration tests:
+
+```sh
+git clone https://github.com/romanticamaj/siann-engine.git
+```
+
+The bridge defaults to `../siann-engine`. Set
+`SIANN_ENGINE_DIR=/path/to/siann-engine` if your checkout lives elsewhere.
 
 On Windows, start with the Node-only DAWproject path before engine runtime
 testing:

@@ -7,6 +7,24 @@ The Ardour-derived engine runtime is a separate checkout and still needs its own
 Windows build story. Use the Windows flow below to verify intake planning,
 manifest generation, and Cubase-compatible `.dawproject` export first.
 
+## What This Repo Can Run
+
+After cloning only `romanticamaj/siann`, a developer or agent session can:
+
+- Load the `siann-intake` skill when the client supports repo-local or
+  user-level skills.
+- Inspect audio files and placement notes.
+- Generate a SIANN import-pack manifest.
+- Export a Cubase-compatible `.dawproject` package.
+- Run Node tests and DAWproject smoke tests.
+
+This path does not compile or launch the SIANN audio engine.
+
+The separate `romanticamaj/siann-engine` checkout is only required for live
+session commands such as `node bin/siann.js live import-pack ...`, preview
+rendering through the engine runtime, Ardour session mutation, and engine
+integration tests.
+
 ## Requirements
 
 - Windows 10 or 11.
@@ -109,6 +127,24 @@ Copy-Item ".codex\skills\siann-intake\SKILL.md" "$HOME\.codex\skills\siann-intak
 
 Restart the agent session after installing the skill.
 
+## Engine Checkout
+
+The engine is intentionally not a submodule today. Keep it as a sibling checkout
+when you need engine-facing work:
+
+```powershell
+git clone https://github.com/romanticamaj/siann.git
+git clone https://github.com/romanticamaj/siann-engine.git
+```
+
+The bridge defaults to `..\siann-engine` from the product repo. Use
+`--engine-dir <path>` or `SIANN_ENGINE_DIR=<path>` if the engine checkout lives
+somewhere else.
+
+Do not start Windows validation by building the engine. First verify the
+Node-only DAWproject path, then treat native Windows engine support as a
+separate milestone.
+
 ## Current Limits
 
 - DAWproject export supports WAV media only.
@@ -116,4 +152,3 @@ Restart the agent session after installing the skill.
   Node smoke test validates package shape without external tools.
 - `live import-pack` requires the Ardour-derived SIANN engine runtime. Treat it
   as a separate engine-build milestone on Windows.
-
