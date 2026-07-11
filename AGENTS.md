@@ -30,6 +30,7 @@ Key internal documents:
 
 - [Architecture design](docs/superpowers/specs/2026-07-06-siann-architecture-design.md)
 - [Headless engine runtime v0](docs/superpowers/specs/2026-07-07-siann-headless-engine-runtime-v0.md)
+- [Harness engineering spec](docs/superpowers/specs/2026-07-11-siann-harness-engineering-spec.md)
 - [ADR index](docs/adr/0000-adr-index.md)
 - [Initial product and architecture discussion](docs/discussions/2026-07-06-product-architecture-discussion.md)
 - [Ardour commandability map](docs/research/ardour-commandability-map.md)

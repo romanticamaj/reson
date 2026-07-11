@@ -6,6 +6,7 @@ Key documents:
 
 - [Architecture spec](superpowers/specs/2026-07-06-siann-architecture-design.md)
 - [Headless engine runtime v0](superpowers/specs/2026-07-07-siann-headless-engine-runtime-v0.md)
+- [Harness engineering spec](superpowers/specs/2026-07-11-siann-harness-engineering-spec.md)
 - [ADR index](adr/0000-adr-index.md)
 - [Initial product and architecture discussion](discussions/2026-07-06-product-architecture-discussion.md)
 - [Engine command coverage](research/engine-command-coverage.md)
