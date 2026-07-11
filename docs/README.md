@@ -12,6 +12,7 @@ Key documents:
 - [UI base evaluation](research/ui-base-evaluation.md)
 - [DAWproject export v0](schemas/dawproject-export-v0.md)
 - [Intake plan v0](schemas/intake-plan-v0.md)
+- [Engine-independent DAWproject first slice](adr/0015-use-dawproject-export-as-engine-independent-first-slice.md)
 - [Windows setup](setup/windows.md)
 - [Internal schemas](schemas/README.md)
 
@@ -32,6 +33,21 @@ headless runtime can create and own a session, observe it, apply editing
 commands, render previews, roll back safely, and still emit Ardour-compatible
 session artifacts for visual verification.
 
+A newly accepted first slice can run before the engine is available:
+
+```text
+audio files + placement intent
+-> agent-operable intake
+-> SIANN import-pack manifest
+-> DAWproject export
+-> Cubase or DAWproject-compatible host verification
+```
+
+This engine-independent path is the recommended Windows validation flow. It
+does not replace the headless runtime direction; it lets SIANN validate useful
+AI-assisted session generation before native engine builds are stable on every
+platform.
+
 ## Current Implementation Status
 
 SIANN now has two active codebases:
@@ -45,6 +61,14 @@ Current shipped workflow:
 extracted DAW test pack
 -> agent-operable intake plan
 -> multi-track manifest
+-> DAWproject export
+-> Cubase-compatible project exchange
+```
+
+Current engine-backed workflow:
+
+```text
+multi-track manifest
 -> reviewable import plan
 -> explicit approval gate
 -> engine command batch
