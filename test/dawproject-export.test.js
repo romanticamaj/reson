@@ -94,8 +94,8 @@ test('buildDawprojectPackage maps import-pack tracks and assets to DAWproject en
   assert.equal(entries.has('audio/riser_01.wav'), true);
   assert.equal(entries.has('audio/impact_01.wav'), true);
   assert.match(project, /<Track contentType="audio" loaded="true" id="id\d+" name="FX Risers">/);
-  assert.match(project, /<Clip time="8" duration="0.3" contentTimeUnit="seconds" playStart="0.1" name="Riser 01">/);
-  assert.match(project, /<Clip time="12" duration="0.5" contentTimeUnit="seconds" playStart="0" name="Impact 01">/);
+  assert.match(project, /<Clip time="8" duration="0.3" contentTimeUnit="seconds" playStart="0.1" playStop="0.4" name="Riser 01">/);
+  assert.match(project, /<Clip time="12" duration="0.5" contentTimeUnit="seconds" playStart="0" playStop="0.5" name="Impact 01">/);
   assert.match(project, /<File path="audio\/riser_01.wav"\/>/);
   assert.match(metadata, /<Title>CubaseExchangeDemo<\/Title>/);
 });
