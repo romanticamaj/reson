@@ -35,10 +35,15 @@ absolute file paths.
 | `assets[].regionName` | Clip name. |
 | `assets[].start` | Clip timeline start in seconds. |
 | `assets[].sourceStart` | Clip `playStart` in seconds. |
-| `assets[].duration` | Clip duration in seconds. |
+| `assets[].duration` | Clip duration in seconds; also derives `playStop` (`sourceStart + duration`). |
 
 When `duration` is omitted, the exporter reads the WAV header and uses the
 remaining media duration after `sourceStart`.
+
+Per the DAWproject XSD, `playStart` and `playStop` together define the
+trimmed region of the referenced `Audio` content; a `Clip` must not emit one
+without the other. The exporter always emits both, even when `sourceStart` is
+`0`, so hosts never have to guess the trimmed range from `duration` alone.
 
 ## v0 Limits
 

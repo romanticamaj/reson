@@ -131,10 +131,11 @@ function buildDawprojectXml(manifest, mediaByAssetId) {
       const start = parseSeconds(asset.start, `${asset.id}.start`);
       const sourceStart = asset.sourceStart === undefined ? 0 : parseSeconds(asset.sourceStart, `${asset.id}.sourceStart`);
       const duration = asset.duration === undefined ? Math.max(0, media.duration - sourceStart) : parseSeconds(asset.duration, `${asset.id}.duration`);
+      const playStop = sourceStart + duration;
       const clipId = id('id');
       const audioId = id('id');
       return [
-        `          <Clip time="${formatSeconds(start)}" duration="${formatSeconds(duration)}" contentTimeUnit="seconds" playStart="${formatSeconds(sourceStart)}" name="${escapeXml(asset.regionName)}">`,
+        `          <Clip time="${formatSeconds(start)}" duration="${formatSeconds(duration)}" contentTimeUnit="seconds" playStart="${formatSeconds(sourceStart)}" playStop="${formatSeconds(playStop)}" name="${escapeXml(asset.regionName)}">`,
         `            <Audio algorithm="raw" channels="${media.channels}" duration="${formatSeconds(media.duration)}" sampleRate="${media.sampleRate}" id="${audioId}">`,
         `              <File path="${escapeXml(media.packagePath)}"/>`,
         '            </Audio>',
